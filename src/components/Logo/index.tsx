@@ -6,7 +6,7 @@ export const Logo: React.FC = () => {
     const thinslicesRef = useRef<HTMLDivElement>( null );
     const knowledgeRef = useRef<HTMLDivElement>( null );
     const wrapperRef = useRef<HTMLDivElement>( null );
-    const iconRef = useRef<HTMLDivElement>( null );
+    const iconRef = useRef<HTMLImageElement>( null );
 
     useLogoAnimation( wrapperRef, thinslicesRef, knowledgeRef, iconRef );
 
