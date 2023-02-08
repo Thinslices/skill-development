@@ -61,11 +61,13 @@ const Study = () => {
                         <div className="cursor-pointer" onClick={ () => { setExpanded( false ) } }>Collapse all</div>
                     </div>
                 </div>
-                { questions.map( data => {
-                    return (
-                        <QuestionItem { ...data } expanded={ expanded } />
-                    )
-                } ) }
+                <>
+                    { questions.map( ( data, index ) => {
+                        return (
+                            <QuestionItem key={ index } { ...data } expanded={ expanded } />
+                        )
+                    } ) }
+                </>
             </Wrapper>
         </>
     )
