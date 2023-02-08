@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-key */
 "use client";
 
 import React from "react";
 import type { CellProps, Column } from "react-table";
 import { useTable } from "react-table";
 import Link from "next/link";
+import { Study } from "@prisma/client";
 
 
 import { api } from "../../utils/api";
-import { Study } from "@prisma/client";
 
 export const StudyList: React.FC = () => {
 
@@ -47,7 +48,7 @@ export const StudyList: React.FC = () => {
       return (
         <table className="w-full" {...getTableProps()}>
             <thead>
-                { headerGroups.map( headerGroup => (
+                { headerGroups.map( ( headerGroup ) => (
                     <tr { ...headerGroup.getHeaderGroupProps() }>
                         { headerGroup.headers.map( column => {
                             return (
