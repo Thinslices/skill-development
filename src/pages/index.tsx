@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
+import { signIn } from "next-auth/react";
 import React from "react";
-
 import { Buttons, Button, Header, Wrapper } from "../components";
 
 const Home: NextPage = () => {
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
             <p>Share the knowledge you gathered on a skill by creating a study comprised of a series questions and answers on the subject, or browser and read studies created by your peers.</p>
           </div>
           <Buttons>
-            <Button>Sign in</Button>
+          <Button style="tertiary" onClick={ () => void signIn( 'google' ) }>Sign in</Button>
           </Buttons>
         </div>
       </Wrapper>
