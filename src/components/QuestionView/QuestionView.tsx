@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import type { Question } from '../../utils/types';
 
-type QuestionProps = Question & {
+type QuestionViewProps = Question & {
     expanded?: boolean
 }
 
-const QuestionItem: React.FC<QuestionProps> = ( props ) => {
+export const QuestionView: React.FC<QuestionViewProps> = ( props ) => {
     const { question, answer } = props;
     const [ expanded, setExpanded ] = useState<boolean>( !! props.expanded );
 
@@ -31,5 +31,3 @@ const QuestionItem: React.FC<QuestionProps> = ( props ) => {
         </>
     )
 }
-
-export { QuestionItem as Question }

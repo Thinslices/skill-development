@@ -5,16 +5,9 @@ import React from "react";
 import type { CellProps, Column } from "react-table";
 import { useTable } from "react-table";
 import Link from "next/link";
-import { Study } from "@prisma/client";
+import type { Study, User } from "@prisma/client";
 
-
-import { api } from "../../utils/api";
-
-export const StudyList: React.FC = () => {
-
-    const { data, isLoading } = api.study.getAll.useQuery();
-
-    const studies = data ?? [];
+const useStudiesTableInstance = ( studies: Study[] ) => {
 
     const columns = React.useMemo<Column<Study>[]>( () => [
         {
@@ -35,7 +28,15 @@ export const StudyList: React.FC = () => {
         },
     ], [] );
 
-    const tableInstance = useTable<Study>( { columns, data: studies } )
+    return useTable<Study>( { columns, data: studies } )
+
+}
+
+type StudyTableProps = {
+    data: (Study & { User: User; })[] | undefined;
+}
+
+export const StudyTable:React.FC<StudyTableProps> = ( { data } ) => {
 
     const {
         getTableProps,
@@ -43,9 +44,9 @@ export const StudyList: React.FC = () => {
         headerGroups,
         rows,
         prepareRow,
-      } = tableInstance;
+    } = useStudiesTableInstance( data ?? [] );
 
-      return (
+    return (
         <table className="w-full" {...getTableProps()}>
             <thead>
                 { headerGroups.map( ( headerGroup ) => (

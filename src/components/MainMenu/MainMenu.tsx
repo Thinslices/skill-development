@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { signIn, useSession } from "next-auth/react";
-import { Button, Buttons } from '..';
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Button, Buttons, Plus } from '..';
+import { useRouter } from 'next/router';
 
 const VerticalEllipsis: React.FC = () => {
   return (
@@ -28,11 +29,20 @@ const UserAvatar: React.FC = () => {
 }
 
 const UserMenu: React.FC = () => {
-  
+  const router = useRouter();
+
   return (
-    <div className="flex items-center gap-2">
-      <UserAvatar/>
-      <VerticalEllipsis/>
+    <div className="relative group">
+      <div className="flex items-center gap-2">
+        <UserAvatar/>
+        <VerticalEllipsis/>
+      </div>
+      <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
+        <ul className="whitespace-nowrap bg-white border-2 border-black rounded w-48 text-right">
+          <li className="border-b border-b-borders"><Button style="text" onClick={ () => void router.push( '/studies/my-studies' ) }>My Studies</Button></li>
+          <li><Button style="text" onClick={ () => void signOut() }>Sign out</Button></li>
+        </ul>
+      </div>
     </div>
   )
 }
@@ -52,7 +62,9 @@ export const MainMenu: React.FC = () => {
     <div className="flex items-center gap-8">
       <Buttons>
         <Link href="/studies" passHref><Button style={ 'text' }>Studies</Button></Link>
-        <Link href="/studies/add" passHref><Button>Add study</Button></Link>
+        <Link href="/studies/add" passHref><Button>
+          <span>Add Study</span><Plus />
+        </Button></Link>
       </Buttons>
       <UserMenu />
     </div>

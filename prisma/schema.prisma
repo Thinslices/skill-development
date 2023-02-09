@@ -52,14 +52,23 @@ model User {
     studies       Study[]
 }
 
+model Question {
+    id          String  @id @default(cuid())
+    question    String
+    answer      String
+    studyId     String
+    Study       Study   @relation(fields: [studyId], references: [id])
+}
+
 model Study {
-    id        String   @id @default(cuid())
-    title     String   
-    createdAt DateTime @default(now())
-    content   String?
-    published Boolean  @default(false)
-    authorId  String
-    User      User     @relation(fields: [authorId], references: [id])
+    id          String      @id @default(cuid())
+    title       String   
+    createdAt   DateTime    @default(now())
+    content     String?
+    published   Boolean     @default(false)
+    authorId    String
+    User        User        @relation(fields: [authorId], references: [id])
+    questions   Question[]
 }
 
 model VerificationToken {

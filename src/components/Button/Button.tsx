@@ -18,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
     'px-0 border-transparent': style === 'text',
   } );
 
-  const className = `inline-block pt-1 pb-1.5 px-4 border-2 cursor-pointer rounded ${ styleClass }`;
+  const className = `inline-flex gap-2 items-center py-1.5 px-4 border-2 cursor-pointer rounded ${ styleClass }`;
   const onClick = props.onClick ?? (() => { return });
 
   if ( href ) {
