@@ -73,12 +73,8 @@ export const studyRouter = createTRPCRouter( {
       published: z.optional( z.boolean() )
     } ) )
     .mutation( async ( { input } ) => {
-
       const { questions, ...study } = input;
-
-      const createdStudy = await prisma.study.create( {
-        data: study
-      } )
+      const createdStudy = await prisma.study.create( { data: study } )
       
       await Promise.all( questions.map( question => prisma.question.create( { 
         data: {
@@ -88,6 +84,55 @@ export const studyRouter = createTRPCRouter( {
       } ) ) )
 
       return createdStudy;
-    } )
+    } ),
+
+    update: publicProcedure
+      .input( z.object( { 
+        id: z.string(),
+        title: z.string(),
+        authorId: z.string(),
+        questions: z.array( z.object( {
+          id: z.optional( z.string() ),
+          question: z.string(),
+          answer: z.string(),
+        } ) ),
+        published: z.optional( z.boolean() )
+      } ) )
+      .mutation( async ( { input } ) => {
+        const { questions, ...study } = input;
+        const questionsToAdd = questions.filter( question => ! question?.id )
+        const questionsToUpdate = questions.filter( question => !! question?.id )
+        
+        await prisma.study.update( { 
+          where: {
+            id: study.id
+          },
+          data: study 
+        } );
+
+        await Promise.all( questionsToAdd.map( question => prisma.question.create( { 
+          data: {
+            ...question,
+            studyId: study.id
+          }
+        } ) ) )
+
+        await Promise.all( questionsToUpdate.map( question => prisma.question.update({
+          where: {
+            id: question.id,
+          },
+          data: question,
+        } ) ) );
+
+        return study;
+      } ),
+
+      delete: publicProcedure
+        .input(z.object({ id: z.string() }))
+        .query( async ( { input } ) => {
+          return await prisma.study.delete( { 
+            where: input,
+          } )
+        } ),
     
 } );

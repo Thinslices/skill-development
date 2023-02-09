@@ -18,12 +18,12 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
     'px-0 border-transparent': style === 'text',
   } );
 
-  const className = `inline-flex gap-2 items-center py-1.5 px-4 border-2 cursor-pointer rounded ${ styleClass }`;
+  const className = `inline-flex gap-2 items-center py-1.5 px-4 border-2 cursor-pointer rounded whitespace-nowrap ${ styleClass }`;
   const onClick = props.onClick ?? (() => { return });
 
   if ( href ) {
     return (
-      <a className={ className } href={ href } onClick={ onClick }>
+      <a className={ "className" } href={ href } onClick={ onClick }>
         { children }
       </a>
     )

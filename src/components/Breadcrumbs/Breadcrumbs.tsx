@@ -1,4 +1,5 @@
 import Link from "next/link"
+import React from "react"
 
 type Crumb = {
     href: string,
@@ -16,10 +17,10 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ( props ) => {
         <div className="flex gap-2 capitalize">
             { breadcrumbs.map( ( crumb, index ) => {
                 return (
-                    <>
-                        <Link key={ crumb.href } href={ crumb.href }>{ crumb.text }</Link>
+                    <React.Fragment key={ crumb.href }>
+                        <Link href={ crumb.href }>{ crumb.text }</Link>
                         { index < breadcrumbs.length - 1 && <div>&raquo;</div> }
-                    </>
+                    </ React.Fragment>
                 )
             } ) }
         </div>

@@ -11,12 +11,14 @@ export const Logo: React.FC = () => {
     useLogoAnimation( wrapperRef, thinslicesRef, knowledgeRef, iconRef );
 
     return (
-        <div className="relative">
-            <div className="h1 leading-normal" ref={ wrapperRef }>
-                <div className="absolute" ref={ thinslicesRef }>thinslices</div>
-                <div className="absolute" ref={ knowledgeRef }>knowledge</div>
+        <div className="pr-8">
+            <div className="relative">
+                <div className="h1 leading-normal" ref={ wrapperRef }>
+                    <div className="absolute" ref={ thinslicesRef }>thinslices</div>
+                    <div className="absolute" ref={ knowledgeRef }>knowledge</div>
+                </div>
+                <Image ref={ iconRef } className="absolute left-full top-3 ml-2" src="/logo-icon.svg" alt="Logo icon" width={ 20 } height={ 20 } />
             </div>
-            <Image ref={ iconRef } className="absolute left-full top-3 ml-2" src="/logo-icon.svg" alt="Logo icon" width={ 20 } height={ 20 } />
         </div>
     )
 }

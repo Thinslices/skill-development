@@ -19,21 +19,23 @@ const Study = () => {
         <>
             <Header />
             <Wrapper className="py-14">
-                <Breadcrumbs breadcrumbs={ breadcrumbs } />
-                <div className="flex gap-8 mb-12 items-center justify-between">
-                    <h1 className="h1">{ data && `${ data.title }${ data.published ? '' : ' (Draft)' }` }</h1>
-                    <div className="flex gap-4">
-                        <div className="cursor-pointer" onClick={ () => { setExpanded( true ) } }>Expand all</div>
-                        <div className="cursor-pointer" onClick={ () => { setExpanded( false ) } }>Collapse all</div>
+                <div className="space-y-8">
+                    <Breadcrumbs breadcrumbs={ breadcrumbs } />
+                    <div className="flex gap-8 mb-12 items-center justify-between">
+                        <h1 className="h1">{ data && `${ data.title }${ data.published ? '' : ' (Draft)' }` }</h1>
+                        <div className="flex gap-4">
+                            <div className="cursor-pointer" onClick={ () => { setExpanded( true ) } }>Expand all</div>
+                            <div className="cursor-pointer" onClick={ () => { setExpanded( false ) } }>Collapse all</div>
+                        </div>
+                    </div>
+                    <div>
+                        { data.questions.map( ( data, index ) => {
+                            return (
+                                <QuestionView key={ index } { ...data } expanded={ expanded } />
+                            )
+                        } ) }
                     </div>
                 </div>
-                <>
-                    { data.questions.map( ( data, index ) => {
-                        return (
-                            <QuestionView key={ index } { ...data } expanded={ expanded } />
-                        )
-                    } ) }
-                </>
             </Wrapper>
         </>
     )

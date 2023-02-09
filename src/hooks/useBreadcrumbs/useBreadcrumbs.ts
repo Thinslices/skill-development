@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 const generatePathParts = ( pathStr: string ) => {
     const pathWithoutQuery = pathStr.split( "?" )[0];
     return pathWithoutQuery?.split( "/" ).filter(v => v.length > 0) ?? [];
 }
 
-const useBreadcrumbs = () => {
+export const useBreadcrumbs = () => {
     const router = useRouter();
 
     const breadcrumbs = useMemo(function generateBreadcrumbs() {
@@ -30,5 +30,3 @@ const useBreadcrumbs = () => {
 
     return breadcrumbs;
 }
-
-export default useBreadcrumbs;
