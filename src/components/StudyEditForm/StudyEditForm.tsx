@@ -6,7 +6,6 @@ type SimpleStudy = Omit<Study, 'id'>;
 
 type StudyEditFormProps<T> = {
     study: T,
-    setStudy: ( study: T ) => void,
     saveStudy: ( study: T, publish?: boolean ) => void
 }
 
