@@ -18,7 +18,7 @@ const useStudiesTableInstance = ( studies: Study[] ) => {
                 console.log( obj );
                 return (
                     <div>
-                        <Link href={ `studies/${ obj.row.original.id }` }>{ obj.value }</Link>
+                        <Link href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
                     </div>
                 )
             }
