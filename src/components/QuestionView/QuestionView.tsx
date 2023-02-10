@@ -17,11 +17,11 @@ export const QuestionView: React.FC<QuestionViewProps> = ( props ) => {
     return (
         <>
             <div className="py-4 border-t border-t-borders">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between cursor-pointer" onClick={ () => {
+                    setExpanded( wasExpanded => ! wasExpanded )
+                } }>
                     <div className="h2 mb-2">{ question }</div>
-                    <div className="cursor-pointer" onClick={ () => {
-                        setExpanded( wasExpanded => ! wasExpanded )
-                    } }>
+                    <div>
                         { expanded && <Image className="rotate-180" src="/arrow.svg" width={ 17 } height={ 12 } alt="arrow" /> }
                         { ! expanded && <Image src="/arrow.svg" width={ 17 } height={ 12 } alt="arrow" /> }
                     </div>
