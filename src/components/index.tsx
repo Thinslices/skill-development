@@ -14,6 +14,7 @@ export { Plus } from './Plus/Plus';
 export { Search } from './SearchBar/SearchBar';
 export { StudyEditForm } from './StudyEditForm/StudyEditForm';
 export { StudyTable } from './StudyTable/StudyTable';
+export { Table } from './Table/Table';
 export { TodoPage } from './TodoPage/TodoPage';
 export { UserAvatar } from './UserAvatar/UserAvatar';
 export { UserMenu } from './UserMenu/UserMenu';

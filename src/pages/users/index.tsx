@@ -1,1 +1,25 @@
-export { TodoPage as default } from '../../components';
+import type { User } from "@prisma/client";
+import { type NextPage } from "next";
+import { useTable } from "react-table";
+
+import { Header, Table, Wrapper } from "../../components";
+import { useUserColumns } from "../../components/UserTable/useUserColumns";
+import { api } from "../../utils/api";
+
+const UsersPage: NextPage = () => {
+  const columns = useUserColumns();
+  const { data } = api.user.getAll.useQuery();
+  const tableInstance = useTable<User>( { columns, data: data ?? [] } )
+
+  return (
+    <>
+      <Header />
+      <Wrapper className="py-14">
+        <h1 className="h1 mb-12">Users</h1>
+        <Table tableInstance={ tableInstance } />
+      </Wrapper>
+    </>
+  );
+};
+
+export default UsersPage;
