@@ -36,6 +36,24 @@ export const studyRouter = createTRPCRouter( {
       return studies;
     } ),
 
+    getAllUserStudies: protectedProcedure
+      .input(z.object({ id: z.string() }))
+      .query( async ( { ctx, input } ) => {
+
+        if ( ! ctx.session?.user?.id || ctx.session.user.id !== input.id ) {
+          throw new TRPCError( { code: 'UNAUTHORIZED' } );
+        }
+      const studies = await prisma.study.findMany( {
+        include: {
+          User: true
+        },
+        where: {
+          authorId: input.id
+        },
+      } );
+      return studies;
+    } ),
+
   getUserStudies: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query( async ( { input } ) => {
@@ -44,6 +62,7 @@ export const studyRouter = createTRPCRouter( {
         User: true
       },
       where: {
+        published: true,
         authorId: input.id
       },
     } );

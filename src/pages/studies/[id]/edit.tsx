@@ -4,7 +4,6 @@ import { Breadcrumbs, Layout, StudyEditForm } from "../../../components";
 import { useBreadcrumbs } from "../../../hooks";
 import { useUpdateStudy } from "../../../hooks/useUpdateStudy/useUpdateStudy";
 import { api } from "../../../utils/api";
-import { useState } from "react";
 
 const EditStudyView:React.FC = () => {
     const router = useRouter();
@@ -13,14 +12,6 @@ const EditStudyView:React.FC = () => {
         enabled: typeof id === 'string'
     } );
 
-    const [ study, setStudy ] = useState( {
-        title: '',
-        questions: [ {
-            question: '',
-            answer: ''
-        } ],
-    } )
-
     const updateStudy = useUpdateStudy();
 
     if ( ! data ) {
@@ -28,7 +19,7 @@ const EditStudyView:React.FC = () => {
     }
 
     return (
-        <StudyEditForm study={ data } saveStudy={ updateStudy } />
+        <StudyEditForm publishButtonText={ `Update study` } saveAsDraftButtonText={ `Save as draft` } study={ data } saveStudy={ updateStudy } />
     );
 }
 

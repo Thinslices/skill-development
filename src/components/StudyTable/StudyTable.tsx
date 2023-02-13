@@ -41,7 +41,7 @@ const StudyTableItem:React.FC<StudyTableItemActionsProps> = ( props ) => {
     )
 }
 
-const useStudiesTableInstance = ( studies: Study[], actions?: StudyTableItemActions ) => {
+const useStudiesTableInstance = ( studies: Array<Study>, actions?: StudyTableItemActions ) => {
 
     const columns = useMemo<Column<Study>[]>( () => [ {
         Header: () => <div>Title</div>,
@@ -49,24 +49,30 @@ const useStudiesTableInstance = ( studies: Study[], actions?: StudyTableItemActi
         Cell: ( obj: CellProps<Study>) => {
             return (
                 <Link className="block py-4" href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
+                )
+            }
+        }, {
+            Header: () => <div>Author</div>,
+            accessor: "User" as keyof Study,
+            Cell: ( { value }: CellProps<Study> ) => {
+                const user = value as User;
+
+                return (
+                    <Link className="block py-4" href={ `/users/${ user.id }/studies` }>{ user.name }</Link>
+                ) 
+            }
+        }, {
+            Header: () => <div>Publish Date</div>,
+            id: 'createdAt',
+            accessor: obj => obj.createdAt.toLocaleDateString( 'ro-RO' ),
+            Cell: ({value}: CellProps<Study>) => <div className="py-4">{ value }</div>
+        }, {
+            Header: () => null,
+            id: 'actions',
+            accessor: obj => obj.id,
+            Cell: ( { value }: CellProps<Study>) => (
+                <StudyTableItem id={ value as string } actions={ actions } />
             )
-        }
-    }, {
-        Header: () => <div>Author</div>,
-        accessor: "User.name" as keyof Study,
-        Cell: ({value}: CellProps<Study>) => <div className="py-4">{ value }</div>
-    }, {
-        Header: () => <div>Publish Date</div>,
-        id: 'createdAt',
-        accessor: obj => obj.createdAt.toLocaleDateString( 'ro-RO' ),
-        Cell: ({value}: CellProps<Study>) => <div className="py-4">{ value }</div>
-    }, {
-        Header: () => null,
-        id: 'actions',
-        accessor: obj => obj.id,
-        Cell: ( { value }: CellProps<Study>) => (
-            <StudyTableItem id={ value as string } actions={ actions } />
-        )
     } ], [] );
 
     return useTable<Study>( { columns, data: studies } )
