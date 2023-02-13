@@ -37,6 +37,6 @@ export const useStudyColumns = ( actions?: TableItemActionsConfig ) => {
             Cell: ( { value }: CellProps<Study>) => (
                 <TableItemActions id={ value as string } actions={ actions } />
             )
-    } ], [] );
+    } ], [ actions ] );
 
 }
