@@ -3,11 +3,13 @@ export type Question = {
     studyId?: string,
     question: string,
     answer: string,
+    index: number
 }
 
 export type Study = {
     id: string,
     authorId: string,
     title: string,
-    questions: Question[]
+    questions: Question[],
+    published?: boolean
 }

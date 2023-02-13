@@ -4,8 +4,6 @@ import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 import { prisma } from "../../db";
 
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth";
 import { TRPCError } from "@trpc/server";
 
 export const studyRouter = createTRPCRouter( {
@@ -16,7 +14,11 @@ export const studyRouter = createTRPCRouter( {
       const study = await prisma.study.findUnique( { 
         where: input,
         include: {
-          questions: true
+          questions: {
+            orderBy: {
+              index: 'asc',
+            },
+          }
         }
       } )
       return study;
@@ -72,6 +74,7 @@ export const studyRouter = createTRPCRouter( {
       questions: z.array( z.object( {
         question: z.string(),
         answer: z.string(),
+        index: z.number()
       } ) ),
       published: z.optional( z.boolean() )
     } ) )
@@ -82,8 +85,8 @@ export const studyRouter = createTRPCRouter( {
       if ( ! ctx.session?.user?.id || ctx.session.user.id !== study.authorId ) {
         throw new TRPCError( { code: 'UNAUTHORIZED' } );
       }
-      
-      await Promise.all( questions.map( question => prisma.question.create( { 
+
+      await prisma.$transaction( questions.map( question => prisma.question.create( { 
         data: {
           ...question,
           studyId: createdStudy.id
@@ -100,19 +103,33 @@ export const studyRouter = createTRPCRouter( {
         authorId: z.string(),
         questions: z.array( z.object( {
           id: z.optional( z.string() ),
+          index: z.number(),
           question: z.string(),
           answer: z.string(),
         } ) ),
         published: z.optional( z.boolean() )
       } ) )
       .mutation( async ( { input } ) => {
-        
+        const { questions, ...study } = input;
+
+        await prisma.$transaction(
+          questions.map( question => {
+            const { id, ...restQuestion } = question;
+            return prisma.question.upsert( {
+              create: {
+                ...restQuestion,
+                studyId: input.id
+              },
+              update: restQuestion,
+              where: { id: id || '' },
+            } );
+          } )
+        );
+
         await prisma.study.update( { 
-          where: {
-            id: input.id
-          },
-          data: input 
-        } );
+          where: { id: study.id },
+          data: study
+        } )
 
         return input;
       } ),

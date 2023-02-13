@@ -11,7 +11,7 @@ type StudyEditFormProps<T> = {
 
 export const StudyEditForm = <T extends SimpleStudy>( props: StudyEditFormProps<T> ) => { 
     const { saveStudy } = props;
-    const [ study, setStudy ] = useState( props.study )
+    const [ study, setStudy ] = useState( props.study );
 
     const onQuestionChange = useCallback( ( index: number, newQuestion: Question ) => {
         const newQuestions = study.questions.slice();
@@ -31,7 +31,7 @@ export const StudyEditForm = <T extends SimpleStudy>( props: StudyEditFormProps<
 
     const addQuestion = useCallback( () => {
         const newQuestions = study.questions.slice();
-        newQuestions.push( { question: '', answer: '' } );
+        newQuestions.push( { question: '', answer: '', index: newQuestions.length } );
         setStudy( {
             ...study,
             questions: newQuestions

@@ -1,18 +1,23 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import type { FormEventHandler } from "react";
+import { useCallback, useRef } from "react";
 
 export const Search: React.FC = () => {
-      const { data: sessionData } = useSession();
+  const router = useRouter();
+  const { s } = router.query;
+  const inputRef = useRef<HTMLInputElement>( null );
 
-      if ( ! sessionData ) {
-        return null;
-      }
+  const onSubmit = useCallback<FormEventHandler<HTMLFormElement>>( ( event ) => {
+    event.preventDefault();
+    void router.push( `/studies/search?s=${ inputRef?.current?.value ?? '/studies' }` );
+  }, [ router ] )
 
-    return (
-        <div className="flex gap-4 py-3 border-b border-b-borders focus-within:border-b-black w-full max-w-xl">
-          <input className="outline-0 h4 w-full" type="text" placeholder="Search" />
-          <Image className="" src="/search.svg" alt="search icon" width={ 20 } height={ 20 } />
-        </div>
-    )
+  return (
+      <form className="flex gap-4 py-3 border-b border-b-borders focus-within:border-b-black w-full max-w-xl" onSubmit={ onSubmit }>
+        <input ref={ inputRef } defaultValue={ s } className="outline-0 h4 w-full" type="text" placeholder="Search" />
+        <Image className="" src="/search.svg" alt="search icon" width={ 20 } height={ 20 } />
+      </form>
+  )
 }
   

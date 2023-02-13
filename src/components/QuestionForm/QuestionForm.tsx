@@ -1,9 +1,9 @@
-import { Question } from "../../utils/types";
+import type { Question } from "../../utils/types";
 
 type QuestionFormProps = {
     index: number,
     data: Question,
-    onChange: ( question: { question: string, answer: string } ) => void
+    onChange: ( question: Question ) => void
 }
 
 export const QuestionForm: React.FC<QuestionFormProps> = ( props ) => {
@@ -14,14 +14,14 @@ export const QuestionForm: React.FC<QuestionFormProps> = ( props ) => {
             <div className="h6">Question { index + 1 }</div>
             <input placeholder={ `Question ${ index + 1 }` } type="text" className="h2 py-2 border-b border-b-borders focus:outline-0 focus:border-b-black" value={ data.question } onChange={ e => { 
                 const newQuestion = { 
+                    ...data,
                     question: e.target.value,
-                    answer: data.answer
                 };
                 onChange( newQuestion ) 
             } } />
             <textarea placeholder="Answer" className="border p-2 border-borders focus:outline-0 focus:border-black" name="" id="" cols={ 30 } rows={ 10 } value={ data.answer } onChange={ e => { 
                 const newQuestion = { 
-                    question: data.question,
+                    ...data,
                     answer: e.target.value
                 };
                 onChange( newQuestion ); 

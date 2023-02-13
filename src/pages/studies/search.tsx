@@ -8,7 +8,7 @@ import { api } from "../../utils/api";
 const Search: NextPage = () => {
 
     const router = useRouter();
-    const { s } = router.query
+    const { s } = router.query;
     const { data } = api.study.search.useQuery( { query: s as string }, {
         enabled: !! s
     } );

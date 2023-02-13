@@ -23,7 +23,7 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
 
   if ( href ) {
     return (
-      <a className={ "className" } href={ href } onClick={ onClick }>
+      <a className={ className } href={ href } onClick={ onClick }>
         { children }
       </a>
     )

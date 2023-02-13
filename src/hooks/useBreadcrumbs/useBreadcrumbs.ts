@@ -9,7 +9,7 @@ const generatePathParts = ( pathStr: string ) => {
 export const useBreadcrumbs = () => {
     const router = useRouter();
 
-    const breadcrumbs = useMemo(function generateBreadcrumbs() {
+    const breadcrumbs = useMemo(() => {
       const asPathNestedRoutes = generatePathParts(router.asPath);
       const pathnameNestedRoutes = generatePathParts(router.pathname);
   

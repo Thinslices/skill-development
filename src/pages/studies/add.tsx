@@ -7,12 +7,7 @@ const AddStudy: NextPage = () => {
     const breadcrumbs = useBreadcrumbs();
     const { data: sessionData } = useSession();
 
-
     const saveStudy = useCreateStudy();
-
-    if ( ! sessionData?.user.id ) {
-        return null
-    }
 
     return (
         <Layout>
@@ -23,9 +18,10 @@ const AddStudy: NextPage = () => {
                     title: '',
                     questions: [ {
                         question: '',
-                        answer: ''
+                        answer: '',
+                        index: 0,
                     } ],
-                    authorId: sessionData?.user.id
+                    authorId: sessionData?.user.id ?? ''
                 } } saveStudy={ saveStudy } />
             </div>
         </Layout>
