@@ -32,7 +32,11 @@ const StudyTableItem:React.FC<StudyTableItemActionsProps> = ( props ) => {
         <div className="flex items-center gap-4 justify-end py-4">
             { actions.view && <Link href={ `/studies/${ id }` }>View</Link> }
             { actions.edit && <Link href={ `/studies/${ id }/edit` }>Edit</Link> }
-            { actions.onDeleteClick && <Button onClick={ () => actions.onDeleteClick( id ) }>Delete</Button> }
+            { actions.onDeleteClick && <Button onClick={ () => {
+                if ( actions.onDeleteClick ) {
+                    actions.onDeleteClick( id ) 
+                }
+            } }>Delete</Button> }
         </div>
     )
 }
