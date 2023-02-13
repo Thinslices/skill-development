@@ -19,8 +19,8 @@ const UserPage:NextPage = () => {
             <div className="space-y-16">
                 <Breadcrumbs breadcrumbs={ breadcrumbs } />
                 <div className="flex items-center gap-8">
-                    <div className="rounded-full border-2 border-text overflow-hidden">
-                        { data?.image && <img src={ data.image } alt={ data?.name ?? '' } width={ 100 } height={ 100 } /> }
+                    <div className="rounded-full border-2 border-text overflow-hidden w-24 h-24">
+                        { data?.image && <img src={ data.image } alt={ data?.name ?? '' } /> }
                     </div>
                     <div>
                         <h1 className="h1" >{ data?.name }</h1>
