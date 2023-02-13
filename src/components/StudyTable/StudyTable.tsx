@@ -3,13 +3,13 @@
 
 import { useTable } from "react-table";
 import type { Study, User } from "@prisma/client";
-import type { TableItemActionsProps } from "../Table/TableItemActions";
+import type { TableItemActionsConfig } from "../Table/TableItemActions";
 import { useStudyColumns } from "./useStudyColumns";
 import { Table } from "..";
 
 type StudyTableProps = {
     data: (Study & { User: User; })[] | undefined,
-    actions?: TableItemActionsProps
+    actions?: TableItemActionsConfig
 }
 
 export const StudyTable:React.FC<StudyTableProps> = ( { data, actions } ) => {

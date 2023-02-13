@@ -2,10 +2,10 @@ import type { Study, User } from "@prisma/client";
 import Link from "next/link";
 import { useMemo } from "react"
 import type { CellProps, Column } from "react-table"
-import type { TableItemActionsProps } from "../Table/TableItemActions";
+import type { TableItemActionsConfig } from "../Table/TableItemActions";
 import { TableItemActions } from "../Table/TableItemActions"
 
-export const useStudyColumns = ( actions?: TableItemActionsProps ) => {
+export const useStudyColumns = ( actions?: TableItemActionsConfig ) => {
 
     return useMemo<Column<Study>[]>( () => [ {
         Header: () => <div>Title</div>,
