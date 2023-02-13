@@ -48,7 +48,7 @@ const useStudiesTableInstance = ( studies: Array<Study>, actions?: StudyTableIte
         accessor: "title" as keyof Study,
         Cell: ( obj: CellProps<Study>) => {
             return (
-                <Link className="block py-4" href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
+                <Link className="h4 block py-4" href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
                 )
             }
         }, {

@@ -15,4 +15,7 @@ export { Search } from './SearchBar/SearchBar';
 export { StudyEditForm } from './StudyEditForm/StudyEditForm';
 export { StudyTable } from './StudyTable/StudyTable';
 export { TodoPage } from './TodoPage/TodoPage';
+export { UserAvatar } from './UserAvatar/UserAvatar';
+export { UserMenu } from './UserMenu/UserMenu';
+export { VerticalEllipsis } from './VerticalEllipsis/VerticalEllipsis';
 export { Wrapper } from './Wrapper/Wrapper';
