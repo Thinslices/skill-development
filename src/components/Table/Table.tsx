@@ -23,7 +23,7 @@ export const Table = <T extends object>( { tableInstance }: TableProps<T> ) => {
                         { headerGroup.headers.map( ( column, index ) => {
                             const isLast = index > 0 && index === headerGroup.headers.length - 1;
                             return (
-                                <th className={` text-${ isLast ? 'right' : 'left' } h6 pb-4` } { ...column.getHeaderProps() }>{ column.render( 'Header' ) }</th>
+                                <th className={ `${ isLast ? 'text-right' : 'text-left' } h6 pb-4` } { ...column.getHeaderProps() }>{ column.render( 'Header' ) }</th>
                             )
                         } ) }
                     </tr>
@@ -37,7 +37,7 @@ export const Table = <T extends object>( { tableInstance }: TableProps<T> ) => {
                             { row.cells.map( ( cell, index ) => {
                                 const isLast = index > 0 && index === row.cells.length - 1;
                                 return (
-                                    <td className={ `text-${ isLast ? 'right' : 'left' } border-t border-t-borders` } { ...cell.getCellProps() }>
+                                    <td className={ `${ isLast ? 'text-right' : 'text-left' } border-t border-t-borders` } { ...cell.getCellProps() }>
                                         { cell.render( 'Cell' ) }
                                     </td>
                                 )
