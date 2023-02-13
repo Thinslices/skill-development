@@ -20,7 +20,7 @@ const UserPage:NextPage = () => {
                 <Breadcrumbs breadcrumbs={ breadcrumbs } />
                 <div className="flex items-center gap-8">
                     <div className="rounded-full border-2 border-text overflow-hidden">
-                        { data?.image && <img src={ data.image } alt={ data?.name } width={ 100 } height={ 100 } /> }
+                        { data?.image && <img src={ data.image } alt={ data?.name ?? '' } width={ 100 } height={ 100 } /> }
                     </div>
                     <div>
                         <h1 className="h1" >{ data?.name }</h1>
