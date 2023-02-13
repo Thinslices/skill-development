@@ -57,7 +57,7 @@ model Question {
     question    String
     answer      String
     studyId     String
-    Study       Study   @relation(fields: [studyId], references: [id])
+    Study       Study   @relation(fields: [studyId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 model Study {

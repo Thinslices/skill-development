@@ -1,51 +1,69 @@
 /* eslint-disable react/jsx-key */
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import type { CellProps, Column } from "react-table";
 import { useTable } from "react-table";
 import Link from "next/link";
 import type { Study, User } from "@prisma/client";
 import { Button } from "../Button/Button";
 
-const useStudiesTableInstance = ( studies: Study[] ) => {
+type DeleteCallback = ( id: string ) => void;
+type StudyTableItemActions = {
+    view?: boolean,
+    edit?: boolean,
+    onDeleteClick?: DeleteCallback
+}
 
-    const columns = React.useMemo<Column<Study>[]>( () => [
-        {
-            Header: () => <div>Title</div>,
-            accessor: "title" as keyof Study,
-            Cell: ( obj: CellProps<Study>) => {
-                console.log( obj );
-                return (
-                    <div>
-                        <Link href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
-                    </div>
-                )
-            }
-        },
-        {
-            Header: () => <div>Author</div>,
-            accessor: "User.name" as keyof Study,
-            Cell: ({value}: CellProps<Study>) => <div>{ value }</div>
-        },
-        {
-            Header: () => <div>Publish Date</div>,
-            id: 'createdAt',
-            accessor: obj => obj.createdAt.toLocaleDateString( 'ro-RO' ),
-            Cell: ({value}: CellProps<Study>) => <div>{ value }</div>
-        },
-        {
-            Header: () => null,
-            id: 'actions',
-            accessor: obj => obj.id,
-            Cell: ( { value }: CellProps<Study>) => (
-                <div className="flex gap-4 justify-end">
-                    <Link href={ `/studies/${ value as string }/edit` }>Edit</Link>
-                    <Button onClick={ () => { console.log( 'Delete' ) } }>Delete</Button>
-                </div>
+type StudyTableItemActionsProps = {
+    id: string,
+    actions?: StudyTableItemActions,
+}
+
+const StudyTableItem:React.FC<StudyTableItemActionsProps> = ( props ) => {
+    
+    const { id, actions } = props;
+
+    if ( ! actions?.view && ! actions?.edit && ! actions?.onDeleteClick ) {
+        return null;
+    }
+
+    return (
+        <div className="flex items-center gap-4 justify-end py-4">
+            { actions.view && <Link href={ `/studies/${ id }` }>View</Link> }
+            { actions.edit && <Link href={ `/studies/${ id }/edit` }>Edit</Link> }
+            { actions.onDeleteClick && <Button onClick={ () => actions.onDeleteClick( id ) }>Delete</Button> }
+        </div>
+    )
+}
+
+const useStudiesTableInstance = ( studies: Study[], actions?: StudyTableItemActions ) => {
+
+    const columns = useMemo<Column<Study>[]>( () => [ {
+        Header: () => <div>Title</div>,
+        accessor: "title" as keyof Study,
+        Cell: ( obj: CellProps<Study>) => {
+            return (
+                <Link className="block py-4" href={ `/studies/${ obj.row.original.id }` }>{ obj.value }</Link>
             )
-        },
-    ], [] );
+        }
+    }, {
+        Header: () => <div>Author</div>,
+        accessor: "User.name" as keyof Study,
+        Cell: ({value}: CellProps<Study>) => <div className="py-4">{ value }</div>
+    }, {
+        Header: () => <div>Publish Date</div>,
+        id: 'createdAt',
+        accessor: obj => obj.createdAt.toLocaleDateString( 'ro-RO' ),
+        Cell: ({value}: CellProps<Study>) => <div className="py-4">{ value }</div>
+    }, {
+        Header: () => null,
+        id: 'actions',
+        accessor: obj => obj.id,
+        Cell: ( { value }: CellProps<Study>) => (
+            <StudyTableItem id={ value as string } actions={ actions } />
+        )
+    } ], [] );
 
     return useTable<Study>( { columns, data: studies } )
 
@@ -53,17 +71,18 @@ const useStudiesTableInstance = ( studies: Study[] ) => {
 
 type StudyTableProps = {
     data: (Study & { User: User; })[] | undefined;
+    actions?: StudyTableItemActions
 }
 
-export const StudyTable:React.FC<StudyTableProps> = ( { data } ) => {
-
+export const StudyTable:React.FC<StudyTableProps> = ( { data, actions } ) => {
+    
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useStudiesTableInstance( data ?? [] );
+    } = useStudiesTableInstance( data ?? [], actions );
 
     return (
         <table className="w-full" {...getTableProps()}>
@@ -85,7 +104,7 @@ export const StudyTable:React.FC<StudyTableProps> = ( { data } ) => {
                         <tr { ...row.getRowProps() }>
                             { row.cells.map( cell => {
                                 return (
-                                    <td className="text-left last:text-right py-4 border-t border-t-borders" { ...cell.getCellProps() }>
+                                    <td className="text-left last:text-right border-t border-t-borders" { ...cell.getCellProps() }>
                                         { cell.render( 'Cell' ) }
                                     </td>
                                 )

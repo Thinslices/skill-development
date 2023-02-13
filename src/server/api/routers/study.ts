@@ -1,13 +1,16 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 import { prisma } from "../../db";
-import { Query } from "@tanstack/react-query";
+
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../auth";
+import { TRPCError } from "@trpc/server";
 
 export const studyRouter = createTRPCRouter( {
 
-  get: publicProcedure
+  get: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query( async ( { input } ) => {
       const study = await prisma.study.findUnique( { 
@@ -19,7 +22,7 @@ export const studyRouter = createTRPCRouter( {
       return study;
     } ),
 
-    getAll: publicProcedure.query( async ( { ctx } ) => {
+    getAll: protectedProcedure.query( async ( { ctx } ) => {
       const studies = await prisma.study.findMany( {
         where: {
           published: true
@@ -31,7 +34,7 @@ export const studyRouter = createTRPCRouter( {
       return studies;
     } ),
 
-  getUserStudies: publicProcedure
+  getUserStudies: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query( async ( { input } ) => {
     const studies = await prisma.study.findMany( {
@@ -45,7 +48,7 @@ export const studyRouter = createTRPCRouter( {
     return studies;
   } ),
 
-  search: publicProcedure
+  search: protectedProcedure
     .input( z.object( { query: z.string() } ) )
     .query( async ( { input } ) => {
     const studies = await prisma.study.findMany( {
@@ -62,7 +65,7 @@ export const studyRouter = createTRPCRouter( {
     return studies;
   } ),
 
-  create: publicProcedure
+  create: protectedProcedure
     .input( z.object( { 
       title: z.string(),
       authorId: z.string(),
@@ -72,9 +75,13 @@ export const studyRouter = createTRPCRouter( {
       } ) ),
       published: z.optional( z.boolean() )
     } ) )
-    .mutation( async ( { input } ) => {
+    .mutation( async ( { ctx, input } ) => {
       const { questions, ...study } = input;
-      const createdStudy = await prisma.study.create( { data: study } )
+      const createdStudy = await prisma.study.create( { data: study } );
+
+      if ( ! ctx.session?.user?.id || ctx.session.user.id !== study.authorId ) {
+        throw new TRPCError( { code: 'UNAUTHORIZED' } );
+      }
       
       await Promise.all( questions.map( question => prisma.question.create( { 
         data: {
@@ -86,7 +93,7 @@ export const studyRouter = createTRPCRouter( {
       return createdStudy;
     } ),
 
-    update: publicProcedure
+    update: protectedProcedure
       .input( z.object( { 
         id: z.string(),
         title: z.string(),
@@ -99,37 +106,31 @@ export const studyRouter = createTRPCRouter( {
         published: z.optional( z.boolean() )
       } ) )
       .mutation( async ( { input } ) => {
-        const { questions, ...study } = input;
-        const questionsToAdd = questions.filter( question => ! question?.id )
-        const questionsToUpdate = questions.filter( question => !! question?.id )
         
         await prisma.study.update( { 
           where: {
-            id: study.id
+            id: input.id
           },
-          data: study 
+          data: input 
         } );
 
-        await Promise.all( questionsToAdd.map( question => prisma.question.create( { 
-          data: {
-            ...question,
-            studyId: study.id
-          }
-        } ) ) )
-
-        await Promise.all( questionsToUpdate.map( question => prisma.question.update({
-          where: {
-            id: question.id,
-          },
-          data: question,
-        } ) ) );
-
-        return study;
+        return input;
       } ),
 
-      delete: publicProcedure
-        .input(z.object({ id: z.string() }))
-        .query( async ( { input } ) => {
+      delete: protectedProcedure
+        .input(z.object( { id: z.string() } ) )
+        .mutation( async ( { ctx, input } ) => {
+
+          const study = await prisma.study.findUnique( { where: input } );
+
+          if ( ! study ) {
+            throw new TRPCError( { code: "NOT_FOUND" } );
+          }
+
+          if ( ! ctx.session?.user?.id || ctx.session.user.id !== study.authorId ) {
+            throw new TRPCError( { code: 'UNAUTHORIZED' } );
+          }
+
           return await prisma.study.delete( { 
             where: input,
           } )

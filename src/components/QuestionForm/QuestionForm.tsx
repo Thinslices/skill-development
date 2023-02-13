@@ -17,7 +17,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = ( props ) => {
                     question: e.target.value,
                     answer: data.answer
                 };
-                console.log( newQuestion );
                 onChange( newQuestion ) 
             } } />
             <textarea placeholder="Answer" className="border p-2 border-borders focus:outline-0 focus:border-black" name="" id="" cols={ 30 } rows={ 10 } value={ data.answer } onChange={ e => { 
@@ -25,7 +24,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = ( props ) => {
                     question: data.question,
                     answer: e.target.value
                 };
-                console.log( newQuestion );
                 onChange( newQuestion ); 
             } } />
         </div>
