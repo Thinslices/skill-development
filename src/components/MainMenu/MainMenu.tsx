@@ -16,6 +16,7 @@ export const MainMenu: React.FC = () => {
   return (
     <div className="flex items-center gap-8">
       <Buttons>
+        <Link href="/users" passHref><Button style={ 'text' }>Users</Button></Link>
         <Link href="/studies" passHref><Button style={ 'text' }>Studies</Button></Link>
         <Link href="/studies/add" passHref><Button>
           <span>Add Study</span><Plus />

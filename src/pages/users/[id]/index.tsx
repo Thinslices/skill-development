@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Breadcrumbs, Layout, StudyTable } from "../../../components";
-import { useBreadcrumbs, useUserStudies } from "../../../hooks";
+import { Layout, StudyTable } from "../../../components";
+import { useUserStudies } from "../../../hooks";
 import { api } from "../../../utils/api";
 
 
@@ -12,13 +12,12 @@ const UserPage:NextPage = () => {
     const { data } = api.user.get.useQuery( { id: id as string }, {
         enabled: !! id
     } );
-    const breadcrumbs = useBreadcrumbs();
+
     const studies = useUserStudies( id as string );
 
     return (
         <Layout>
             <div className="space-y-16">
-                <Breadcrumbs breadcrumbs={ breadcrumbs } />
                 <div className="flex items-center gap-8">
                     <div className="rounded-full border-2 border-text overflow-hidden w-24 h-24">
                         { data?.image && <img src={ data.image } alt={ data?.name ?? '' } /> }

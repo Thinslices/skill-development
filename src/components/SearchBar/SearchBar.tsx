@@ -15,7 +15,7 @@ export const Search: React.FC = () => {
 
   return (
       <form className="flex gap-4 py-3 border-b border-b-borders focus-within:border-b-black w-full max-w-xl" onSubmit={ onSubmit }>
-        <input ref={ inputRef } defaultValue={ s } className="outline-0 h4 w-full" type="text" placeholder="Search" />
+        <input ref={ inputRef } defaultValue={ s } className="outline-0 h4 w-full" type="text" placeholder="Search study" />
         <Image className="" src="/search.svg" alt="search icon" width={ 20 } height={ 20 } />
       </form>
   )

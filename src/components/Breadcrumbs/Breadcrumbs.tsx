@@ -1,17 +1,9 @@
 import Link from "next/link"
 import React from "react"
+import { useBreadcrumbs } from "../../hooks"
 
-type Crumb = {
-    href: string,
-    text: string
-}
-
-type BreadcrumbsProps = {
-    breadcrumbs: Array<Crumb>
-}
-
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ( props ) => {
-    const { breadcrumbs } = props;
+export const Breadcrumbs: React.FC = () => {
+    const breadcrumbs = useBreadcrumbs();
 
     return (
         <div className="flex gap-2 capitalize">

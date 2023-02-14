@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Breadcrumbs, Layout, StudyEditForm } from "../../../components";
-import { useBreadcrumbs } from "../../../hooks";
+import { Layout, StudyEditForm } from "../../../components";
 import { useUpdateStudy } from "../../../hooks/useUpdateStudy/useUpdateStudy";
 import { api } from "../../../utils/api";
 
@@ -25,15 +24,10 @@ const EditStudyView:React.FC = () => {
 
 const EditStudy:NextPage = () => {
 
-    const breadcrumbs = useBreadcrumbs();
-    
     return (
         <Layout>
-            <div className="space-y-8">
-                <Breadcrumbs breadcrumbs={ breadcrumbs } />
-                <h1 className="h2">Edit Study</h1>
-                <EditStudyView />
-            </div>
+            <h1 className="h2">Edit Study</h1>
+            <EditStudyView />
         </Layout>
     )
 }

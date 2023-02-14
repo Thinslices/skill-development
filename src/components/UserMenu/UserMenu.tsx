@@ -13,8 +13,12 @@ export const UserMenu: React.FC = () => {
         </div>
         <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
           <ul className="whitespace-nowrap bg-white border-2 border-black rounded w-48 text-right">
-            <li className="border-b border-b-borders"><Button style="text" onClick={ () => void router.push( '/studies/my-studies' ) }>My Studies</Button></li>
-            <li><Button style="text" onClick={ () => void signOut() }>Sign out</Button></li>
+            <li className="border-b border-b-borders">
+              <Button className="px-4" style="text" onClick={ () => void router.push( '/studies/my-studies' ) }>My Studies</Button>
+            </li>
+            <li>
+              <Button className="px-4" style="text" onClick={ () => void signOut() }>Sign out</Button>
+            </li>
           </ul>
         </div>
       </div>
