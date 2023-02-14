@@ -24,6 +24,7 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
   );
 
   const className = `transition-opacity duration-200 hover:opacity-50 ease-out inline-flex gap-2 items-center py-1.5 border-2 cursor-pointer rounded whitespace-nowrap ${ styleClass }`;
+  const Tag = props.onClick ? 'button' : 'div';
   const onClick = props.onClick ?? (() => { return });
 
   if ( href ) {
@@ -35,9 +36,9 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
   }
 
   return (
-    <div className={ className } onClick={ onClick }>
+    <Tag className={ className } onClick={ onClick }>
       { children }
-    </div>
+    </Tag>
   )
 }
 

@@ -17,7 +17,7 @@ export const useLogoAnimation = ( wrapperRef: LogoElement, thinslicesRef: LogoEl
 
     useEffect( () => {
         setTimeout( changeSource, delay.current );
-        delay.current = delay.current === 2000 ? 8000 : 3000;
+        delay.current = delay.current === 3000 ? 8000 : 3000;
     }, [ changeSource ] );
 
     useLayoutEffect( () => {

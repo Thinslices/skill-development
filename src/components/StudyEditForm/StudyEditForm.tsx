@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
-import { Button, Buttons, Plus, QuestionListEdit } from "../../components";
-import type { Question, Study } from "../../utils/types";
+import { Button, Buttons, QuestionListEdit } from "../../components";
 
-type SimpleStudy = Omit<Study, "id">;
+import { useStudyEdit } from "./useStudyEdit";
+import { AddQuestionButton } from "./AddQuestionButton";
+import { StudyEditTitle } from "./StudyEditTitle";
+import type { SimpleStudy } from "./types";
 
 type StudyEditFormProps<T> = {
     study: T;
@@ -11,86 +12,23 @@ type StudyEditFormProps<T> = {
     saveAsDraftButtonText: string;
 };
 
-export const StudyEditForm = <T extends SimpleStudy>(
-    props: StudyEditFormProps<T>
-) => {
+export const StudyEditForm = <T extends SimpleStudy>( props: StudyEditFormProps<T> ) => {
     const { saveStudy, publishButtonText, saveAsDraftButtonText } = props;
-    const [study, setStudy] = useState(props.study);
-
-    const onQuestionChange = useCallback(
-        (index: number, newQuestion: Question) => {
-            const newQuestions = study.questions.slice();
-            newQuestions.splice(index, 1, newQuestion);
-            setStudy({
-                ...study,
-                questions: newQuestions,
-            });
-        },
-        [setStudy, study]
-    );
-
-    const onTitleChange = useCallback(
-        (newTitle: string) => {
-            setStudy({
-                ...study,
-                title: newTitle,
-            });
-        },
-        [setStudy, study]
-    );
-
-    const addQuestion = useCallback(() => {
-        const newQuestions = study.questions.slice();
-        newQuestions.push({
-            question: "",
-            answer: "",
-            index: newQuestions.length,
-        });
-        setStudy({
-            ...study,
-            questions: newQuestions,
-        });
-    }, [setStudy, study]);
+    const { study, onTitleChange, onQuestionChange, addQuestion } = useStudyEdit<T>( props.study );
 
     return (
         <>
-            <div className="flex flex-col space-y-4">
-                <label className="h6">Title</label>
-                <input
-                    type="text"
-                    className="h1 border-b border-b-borders py-2 focus:border-b-black focus:outline-0"
-                    placeholder="Amazing study regarding amazing things"
-                    value={study.title}
-                    onChange={event => {
-                        onTitleChange(event.target.value);
-                    }}
-                />
-            </div>
+            <StudyEditTitle title={ study.title } setTitle={ onTitleChange } />
             <QuestionListEdit
-                questions={study.questions}
-                onQuestionChange={onQuestionChange}
+                questions={ study.questions }
+                onQuestionChange={ onQuestionChange }
+                addQuestion={ addQuestion }
             />
-            <Button style="tertiary" onClick={addQuestion}>
-                <span>Add Question</span>
-                <Plus />
-            </Button>
+            <AddQuestionButton onClick={ () => addQuestion( study.questions.length ) } />
             <div className="border-t border-t-borders pt-8">
                 <Buttons>
-                    <Button
-                        onClick={() => {
-                            saveStudy(study, true);
-                        }}
-                    >
-                        {publishButtonText}
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            saveStudy(study);
-                        }}
-                        style="secondary"
-                    >
-                        {saveAsDraftButtonText}
-                    </Button>
+                    <Button onClick={ () => { saveStudy(study, true) } }>{ publishButtonText }</Button>
+                    <Button onClick={ () => { saveStudy(study) } } style="secondary">{ saveAsDraftButtonText }</Button>
                 </Buttons>
             </div>
         </>

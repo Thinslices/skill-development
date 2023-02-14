@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 
 import { Authorize, Header, StudyTable, Wrapper } from "../../components";
+import { useLoader } from "../../hooks";
 import { api } from "../../utils/api";
 
 const useMyStudies = () => {
@@ -27,9 +28,11 @@ const useMyStudies = () => {
 const useMyStudiesActions = () => {
 
     const utils = api.useContext();
+    const { start, stop } = useLoader();
     const deleteStudy = api.study.delete.useMutation( {
-        onSuccess() {
-            void utils.study.getUserStudies.invalidate()
+        onSuccess: async () => {
+            await utils.study.getUserStudies.invalidate();
+            stop();
         },
     } );
 
@@ -37,7 +40,12 @@ const useMyStudiesActions = () => {
         view: true,
         edit: true,
         onDeleteClick: ( id: string ) => {
-            deleteStudy.mutate( { id } );
+            start();
+            try {
+                deleteStudy.mutate( { id } );
+            } catch {
+                stop();
+            }
         }
     };
 

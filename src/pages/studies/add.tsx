@@ -7,6 +7,7 @@ const AddStudy: NextPage = () => {
     const { data: sessionData } = useSession();
 
     const saveStudy = useCreateStudy();
+    
     const emptyStudy = {
         title: '',
         questions: [ {

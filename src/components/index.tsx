@@ -5,6 +5,7 @@ export { Header } from './Header/Header';
 export { Heading } from './Heading/Heading';
 export { List } from './List/List';
 export { Layout } from './Layout/Layout';
+export { Loader } from './Loader/Loader';
 export { Logo } from './Logo/Logo';
 export { MainMenu } from './MainMenu/MainMenu';
 export { QuestionForm } from './QuestionForm/QuestionForm';
