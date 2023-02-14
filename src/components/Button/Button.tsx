@@ -19,7 +19,7 @@ export const Button: React.FC<ButtonProps> = ( props ) => {
       'bg-red border-red text-white px-4': style === 'primary',
       'bg-black border-black text-white px-4': style === 'secondary',
       'px-4': style === 'tertiary',
-      'px-0 border-transparent': style === 'text',
+      'border-transparent': style === 'text',
     } 
   );
 
