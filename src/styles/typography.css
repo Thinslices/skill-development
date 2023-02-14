@@ -13,11 +13,11 @@
 }
 
 .h4 {
-    @apply text-xl font-bold tracking-tight;
+    @apply text-xl font-bold;
 }
 
 .h5 {
-    @apply font-bold tracking-tight;
+    @apply font-bold;
 }
 
 .h6 {
