@@ -32,8 +32,10 @@ const useMyStudiesActions = () => {
     const deleteStudy = api.study.delete.useMutation( {
         onSuccess: async () => {
             await utils.study.getUserStudies.invalidate();
-            stop();
         },
+        onSettled: () => {
+            stop();
+        }
     } );
 
     const actions = {

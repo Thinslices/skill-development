@@ -10,9 +10,11 @@ export const useCreateStudy = () => {
 
     const createStudy = api.study.create.useMutation( {
         onSuccess: async ( data ) => {
-            stop();
             await router.push( `/studies/${ data.id }` )
         },
+        onSettled: () => {
+            stop();
+        }
     } );
 
     return useCallback( ( study: Omit<Study, 'id'>, publish?: boolean ) => {

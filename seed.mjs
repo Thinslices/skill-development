@@ -6,7 +6,11 @@ async function main() {
   const users = await prisma.user.findMany({
     where: {
         email: {
-            in: [ 'razvan.onofrei@thinslices.com', 'cristian.gherghel@thinslices.com' ]
+            in: [ 
+                'bogdan.balan@thinslices.com',
+                'cristian.gherghel@thinslices.com',
+                'razvan.onofrei@thinslices.com', 
+            ]
         }
     }
   });

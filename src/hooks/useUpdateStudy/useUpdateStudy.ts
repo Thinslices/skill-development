@@ -11,8 +11,10 @@ export const useUpdateStudy = () => {
     const updateStudy = api.study.update.useMutation( {
         onSuccess: async ( data ) => {
             await router.push( `/studies/${ data.id }` )
-            stop();
         },
+        onSettled: () => {
+            stop();
+        }
     } );
 
     // id should be required

@@ -6,6 +6,7 @@ import type { CellProps, Column } from "react-table"
 import { api } from "../../utils/api";
 import type { Role } from "@prisma/client";
 import { TableItemActions } from "../Table/TableItemActions";
+import { useLoader } from "../../hooks";
 
 const useUserRole: ( id: string ) => Role = ( id ) => {
     const { data } = api.user.get.useQuery( { id }, {
@@ -16,13 +17,11 @@ const useUserRole: ( id: string ) => Role = ( id ) => {
 }
 
 export const useUserColumns = () => {
-
     const { data: sessionData } = useSession();
     const myId = sessionData?.user.id;
     const myRole = useUserRole( myId ?? '' );
 
     const columns = useMemo<Column<User>[]>( () => {
-        console.log( myRole );
 
         return [ {
             Header: () => <div>Name</div>,
@@ -57,12 +56,23 @@ export const useUserColumns = () => {
             id: 'actions',
             accessor: obj => obj.id,
             Cell: ( obj: CellProps<User>) => {
-                const actions = {}
+                const actions = {};
+                const utils = api.useContext();
+                const { start, stop } = useLoader();
+                const deleteUser = api.user.delete.useMutation( {
+                    onSuccess: async () => {
+                        await utils.user.getAll.invalidate();
+                    },
+                    onSettled: () => {
+                        stop();
+                    }
+                } );
 
-                if ( myRole === "ADMIN" && myId !== obj.row.original.id ) {
+                if ( myRole === "ADMIN" && obj.row.original.role !== "ADMIN" ) {
                     Object.assign( actions, { 
-                        onDeleteClick: () => {
-                            console.log( 'Delete User' );
+                        onDeleteClick: ( id: string ) => {
+                            start();
+                            deleteUser.mutate( { id } );
                         }
                     } )
                 }
