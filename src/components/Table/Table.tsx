@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-key */
 import type { TableInstance } from "react-table";
 
+export type { TableItemAction } from "./TableItemActions";
+export { TableItemActions } from "./TableItemActions";
+
 type TableProps<T extends object> = {
     tableInstance: TableInstance<T>,
 }

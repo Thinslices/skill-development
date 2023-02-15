@@ -4,23 +4,14 @@ import Link from "next/link";
 import { useMemo } from "react"
 import type { CellProps, Column } from "react-table"
 import { api } from "../../utils/api";
-import type { Role } from "@prisma/client";
+import type { TableItemAction } from "../Table/TableItemActions";
 import { TableItemActions } from "../Table/TableItemActions";
-import { useLoader } from "../../hooks";
-
-const useUserRole: ( id: string ) => Role = ( id ) => {
-    const { data } = api.user.get.useQuery( { id }, {
-        enabled: !! id
-    } );
-
-    return data?.role === "ADMIN" ? "ADMIN" : "USER";
-}
+import { useLoader, useUserRole } from "../../hooks";
 
 export const useUserColumns = () => {
     const { data: sessionData } = useSession();
     const myId = sessionData?.user.id;
     const myRole = useUserRole( myId ?? '' );
-
     const columns = useMemo<Column<User>[]>( () => {
 
         return [ {
@@ -56,7 +47,7 @@ export const useUserColumns = () => {
             id: 'actions',
             accessor: obj => obj.id,
             Cell: ( obj: CellProps<User>) => {
-                const actions = {};
+                const actions: Array<TableItemAction<User>> = [];
                 const utils = api.useContext();
                 const { start, stop } = useLoader();
                 const deleteUser = api.user.delete.useMutation( {
@@ -69,21 +60,22 @@ export const useUserColumns = () => {
                 } );
 
                 if ( myRole === "ADMIN" && obj.row.original.role !== "ADMIN" ) {
-                    Object.assign( actions, { 
-                        onDeleteClick: ( id: string ) => {
+                    actions.push( {
+                        label: 'Delete',
+                        onClick: ( item ) => {
                             start();
-                            deleteUser.mutate( { id } );
+                            deleteUser.mutate( { id: item.id } );
                         }
                     } )
                 }
 
                 return (
-                    <TableItemActions id={ obj.value as string } actions={ actions } />
+                    <TableItemActions item={ obj.row.original } actions={ actions } />
                 )
             }
         } ];
 
-    }, [ myId, myRole ] );
+    }, [ myRole ] );
 
     return columns;
 

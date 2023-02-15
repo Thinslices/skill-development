@@ -1,34 +1,37 @@
-import Link from "next/link";
-import { Button } from "..";
+import type { Study, User } from "@prisma/client";
+import { TableItemActionButton } from "./TableItemActionButton";
 
-export type TableItemActionsConfig = {
-    view?: boolean,
-    edit?: boolean,
-    onDeleteClick?: ( id: string ) => void
+type TableItemEntity = Study | User;
+
+export type TableItemAction<T extends TableItemEntity> = {
+    label: string,
+    onClick: ( item: T ) => void
+};
+
+export type TableItemActionsProps<T extends TableItemEntity> = {
+    item: T,
+    actions?: Array<TableItemAction<T>>,
 }
 
-export type TableItemActionsProps = {
-    id: string,
-    actions?: TableItemActionsConfig,
-}
-
-export const TableItemActions:React.FC<TableItemActionsProps> = ( props ) => {
+export const TableItemActions = <T extends TableItemEntity>( props: TableItemActionsProps<T> ) => {
     
-    const { id, actions } = props;
+    const { item, actions } = props;
 
-    if ( ! actions?.view && ! actions?.edit && ! actions?.onDeleteClick ) {
+    if ( ! Array.isArray( actions ) || ! actions.length ) {
         return null;
     }
 
     return (
         <div className="flex items-center gap-4 justify-end py-4">
-            { actions.view && <Link href={ `/studies/${ id }` }>View</Link> }
-            { actions.edit && <Link href={ `/studies/${ id }/edit` }>Edit</Link> }
-            { actions.onDeleteClick && <Button onClick={ () => {
-                if ( actions.onDeleteClick ) {
-                    actions.onDeleteClick( id ) 
-                }
-            } }>Delete</Button> }
+            { actions.map( ( action, index ) => {
+                return (
+                    <TableItemActionButton 
+                        key={ index } 
+                        label={ action.label } 
+                        onClick={ () => { action.onClick( item ) } } 
+                    /> 
+                ) 
+            } ) }
         </div>
     )
 }

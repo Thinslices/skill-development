@@ -10,9 +10,7 @@ const Studies: NextPage = () => {
   return (
     <Layout>
       <h1 className="h1 mb-12">All studies</h1>
-      <StudyTable data={ data } actions={ {
-        view: true
-      } } />
+      <StudyTable data={ data } />
     </Layout>
   );
 };
