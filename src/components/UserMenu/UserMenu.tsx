@@ -11,7 +11,7 @@ export const UserMenu: React.FC = () => {
           <UserAvatar/>
           <VerticalEllipsis/>
         </div>
-        <div className="absolute top-full right-0 pt-2 hidden group-hover:block">
+        <div className="absolute top-full right-0 pt-2 translate-y-2 transition-all duration-300 ease-out opacity-0 pointer-events-none group-hover:translate-y-0 group-hover:opacity-100 group-hover:pointer-events-auto">
           <ul className="whitespace-nowrap bg-white border-2 border-black rounded w-48 text-right">
             <li className="border-b border-b-borders">
               <Button className="px-4" style="text" onClick={ () => void router.push( '/studies/my-studies' ) }>My Studies</Button>

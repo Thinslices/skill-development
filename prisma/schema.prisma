@@ -50,6 +50,12 @@ model User {
   accounts      Account[]
   sessions      Session[]
   studies       Study[]
+  role          Role      @default(USER)
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Question {

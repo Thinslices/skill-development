@@ -7,10 +7,11 @@ export const userRouter = createTRPCRouter({
     get: protectedProcedure
         .input(z.object({ id: z.string() }))
         .query(async ({ input }) => {
-            const study = await prisma.user.findUnique({
+            const user = await prisma.user.findUnique({
                 where: input,
             });
-            return study;
+            console.log( user );
+            return user;
         }),
 
     getAll: protectedProcedure.query(async ({ ctx }) => {

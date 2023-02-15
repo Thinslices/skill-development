@@ -1,13 +1,22 @@
 import { signIn, useSession } from "next-auth/react";
+import { useLoader } from "../../hooks";
 import { Button, Buttons } from "..";
+import { useEffect } from "react";
 
 export const Authorize: React.FC<React.PropsWithChildren> = ( { children } ) => {
     const { status } = useSession();
+    const { start, stop } = useLoader();
+
+    useEffect( () => {
+      if ( status === 'loading' ) {
+        start();
+      } else {
+        stop();
+      }
+    }, [ start, status, stop ] )
   
     if ( status === 'loading' ) {
-      return (
-        <div>Loading...</div>
-      )
+      return null
     }
   
     if ( status === 'unauthenticated' ) {
