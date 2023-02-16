@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { prisma } from "../../db";
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
     get: protectedProcedure
@@ -13,7 +13,7 @@ export const userRouter = createTRPCRouter({
             return user;
         }),
 
-    getAll: protectedProcedure.query(async ({ ctx }) => {
+    getAll: protectedProcedure.query(async () => {
         return await prisma.user.findMany();
     }),
 

@@ -6,9 +6,9 @@ import { api } from "../../../utils/api";
 
 const EditStudyView:React.FC = () => {
     const router = useRouter();
-    const { id } = router.query;
-    const { data } = api.study.get.useQuery( { id: id as string }, {
-        enabled: typeof id === 'string'
+    const { studyId } = router.query;
+    const { data } = api.study.get.useQuery( { id: studyId as string }, {
+        enabled: typeof studyId === 'string'
     } );
 
     const updateStudy = useUpdateStudy();

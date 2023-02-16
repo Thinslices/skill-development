@@ -8,12 +8,12 @@ import { api } from "../../../utils/api";
 
 const UserPage:NextPage = () => {
     const router = useRouter();
-    const { id } = router.query;
-    const { data } = api.user.get.useQuery( { id: id as string }, {
-        enabled: !! id
+    const { userId } = router.query;
+    const { data } = api.user.get.useQuery( { id: userId as string }, {
+        enabled: !! userId
     } );
 
-    const studies = useUserStudies( id as string );
+    const studies = useUserStudies( userId as string );
 
     return (
         <Layout>

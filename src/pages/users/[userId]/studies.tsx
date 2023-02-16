@@ -6,8 +6,8 @@ import { useUserStudies } from "../../../hooks";
 
 const UserStudies: NextPage = () => {
     const router = useRouter();
-    const { id } = router.query;
-    const studies = useUserStudies( id as string );
+    const { userId } = router.query;
+    const studies = useUserStudies( userId as string );
 
     return (
         <>
@@ -16,7 +16,7 @@ const UserStudies: NextPage = () => {
                 <Authorize>
                     <div className="space-y-8">
                         <Breadcrumbs />
-                        <h1 className="h1 mb-12">{ `${ id as string }'s studies` }</h1>
+                        <h1 className="h1 mb-12">{ `${ userId as string }'s studies` }</h1>
                         <StudyTable data={ studies } />
                     </div>
                 </Authorize>

@@ -13,9 +13,9 @@ type StudyWithUser = Study & { User: User } & { questions: Question[] }
 
 const StudyPage: NextPage = () => {
     const router = useRouter();
-    const { id } = router.query;    
-    const { data } = api.study.get.useQuery( { id: id as string }, {
-        enabled: !! id
+    const { studyId } = router.query;    
+    const { data } = api.study.get.useQuery( { id: studyId as string }, {
+        enabled: !! studyId
     } ); 
 
     if ( ! data || ! data.questions) {
