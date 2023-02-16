@@ -1,17 +1,22 @@
 import type { Study, User } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react"
 import type { CellProps, Column } from "react-table"
 import type { TableItemAction } from "..";
 import { TableItemActions } from ".."
-import { useLoader } from "../../hooks";
+import { useLoader, useUserRole } from "../../hooks";
 import { api } from "../../utils/api";
 
 export const useStudyColumns = () => {
 
     const utils = api.useContext();
     const { start, stop } = useLoader();
+    const { data: sessionData } = useSession();
+    const myId = sessionData?.user.id;
+    const myRole = useUserRole( myId ?? '' );
+    
     const deleteStudy = api.study.delete.useMutation( {
         onSuccess: async () => {
             await utils.study.invalidate();
@@ -51,32 +56,43 @@ export const useStudyColumns = () => {
             accessor: obj => obj.id,
             Cell: ( obj: CellProps<Study>) => {
                 const router = useRouter();
+                const authorId = obj.row.original.authorId;
+                const authorRole = useUserRole( authorId );
+
                 const actions: TableItemAction<Study>[] = [ {
                     label: 'View',
                     onClick: ( item ) => {
                         void router.push( `/studies/${ item.id }` );
                     }
-                }, {
-                    label: 'Edit',
-                    onClick: ( item ) => {
-                        void router.push( `/studies/${ item.id }/edit` );
-                    }
-                }, {
-                    label: 'Delete',
-                    onClick: ( item ) => {
-                        start();
-                        try {
-                            deleteStudy.mutate( { id: item.id } );
-                        } catch {
-                            stop();
+                } ]
+                
+                if ( myId === authorId || ( myRole === 'ADMIN' && authorRole !== 'ADMIN' ) ) {
+                    actions.push( {
+                        label: 'Edit',
+                        onClick: ( item ) => {
+                            void router.push( `/studies/${ item.id }/edit` );
                         }
-                    }
-                } ];
+                    } );
+    
+                    actions.push( {
+                        label: 'Delete',
+                        style: 'primary',
+                        onClick: ( item ) => {
+                            start();
+                            try {
+                                deleteStudy.mutate( { id: item.id } );
+                            } catch {
+                                stop();
+                            }
+                        }
+                    } );
+                }
+
                 return (
                     <TableItemActions item={ obj.row.original } actions={ actions } />
                 )
             }
-    } ], [] );
+    } ], [myId, myRole, start, stop] );
 
     return columns;
 }

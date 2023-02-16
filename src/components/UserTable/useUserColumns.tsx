@@ -62,6 +62,7 @@ export const useUserColumns = () => {
                 if ( myRole === "ADMIN" && obj.row.original.role !== "ADMIN" ) {
                     actions.push( {
                         label: 'Delete',
+                        style: 'primary',
                         onClick: ( item ) => {
                             start();
                             deleteUser.mutate( { id: item.id } );

@@ -1,10 +1,12 @@
 import type { Study, User } from "@prisma/client";
 import { TableItemActionButton } from "./TableItemActionButton";
+import type { ButtonStyle } from "../Button/Button";
 
 type TableItemEntity = Study | User;
 
 export type TableItemAction<T extends TableItemEntity> = {
     label: string,
+    style?: ButtonStyle,
     onClick: ( item: T ) => void
 };
 
@@ -28,6 +30,7 @@ export const TableItemActions = <T extends TableItemEntity>( props: TableItemAct
                     <TableItemActionButton 
                         key={ index } 
                         label={ action.label } 
+                        style={ action.style }
                         onClick={ () => { action.onClick( item ) } } 
                     /> 
                 ) 

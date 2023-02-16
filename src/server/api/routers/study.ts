@@ -139,8 +139,31 @@ export const studyRouter = createTRPCRouter({
                 published: z.optional(z.boolean()),
             })
         )
-        .mutation(async ({ input }) => {
-            const { questions, ...study } = input;
+        .mutation(async ({ ctx, input }) => {
+            const { questions, ...studyRest } = input;
+            
+            const study = await prisma.study.findUnique({ where: {
+                id: input.id
+            } });
+
+            if ( study === null ) {
+                throw new TRPCError({ code: "NOT_FOUND" });
+            }
+
+            const subject = await prisma.user.findUnique( { where: { id: ctx.session.user.id } } );
+            const object = await prisma.user.findUnique( { where: { id: study.authorId } } );
+
+            if ( ! subject || ! object ) {
+                throw new TRPCError({ code: "NOT_FOUND" });
+            }
+
+            const isMyStudy = study.authorId === subject.id;
+            const amAdmin = subject.role !== "ADMIN";
+            const isAuthorAdmin = object.role === "ADMIN";
+            
+            if ( ! isMyStudy && ( ! amAdmin || isAuthorAdmin ) ) {
+                throw new TRPCError({ code: "UNAUTHORIZED" });
+            }
 
             await prisma.$transaction(
                 questions.map(question => {
@@ -157,8 +180,8 @@ export const studyRouter = createTRPCRouter({
             );
 
             await prisma.study.update({
-                where: { id: study.id },
-                data: study,
+                where: { id: studyRest.id },
+                data: studyRest,
             });
 
             return input;
@@ -169,14 +192,11 @@ export const studyRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const study = await prisma.study.findUnique({ where: input });
 
-            if (!study) {
+            if ( ! study ) {
                 throw new TRPCError({ code: "NOT_FOUND" });
             }
 
-            if (
-                !ctx.session?.user?.id ||
-                ctx.session.user.id !== study.authorId
-            ) {
+            if ( ctx.session.user.id !== study.authorId ) {
                 throw new TRPCError({ code: "UNAUTHORIZED" });
             }
 

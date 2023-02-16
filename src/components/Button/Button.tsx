@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 
-type ButtonStyle = 'primary' | 'secondary' | 'tertiary' | 'text';
+export type ButtonStyle = 'primary' | 'secondary' | 'tertiary' | 'text';
 
 type ButtonProps = {
   children?: React.ReactNode,

@@ -1,9 +1,10 @@
+import type { ButtonStyle } from "..";
 import { Button } from "..";
 
 type TableItemActionButtonProps = {
     label: string,
     onClick: () => void,
-    style?: 'primary' | 'secondary' | 'tertiary' | 'text';
+    style?: ButtonStyle;
 }
 
 export const TableItemActionButton = ( props: TableItemActionButtonProps ) => {
