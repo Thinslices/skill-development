@@ -1,6 +1,7 @@
 export * from './Authorize/Authorize';
 export * from './Breadcrumbs/Breadcrumbs';
 export * from './Button/Button';
+export * from './Dialog/Dialog';
 export * from './Header/Header';
 export * from './Heading/Heading';
 export * from './List/List';
