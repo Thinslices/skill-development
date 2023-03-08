@@ -2,8 +2,8 @@ import { useState, useCallback } from "react";
 import type { Question } from "../../utils/types";
 import type { SimpleStudy } from "./types";
 
-export const useStudyEdit = <T extends SimpleStudy>( initialStudy: T ) => {
-    const [study, setStudy] = useState<T>( initialStudy );
+export const useStudyEdit = <T extends SimpleStudy>(initialStudy: T) => {
+    const [study, setStudy] = useState<T>(initialStudy);
 
     const onQuestionChange = useCallback(
         (index: number, newQuestion: Question) => {
@@ -27,18 +27,40 @@ export const useStudyEdit = <T extends SimpleStudy>( initialStudy: T ) => {
         [setStudy, study]
     );
 
-    const addQuestion = useCallback( ( index: number ) => {
-        const newQuestions = study.questions.slice();
-        newQuestions.splice( index, 0, {
-            question: "",
-            answer: "",
-            index: newQuestions.length,
-        } );
-        setStudy({
-            ...study,
-            questions: newQuestions,
-        });
-    }, [ setStudy, study ] );
+    const addQuestion = useCallback(
+        (index: number) => {
+            const newQuestions = study.questions.slice();
+            newQuestions.splice(index, 0, {
+                question: "",
+                answer: "",
+                index: newQuestions.length,
+            });
+            setStudy({
+                ...study,
+                questions: newQuestions,
+            });
+        },
+        [setStudy, study]
+    );
 
-    return { study, onQuestionChange, addQuestion, onTitleChange };
-}
+    const deleteQuestion = useCallback(
+        (index: number) => {
+            const newQuestions = study.questions.slice();
+
+            newQuestions.splice(index, 1);
+            setStudy({
+                ...study,
+                questions: newQuestions,
+            });
+        },
+        [study]
+    );
+
+    return {
+        study,
+        onQuestionChange,
+        addQuestion,
+        onTitleChange,
+        deleteQuestion,
+    };
+};
