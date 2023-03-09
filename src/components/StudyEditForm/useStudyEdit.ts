@@ -53,7 +53,7 @@ export const useStudyEdit = <T extends SimpleStudy>(initialStudy: T) => {
                 questions: newQuestions,
             });
         },
-        [study]
+        [setStudy, study]
     );
 
     return {

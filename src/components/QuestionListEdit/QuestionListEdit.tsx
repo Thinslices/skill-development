@@ -10,11 +10,12 @@ type QuestionListEditProps = {
 
 export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
     const { addQuestion, onQuestionChange, deleteQuestion, questions } = props;
+    const canDelete = questions.length > 1
 
     return (
         <>
             {questions.map(
-                (question: Question, index: number, array: Question[]) => {
+                (question: Question, index: number) => {
                     return (
                         <QuestionForm
                             key={index}
@@ -29,7 +30,7 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
                             deleteQuestion={() => {
                                 deleteQuestion(index);
                             }}
-                            numberOfQuestions={array.length}
+                            canDelete={canDelete}
                         />
                     );
                 }
