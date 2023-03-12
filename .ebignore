@@ -4,10 +4,6 @@ node_modules/
 # repository/project stuff
 .git/
 
-# next.js
-/.next/
-/out/
-
 # misc
 .DS_Store
 
@@ -15,6 +11,3 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# env files
-.env.example

@@ -3,9 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "build": "next build",
+        "build": "SKIP_ENV_VALIDATION=true next build",
         "dev": "npm run prisma:migrations:run && next dev",
-        "start": "npm run build && npm run prisma:migrations:run && next start -p $PORT",
+        "start": "npm run prisma:migrations:run && next start -p $PORT",
         "lint": "next lint",
         "postinstall": "prisma generate",
         "prisma:migrations:run": "prisma db push",
@@ -28,6 +28,7 @@
         "@trpc/next": "^10.9.0",
         "@trpc/react-query": "^10.9.0",
         "@trpc/server": "^10.9.0",
+        "classnames": "^2.3.2",
         "dotenv": "^16.0.3",
         "next": "13.1.6",
         "next-auth": "^4.19.0",
@@ -47,7 +48,6 @@
         "@typescript-eslint/eslint-plugin": "^5.47.1",
         "@typescript-eslint/parser": "^5.47.1",
         "autoprefixer": "^10.4.7",
-        "classnames": "^2.3.2",
         "eslint": "^8.30.0",
         "eslint-config-next": "13.1.6",
         "postcss": "^8.4.14",
@@ -61,7 +61,7 @@
         "initVersion": "7.4.0"
     },
     "engines": {
-        "npm": ">=8.0.0 <9.0.0",
-        "node": ">=16.0.0 <17.0.0"
+        "npm": ">=8.0.0",
+        "node": ">=16.0.0"
     }
 }

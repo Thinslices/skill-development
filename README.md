@@ -1,9 +1,11 @@
 # Thinslices Knowledge Base App
 
 ## App Description
+
 A study app for skill development, aimed to be used by developers. Users can document their own studies, structured as questions and answers, linked to a specific skill, and organised with tags (technologies, roles etc.). Users can also view studies created by other users, search for studies, add studies to their favourites list, give feedback, and receive reputation points for their contributions.
 
 ## Use Cases
+
 1. **User Login**: A user can log in to access the app and its features.
 2. **View Skills and Studies**: A user can view a list of all available skills and view studies related to that skill.
 3. **Create a Study**: A user can create a new study, which consists of a set of questions and answers, and link it to a specific skill.
@@ -20,8 +22,18 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 If you are not familiar with the different technologies used in this project, please refer to the respective docs.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+-   [Next.js](https://nextjs.org)
+-   [NextAuth.js](https://next-auth.js.org)
+-   [Prisma](https://prisma.io)
+-   [Tailwind CSS](https://tailwindcss.com)
+-   [tRPC](https://trpc.io)
+
+## Working locally
+
+1. Clone the repo
+2. Install dependencies
+3. Update the environment variables in `.env`
+4. Make sure you have [Docker](https://www.docker.com/) installed
+5. Run `npm run docker:db:start` to start the database
+6. Run `npm run dev` to start the app
+7. [OPTIONAL] Install [PGAdmin](https://www.pgadmin.org/) to manage the Postgres database
