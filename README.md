@@ -34,6 +34,6 @@ If you are not familiar with the different technologies used in this project, pl
 2. Install dependencies
 3. Update the environment variables in `.env`
 4. Make sure you have [Docker](https://www.docker.com/) installed
-5. Run `npm run docker:db:start` to start the database
+5. Run `npm run docker:db:init` to start the database (first time only) or `npm run docker:db:start` to start the database (after first time)
 6. Run `npm run dev` to start the app
 7. [OPTIONAL] Install [PGAdmin](https://www.pgadmin.org/) to manage the Postgres database

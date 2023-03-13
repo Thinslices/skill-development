@@ -9,9 +9,10 @@
         "lint": "next lint",
         "postinstall": "prisma generate",
         "prisma:migrations:run": "prisma db push",
-        "docker:db:start": "npm run docker:db:build && npm run docker:db:run",
         "docker:db:build": "docker build -f Dockerfile -t skill-development-db .",
-        "docker:db:run": "docker run -d -p 5432:5432 --name skill-development-db skill-development-db"
+        "docker:db:run": "docker run -d -p 5432:5432 --name skill-development-db skill-development-db",
+        "docker:db:init": "npm run docker:db:build && npm run docker:db:run",
+        "docker:db:start": "docker start skill-development-db"
     },
     "prettier": {
         "tabWidth": 4,
