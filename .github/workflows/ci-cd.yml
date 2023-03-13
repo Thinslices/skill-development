@@ -49,6 +49,7 @@ jobs:
               run: |
                   eb setenv \
                       NEXTAUTH_URL=${{ env.APP_URL }} \
+                      DATABASE_URL=${{ secrets.DATABASE_URL }} \
                       NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
                       GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
                       GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
