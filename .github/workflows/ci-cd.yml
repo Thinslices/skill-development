@@ -7,7 +7,7 @@ on:
 
 env:
     AWS_REGION: eu-west-1
-    APP_URL: http://ts-studies.eu-west-1.elasticbeanstalk.com/
+    APP_URL: http://skillz.thinslices.com/
 
 jobs:
     build:
@@ -50,7 +50,7 @@ jobs:
                   eb setenv \
                       NEXTAUTH_URL=${{ env.APP_URL }} \
                       DATABASE_URL=${{ secrets.DATABASE_URL }} \
-                      NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+                      NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
                       GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
                       GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
             - name: Deploy to AWS Elastic Beanstalk
