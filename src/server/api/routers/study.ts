@@ -15,7 +15,7 @@ export const studyRouter = createTRPCRouter({
                             index: "asc",
                         },
                     },
-                    User: true
+                    User: true,
                 },
             });
             return study;
@@ -141,42 +141,82 @@ export const studyRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const { questions, ...studyRest } = input;
-            
-            const study = await prisma.study.findUnique({ where: {
-                id: input.id
-            } });
+            const study = await prisma.study.findUnique({
+                where: {
+                    id: input.id,
+                },
+                include: {
+                    questions: {
+                        orderBy: {
+                            index: "asc",
+                        },
+                    },
+                    User: true,
+                },
+            });
 
-            if ( study === null ) {
+            if (study === null) {
                 throw new TRPCError({ code: "NOT_FOUND" });
             }
 
-            const subject = await prisma.user.findUnique( { where: { id: ctx.session.user.id } } );
-            const object = await prisma.user.findUnique( { where: { id: study.authorId } } );
+            const subject = await prisma.user.findUnique({
+                where: { id: ctx.session.user.id },
+            });
+            const object = await prisma.user.findUnique({
+                where: { id: study.authorId },
+            });
 
-            if ( ! subject || ! object ) {
+            if (!subject || !object) {
                 throw new TRPCError({ code: "NOT_FOUND" });
             }
 
             const isMyStudy = study.authorId === subject.id;
             const amAdmin = subject.role !== "ADMIN";
             const isAuthorAdmin = object.role === "ADMIN";
-            
-            if ( ! isMyStudy && ( ! amAdmin || isAuthorAdmin ) ) {
+
+            if (!isMyStudy && (!amAdmin || isAuthorAdmin)) {
                 throw new TRPCError({ code: "UNAUTHORIZED" });
             }
 
+            const questionsToDelete = study.questions.filter(
+                questionIterator =>
+                    !questions.find(
+                        question => question.id === questionIterator.id
+                    )
+            );
+
+            /*
+             * Create one array for each operation
+             *   * upsertOperations
+             *   * deleteOperations
+             *
+             * Concat these arrays & pass them
+             * to `primsa.$transaction`
+             */
             await prisma.$transaction(
-                questions.map(question => {
-                    const { id, ...restQuestion } = question;
-                    return prisma.question.upsert({
-                        create: {
-                            ...restQuestion,
-                            studyId: input.id,
-                        },
-                        update: restQuestion,
-                        where: { id: id || "" },
-                    });
-                })
+                questions
+                    .map(question => {
+                        const { id, ...restQuestion } = question;
+                        return prisma.question.upsert({
+                            create: {
+                                ...restQuestion,
+                                studyId: input.id,
+                            },
+                            update: restQuestion,
+                            where: { id: id || "" },
+                        });
+                    })
+                    .concat(
+                        questionsToDelete.map(question => {
+                            const { id } = question;
+
+                            return prisma.question.delete({
+                                where: {
+                                    id,
+                                },
+                            });
+                        })
+                    )
             );
 
             await prisma.study.update({
@@ -192,11 +232,11 @@ export const studyRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const study = await prisma.study.findUnique({ where: input });
 
-            if ( ! study ) {
+            if (!study) {
                 throw new TRPCError({ code: "NOT_FOUND" });
             }
 
-            if ( ctx.session.user.id !== study.authorId ) {
+            if (ctx.session.user.id !== study.authorId) {
                 throw new TRPCError({ code: "UNAUTHORIZED" });
             }
 

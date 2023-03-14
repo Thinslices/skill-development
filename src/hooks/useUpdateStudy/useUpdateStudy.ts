@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useLoader } from "..";
 import { api } from "../../utils/api";
-import type { Study } from "../../utils/types"; 
+import type { Study } from "../../utils/types";
 
 export const useUpdateStudy = () => {
     const router = useRouter();

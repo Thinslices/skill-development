@@ -12,23 +12,47 @@ type StudyEditFormProps<T> = {
     saveAsDraftButtonText: string;
 };
 
-export const StudyEditForm = <T extends SimpleStudy>( props: StudyEditFormProps<T> ) => {
+export const StudyEditForm = <T extends SimpleStudy>(
+    props: StudyEditFormProps<T>
+) => {
     const { saveStudy, publishButtonText, saveAsDraftButtonText } = props;
-    const { study, onTitleChange, onQuestionChange, addQuestion } = useStudyEdit<T>( props.study );
+    const {
+        study,
+        addQuestion,
+        onTitleChange,
+        deleteQuestion,
+        onQuestionChange,
+    } = useStudyEdit<T>(props.study);
 
     return (
         <>
-            <StudyEditTitle title={ study.title } setTitle={ onTitleChange } />
+            <StudyEditTitle title={study.title} setTitle={onTitleChange} />
             <QuestionListEdit
-                questions={ study.questions }
-                onQuestionChange={ onQuestionChange }
-                addQuestion={ addQuestion }
+                addQuestion={addQuestion}
+                questions={study.questions}
+                deleteQuestion={deleteQuestion}
+                onQuestionChange={onQuestionChange}
             />
-            <AddQuestionButton onClick={ () => addQuestion( study.questions.length ) } />
+            <AddQuestionButton
+                onClick={() => addQuestion(study.questions.length)}
+            />
             <div className="border-t border-t-borders pt-8">
                 <Buttons>
-                    <Button onClick={ () => { saveStudy(study, true) } }>{ publishButtonText }</Button>
-                    <Button onClick={ () => { saveStudy(study) } } style="secondary">{ saveAsDraftButtonText }</Button>
+                    <Button
+                        onClick={() => {
+                            saveStudy(study, true);
+                        }}
+                    >
+                        {publishButtonText}
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            saveStudy(study);
+                        }}
+                        style="secondary"
+                    >
+                        {saveAsDraftButtonText}
+                    </Button>
                 </Buttons>
             </div>
         </>
