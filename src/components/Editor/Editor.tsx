@@ -29,6 +29,9 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+
 const editorConfig = {
     namespace: "Editor",
     // The editor theme
@@ -82,6 +85,8 @@ export const Editor: React.FC<EditorProps> = ({
                         )}
                         ErrorBoundary={LexicalErrorBoundary}
                     />
+                    <HistoryPlugin />
+                    <AutoFocusPlugin />
                     <CodeHighlightPlugin />
                     <ListPlugin />
                     <LinkPlugin />
