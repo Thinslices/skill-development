@@ -46,13 +46,13 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
 
             <Editor
                 value={data.answer}
-                onChange={e => {
-                    const newQuestion = {
-                        ...data,
-                        answer: e.target.value,
-                    };
-                    onChange(newQuestion);
-                }}
+                // onChange={e => {
+                //     const newQuestion = {
+                //         ...data,
+                //         answer: e?.target?.value,
+                //     };
+                //     onChange(newQuestion);
+                // }}
             />
         </div>
     );

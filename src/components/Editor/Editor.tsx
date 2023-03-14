@@ -1,11 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // External libraries
-import React from "react";
 import type { ChangeEvent } from "react";
+import React from "react";
 
 // Theme
 import DefaultTheme from "./themes/defaultTheme";
 
 // Lexical components
+import {
+    $getRoot,
+    $createParagraphNode,
+    $createTextNode,
+    EditorState,
+} from "lexical";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
@@ -32,41 +41,49 @@ import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 
-const editorConfig = {
-    namespace: "Editor",
-    // The editor theme
-    theme: DefaultTheme,
-    // Handling of errors during update
-    onError(error: Error) {
-        throw error;
-    },
-    // Any custom nodes go here
-    nodes: [
-        HeadingNode,
-        ListNode,
-        ListItemNode,
-        QuoteNode,
-        CodeNode,
-        CodeHighlightNode,
-        TableNode,
-        TableCellNode,
-        TableRowNode,
-        AutoLinkNode,
-        LinkNode,
-    ],
-};
-
 type EditorProps = {
     className?: string;
     value: string;
-    onChange: (question: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Editor: React.FC<EditorProps> = ({
     className = "border p-2 border-borders focus:outline-0 focus:border-black",
     value,
-    onChange,
 }) => {
+    function prepopulatedRichText() {
+        const root = $getRoot();
+        if (root.getFirstChild() === null) {
+            const paragraph = $createParagraphNode();
+            paragraph.append($createTextNode(value));
+            root.append(paragraph);
+        }
+    }
+
+    const editorConfig = {
+        namespace: "Editor",
+        // The editor theme
+        theme: DefaultTheme,
+        // Handling of errors during update
+        onError(error: Error) {
+            throw error;
+        },
+        // Any custom nodes go here
+        nodes: [
+            HeadingNode,
+            ListNode,
+            ListItemNode,
+            QuoteNode,
+            CodeNode,
+            CodeHighlightNode,
+            TableNode,
+            TableCellNode,
+            TableRowNode,
+            AutoLinkNode,
+            LinkNode,
+        ],
+        editorState: prepopulatedRichText,
+    };
+
     return (
         <LexicalComposer initialConfig={editorConfig}>
             <div className="editor-container">
@@ -76,8 +93,6 @@ export const Editor: React.FC<EditorProps> = ({
                         contentEditable={
                             <ContentEditable
                                 className={`${className} editor-input`}
-                                value={value}
-                                onChange={onChange}
                             />
                         }
                         placeholder={() => (
