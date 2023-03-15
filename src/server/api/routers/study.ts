@@ -178,46 +178,36 @@ export const studyRouter = createTRPCRouter({
                 throw new TRPCError({ code: "UNAUTHORIZED" });
             }
 
-            const questionsToDelete = study.questions.filter(
-                questionIterator =>
+            const DBQuestions = study.questions;
+            const questionsToDelete = DBQuestions.filter(
+                question =>
                     !questions.find(
-                        question => question.id === questionIterator.id
+                        inputQuestion => inputQuestion.id === question.id
                     )
             );
 
-            /*
-             * Create one array for each operation
-             *   * upsertOperations
-             *   * deleteOperations
-             *
-             * Concat these arrays & pass them
-             * to `primsa.$transaction`
-             */
-            await prisma.$transaction(
-                questions
-                    .map(question => {
-                        const { id, ...restQuestion } = question;
-                        return prisma.question.upsert({
-                            create: {
-                                ...restQuestion,
-                                studyId: input.id,
-                            },
-                            update: restQuestion,
-                            where: { id: id || "" },
-                        });
-                    })
-                    .concat(
-                        questionsToDelete.map(question => {
-                            const { id } = question;
+            const upsertOperations = questions.map(question => {
+                const { id, ...restQuestion } = question;
 
-                            return prisma.question.delete({
-                                where: {
-                                    id,
-                                },
-                            });
-                        })
-                    )
+                return prisma.question.upsert({
+                    create: {
+                        ...restQuestion,
+                        studyId: input.id,
+                    },
+                    update: restQuestion,
+                    where: { id: id || "" },
+                });
+            });
+            const deleteOperations = questionsToDelete.map(({ id }) =>
+                prisma.question.delete({
+                    where: {
+                        id,
+                    },
+                })
             );
+
+            const operations = upsertOperations.concat(deleteOperations);
+            await prisma.$transaction(operations);
 
             await prisma.study.update({
                 where: { id: studyRest.id },
