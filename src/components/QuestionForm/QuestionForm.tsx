@@ -10,7 +10,7 @@ type QuestionFormProps = {
     onAnswerEnterKeyDown?: () => void;
     questionRef?: RefObject<HTMLInputElement>;
     deleteQuestion: () => void;
-    canDelete: boolean
+    canDeleteQuestion: boolean;
 };
 
 export const QuestionForm: React.FC<QuestionFormProps> = props => {
@@ -21,7 +21,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         onAnswerEnterKeyDown,
         deleteQuestion,
         questionRef,
-        canDelete,
+        canDeleteQuestion,
     } = props;
 
     const handleEnter = useCallback<KeyboardEventHandler<HTMLInputElement>>(
@@ -37,7 +37,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         <div className="flex flex-col space-y-4">
             <div className="align flex items-center gap-3">
                 <div className="h6">Question {index + 1}</div>
-                {canDelete && (
+                {canDeleteQuestion && (
                     <Button style="primary" onClick={deleteQuestion}>
                         Delete
                     </Button>

@@ -10,31 +10,29 @@ type QuestionListEditProps = {
 
 export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
     const { addQuestion, onQuestionChange, deleteQuestion, questions } = props;
-    const canDelete = questions.length > 1
+    const canDeleteQuestion = questions.length > 1;
 
     return (
         <>
-            {questions.map(
-                (question: Question, index: number) => {
-                    return (
-                        <QuestionForm
-                            key={index}
-                            index={index}
-                            data={question}
-                            onAnswerEnterKeyDown={() => {
-                                addQuestion(index + 1);
-                            }}
-                            onChange={newQuestion => {
-                                onQuestionChange(index, newQuestion);
-                            }}
-                            deleteQuestion={() => {
-                                deleteQuestion(index);
-                            }}
-                            canDelete={canDelete}
-                        />
-                    );
-                }
-            )}
+            {questions.map((question: Question, index: number) => {
+                return (
+                    <QuestionForm
+                        key={index}
+                        index={index}
+                        data={question}
+                        onAnswerEnterKeyDown={() => {
+                            addQuestion(index + 1);
+                        }}
+                        onChange={newQuestion => {
+                            onQuestionChange(index, newQuestion);
+                        }}
+                        deleteQuestion={() => {
+                            deleteQuestion(index);
+                        }}
+                        canDeleteQuestion={canDeleteQuestion}
+                    />
+                );
+            })}
         </>
     );
 };
