@@ -5,14 +5,12 @@ import { useUserColumns } from "./useUserColumns";
 
 type UserTableProps = {
     data: User[] | undefined;
-}
+};
 
-export const UserTable:React.FC<UserTableProps> = ( props ) => {
+export const UserTable: React.FC<UserTableProps> = props => {
     const { data } = props;
     const columns = useUserColumns();
-    const tableInstance = useTable<User>( { columns, data: data ?? [] } );
+    const tableInstance = useTable<User>({ columns, data: data ?? [] });
 
-    return (
-        <Table tableInstance={ tableInstance } />
-    )
-}
+    return <Table tableInstance={tableInstance} />;
+};

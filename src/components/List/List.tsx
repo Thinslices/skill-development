@@ -1,5 +1,3 @@
-export const List:React.FC = () => {
-    return (
-        <></>
-    )
-}
+export const List: React.FC = () => {
+    return <></>;
+};

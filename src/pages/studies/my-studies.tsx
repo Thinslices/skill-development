@@ -7,22 +7,22 @@ import { api } from "../../utils/api";
 const useMyStudies = () => {
     const { data: sessionData } = useSession();
 
-    const query = api.study.getUserStudies.useQuery( {
+    const query = api.study.getUserStudies.useQuery({
         id: sessionData?.user?.id as string,
-    } );
+    });
 
-    const studies = (query?.data ?? []).map( study => {
-        const isDraft = ! study.published;
-        const newTitle = isDraft ? `${ study.title } (Draft)` : study.title;
+    const studies = (query?.data ?? []).map(study => {
+        const isDraft = !study.published;
+        const newTitle = isDraft ? `${study.title} (Draft)` : study.title;
 
         return {
             ...study,
-            title: newTitle
-        }
-    } );
+            title: newTitle,
+        };
+    });
 
     return studies;
-}
+};
 
 const MyStudies: NextPage = () => {
     const studies = useMyStudies();
@@ -33,7 +33,7 @@ const MyStudies: NextPage = () => {
             <Wrapper className="py-14">
                 <Authorize>
                     <h1 className="h1 mb-12">My studies</h1>
-                    <StudyTable data={ studies } />
+                    <StudyTable data={studies} />
                 </Authorize>
             </Wrapper>
         </>

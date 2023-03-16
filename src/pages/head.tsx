@@ -1,4 +1,3 @@
-
 export default function Head() {
     return (
         <>
@@ -6,6 +5,5 @@ export default function Head() {
             <meta name="description" content="Thinslices Knowledge Base" />
             <link rel="icon" href="/favicon.ico" />
         </>
-    )
-  }
-  
+    );
+}

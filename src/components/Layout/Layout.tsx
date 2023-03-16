@@ -1,6 +1,6 @@
 import { Authorize, Breadcrumbs, Header, Wrapper } from "..";
 
-export const Layout:React.FC<React.PropsWithChildren> = ( { children } ) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (
         <>
             <Header />
@@ -8,10 +8,10 @@ export const Layout:React.FC<React.PropsWithChildren> = ( { children } ) => {
                 <Authorize>
                     <div className="space-y-8">
                         <Breadcrumbs />
-                        { children }
+                        {children}
                     </div>
                 </Authorize>
             </Wrapper>
         </>
-    )
-}
+    );
+};
