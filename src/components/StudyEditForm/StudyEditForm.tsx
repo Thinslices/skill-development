@@ -24,6 +24,11 @@ export const StudyEditForm = <T extends SimpleStudy>(
         onQuestionChange,
     } = useStudyEdit<T>(props.study);
 
+    const isEmptyStudy = !study.title || study.questions.some(question=>!(question.question && question.answer))
+
+
+    const disabledButtonStyle = 'opacity-50 contrast-75 cursor-not-allowed'
+
     return (
         <>
             <StudyEditTitle title={study.title} setTitle={onTitleChange} />
@@ -38,15 +43,22 @@ export const StudyEditForm = <T extends SimpleStudy>(
             />
             <div className="border-t border-t-borders pt-8">
                 <Buttons>
-                    <Button
+                    <Button isDisabled = {isEmptyStudy} className = {isEmptyStudy? disabledButtonStyle : ""}
                         onClick={() => {
+                            if(isEmptyStudy){
+                                return
+                            }
                             saveStudy(study, true);
                         }}
                     >
                         {publishButtonText}
                     </Button>
-                    <Button
+                    <Button isDisabled = {isEmptyStudy}
+                    className = {isEmptyStudy? disabledButtonStyle : ""}
                         onClick={() => {
+                            if(isEmptyStudy){
+                                return
+                            }
                             saveStudy(study);
                         }}
                         style="secondary"
