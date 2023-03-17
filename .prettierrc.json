@@ -1,9 +1,8 @@
 {
-    "arrowParens": "always",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": true,
-    "plugins": ["prettier-plugin-tailwindcss"],
-    "semi": true,
-    "trailingComma": "es5",
-    "editorconfig": true
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "bracketSameLine": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "semi": true,
+  "trailingComma": "es5"
 }

@@ -1,58 +1,58 @@
 name: CI/CD Pipeline
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 env:
-    AWS_REGION: eu-west-1
-    APP_URL: http://skillz.thinslices.com/
+  AWS_REGION: eu-west-1
+  APP_URL: http://skillz.thinslices.com/
 
 jobs:
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '16'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-            - name: Setup Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: '3.9'
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
-            - name: Install AWS EB CLI
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install awsebcli
+      - name: Install AWS EB CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install awsebcli
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-region: ${{ env.AWS_REGION }}
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-            - name: Build Next.js
-              run: npm run build
+      - name: Build Next.js
+        run: npm run build
 
-            - name: Set AWS EB environment variables
-              run: |
-                  eb setenv \
-                      NEXTAUTH_URL=${{ env.APP_URL }} \
-                      DATABASE_URL=${{ secrets.DATABASE_URL }} \
-                      NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
-                      GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
-                      GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-            - name: Deploy to AWS Elastic Beanstalk
-              run: |
-                  eb deploy
+      - name: Set AWS EB environment variables
+        run: |
+          eb setenv \
+              NEXTAUTH_URL=${{ env.APP_URL }} \
+              DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+      - name: Deploy to AWS Elastic Beanstalk
+        run: |
+          eb deploy

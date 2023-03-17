@@ -10,116 +10,107 @@ import { useLoader, useUserRole } from '../../hooks';
 import { api } from '../../utils/api';
 
 export const useStudyColumns = () => {
-    const utils = api.useContext();
-    const { start, stop } = useLoader();
-    const { data: sessionData } = useSession();
-    const myId = sessionData?.user.id;
-    const myRole = useUserRole(myId ?? '');
+  const utils = api.useContext();
+  const { start, stop } = useLoader();
+  const { data: sessionData } = useSession();
+  const myId = sessionData?.user.id;
+  const myRole = useUserRole(myId ?? '');
 
-    const deleteStudy = api.study.delete.useMutation({
-        onSuccess: async () => {
-            await utils.study.invalidate();
-            stop();
+  const deleteStudy = api.study.delete.useMutation({
+    onSuccess: async () => {
+      await utils.study.invalidate();
+      stop();
+    },
+    onError: () => {
+      stop();
+    },
+  });
+
+  const columns = useMemo<Column<Study>[]>(
+    () => [
+      {
+        Header: () => <div>Title</div>,
+        accessor: 'title' as keyof Study,
+        Cell: (obj: CellProps<Study>) => {
+          return (
+            <Link
+              className="h4 block py-4"
+              href={`/studies/${obj.row.original.id}`}>
+              {obj.value}
+            </Link>
+          );
         },
-        onError: () => {
-            stop();
+      },
+      {
+        Header: () => <div>Author</div>,
+        accessor: 'User' as keyof Study,
+        Cell: ({ value }: CellProps<Study>) => {
+          const user = value as User;
+
+          return (
+            <Link className="block py-4" href={`/users/${user.id}/studies`}>
+              {user.name}
+            </Link>
+          );
         },
-    });
+      },
+      {
+        Header: () => <div>Publish Date</div>,
+        id: 'createdAt',
+        accessor: obj => obj.createdAt.toLocaleDateString('ro-RO'),
+        Cell: ({ value }: CellProps<Study>) => (
+          <div className="py-4">{value}</div>
+        ),
+      },
+      {
+        Header: () => null,
+        id: 'actions',
+        accessor: obj => obj.id,
+        Cell: (obj: CellProps<Study>) => {
+          const router = useRouter();
+          const authorId = obj.row.original.authorId;
+          const authorRole = useUserRole(authorId);
 
-    const columns = useMemo<Column<Study>[]>(
-        () => [
+          const actions: TableItemAction<Study>[] = [
             {
-                Header: () => <div>Title</div>,
-                accessor: 'title' as keyof Study,
-                Cell: (obj: CellProps<Study>) => {
-                    return (
-                        <Link
-                            className="h4 block py-4"
-                            href={`/studies/${obj.row.original.id}`}
-                        >
-                            {obj.value}
-                        </Link>
-                    );
-                },
+              label: 'View',
+              onClick: item => {
+                void router.push(`/studies/${item.id}`);
+              },
             },
-            {
-                Header: () => <div>Author</div>,
-                accessor: 'User' as keyof Study,
-                Cell: ({ value }: CellProps<Study>) => {
-                    const user = value as User;
+          ];
 
-                    return (
-                        <Link
-                            className="block py-4"
-                            href={`/users/${user.id}/studies`}
-                        >
-                            {user.name}
-                        </Link>
-                    );
-                },
-            },
-            {
-                Header: () => <div>Publish Date</div>,
-                id: 'createdAt',
-                accessor: obj => obj.createdAt.toLocaleDateString('ro-RO'),
-                Cell: ({ value }: CellProps<Study>) => (
-                    <div className="py-4">{value}</div>
-                ),
-            },
-            {
-                Header: () => null,
-                id: 'actions',
-                accessor: obj => obj.id,
-                Cell: (obj: CellProps<Study>) => {
-                    const router = useRouter();
-                    const authorId = obj.row.original.authorId;
-                    const authorRole = useUserRole(authorId);
+          if (
+            myId === authorId ||
+            (myRole === 'ADMIN' && authorRole !== 'ADMIN')
+          ) {
+            actions.push({
+              label: 'Edit',
+              onClick: item => {
+                void router.push(`/studies/${item.id}/edit`);
+              },
+            });
 
-                    const actions: TableItemAction<Study>[] = [
-                        {
-                            label: 'View',
-                            onClick: item => {
-                                void router.push(`/studies/${item.id}`);
-                            },
-                        },
-                    ];
+            actions.push({
+              label: 'Delete',
+              style: 'primary',
+              onClick: item => {
+                start();
+                try {
+                  deleteStudy.mutate({ id: item.id });
+                } catch {
+                  stop();
+                }
+              },
+            });
+          }
 
-                    if (
-                        myId === authorId ||
-                        (myRole === 'ADMIN' && authorRole !== 'ADMIN')
-                    ) {
-                        actions.push({
-                            label: 'Edit',
-                            onClick: item => {
-                                void router.push(`/studies/${item.id}/edit`);
-                            },
-                        });
+          return <TableItemActions item={obj.row.original} actions={actions} />;
+        },
+      },
+    ],
+    [myId, myRole, start, stop]
+  );
 
-                        actions.push({
-                            label: 'Delete',
-                            style: 'primary',
-                            onClick: item => {
-                                start();
-                                try {
-                                    deleteStudy.mutate({ id: item.id });
-                                } catch {
-                                    stop();
-                                }
-                            },
-                        });
-                    }
-
-                    return (
-                        <TableItemActions
-                            item={obj.row.original}
-                            actions={actions}
-                        />
-                    );
-                },
-            },
-        ],
-        [myId, myRole, start, stop]
-    );
-
-    return columns;
+  return columns;
 };

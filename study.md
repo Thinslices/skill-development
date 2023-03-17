@@ -53,11 +53,11 @@ SPAs can have challenges with SEO, as the initial content of the page may not be
 
 There are quite a few features that you are giving away when implementing a single-page application.
 
--   **Content streaming** - browsers can render content as it is downloaded and parsed.
--   **History API** - managing the navigation history in a SPA increases the complexity of the code
--   **Form state** - browsers already have a mechanism of saving the content in forms while navigating in a web app
--   **Scroll position** - is something that also needs to be taken into account when navigating back and forward through pages
--   **Memory management** - SPAs can be a source of memory leaks, and a classic web app can avoid becoming slow or even non-interactive by doing a full page reload
+- **Content streaming** - browsers can render content as it is downloaded and parsed.
+- **History API** - managing the navigation history in a SPA increases the complexity of the code
+- **Form state** - browsers already have a mechanism of saving the content in forms while navigating in a web app
+- **Scroll position** - is something that also needs to be taken into account when navigating back and forward through pages
+- **Memory management** - SPAs can be a source of memory leaks, and a classic web app can avoid becoming slow or even non-interactive by doing a full page reload
 
 Most of the problems mentioned above are solved in modern frameworks and routers but at the cost of code, which in turn increases the initial loading time of your application.
 
