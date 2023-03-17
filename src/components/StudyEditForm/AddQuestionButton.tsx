@@ -1,16 +1,16 @@
-import { Button, Plus } from "..";
+import { Button, Plus } from '..';
 
 type AddQuestionButtonProps = {
-    onClick: () => void
-}
+  onClick: () => void;
+};
 
-export const AddQuestionButton: React.FC<AddQuestionButtonProps> = ( props ) => {
-    const { onClick } = props; 
+export const AddQuestionButton: React.FC<AddQuestionButtonProps> = props => {
+  const { onClick } = props;
 
-    return (
-        <Button style="tertiary" onClick={ onClick }>
-            <span>Add Question</span>
-            <Plus />
-        </Button>
-    )
-}
+  return (
+    <Button style="tertiary" onClick={onClick}>
+      <span>Add Question</span>
+      <Plus />
+    </Button>
+  );
+};
