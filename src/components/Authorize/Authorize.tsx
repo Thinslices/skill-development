@@ -1,25 +1,25 @@
-import { signIn, useSession } from "next-auth/react";
-import { useLoader } from "../../hooks";
-import { Button, Buttons } from "..";
-import { useEffect } from "react";
+import { signIn, useSession } from 'next-auth/react';
+import { useLoader } from '../../hooks';
+import { Button, Buttons } from '..';
+import { useEffect } from 'react';
 
 export const Authorize: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { status } = useSession();
     const { start, stop } = useLoader();
 
     useEffect(() => {
-        if (status === "loading") {
+        if (status === 'loading') {
             start();
         } else {
             stop();
         }
     }, [start, status, stop]);
 
-    if (status === "loading") {
+    if (status === 'loading') {
         return null;
     }
 
-    if (status === "unauthenticated") {
+    if (status === 'unauthenticated') {
         return (
             <div className="space-y-8">
                 <div className="space-y-4">
@@ -32,7 +32,7 @@ export const Authorize: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <Buttons>
                     <Button
                         style="tertiary"
-                        onClick={() => void signIn("google")}
+                        onClick={() => void signIn('google')}
                     >
                         Sign in
                     </Button>

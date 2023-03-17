@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
-import { useCallback } from "react";
-import { api } from "../../utils/api";
-import type { Study } from "../../utils/types";
-import { useLoader } from "../useLoader/useLoader";
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { api } from '../../utils/api';
+import type { Study } from '../../utils/types';
+import { useLoader } from '../useLoader/useLoader';
 
 export const useCreateStudy = () => {
     const router = useRouter();
@@ -18,7 +18,7 @@ export const useCreateStudy = () => {
     });
 
     return useCallback(
-        (study: Omit<Study, "id">, publish?: boolean) => {
+        (study: Omit<Study, 'id'>, publish?: boolean) => {
             start();
             try {
                 createStudy.mutate({

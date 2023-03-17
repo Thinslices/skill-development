@@ -1,9 +1,9 @@
-import { Button, Buttons, QuestionListEdit } from "../../components";
+import { Button, Buttons, QuestionListEdit } from '../../components';
 
-import { useStudyEdit } from "./useStudyEdit";
-import { AddQuestionButton } from "./AddQuestionButton";
-import { StudyEditTitle } from "./StudyEditTitle";
-import type { SimpleStudy } from "./types";
+import { useStudyEdit } from './useStudyEdit';
+import { AddQuestionButton } from './AddQuestionButton';
+import { StudyEditTitle } from './StudyEditTitle';
+import type { SimpleStudy } from './types';
 
 type StudyEditFormProps<T> = {
     study: T;

@@ -1,11 +1,11 @@
-import type { RefObject } from "react";
+import type { RefObject } from 'react';
 import {
     useCallback,
     useEffect,
     useLayoutEffect,
     useState,
     useRef,
-} from "react";
+} from 'react';
 
 type LogoElement = RefObject<HTMLDivElement>;
 
@@ -45,27 +45,27 @@ export const useLogoAnimation = (
         ) {
             wrapperRef.current.style.width = `${knowledgeRef.current.offsetWidth}px`;
             wrapperRef.current.style.height = `${source.offsetHeight}px`;
-            wrapperRef.current.style.clipPath = "inset(0px 0px 0px 0px)";
-            wrapperRef.current.style.transition = "width .3s ease-out";
+            wrapperRef.current.style.clipPath = 'inset(0px 0px 0px 0px)';
+            wrapperRef.current.style.transition = 'width .3s ease-out';
 
             iconRef.current.style.translate = `${
                 thinslicesRef.current.offsetWidth - source.offsetWidth
             }px 0`;
             iconRef.current.style.transition =
-                "all 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)";
+                'all 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)';
 
             if (source === thinslicesRef.current) {
                 thinslicesRef.current.style.top = `${
                     -1 * source.offsetHeight
                 }px`;
                 knowledgeRef.current.style.top = `0px`;
-                iconRef.current.style.rotate = "135deg";
+                iconRef.current.style.rotate = '135deg';
                 thinslicesRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
                 knowledgeRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
             } else {
                 knowledgeRef.current.style.top = `${source.offsetHeight}px`;
                 thinslicesRef.current.style.top = `0px`;
-                iconRef.current.style.rotate = "0deg";
+                iconRef.current.style.rotate = '0deg';
                 thinslicesRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
                 knowledgeRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
             }

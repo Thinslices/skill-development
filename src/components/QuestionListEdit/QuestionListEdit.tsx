@@ -1,5 +1,5 @@
-import { QuestionForm } from "..";
-import type { Question } from "../../utils/types";
+import { QuestionForm } from '..';
+import type { Question } from '../../utils/types';
 
 type QuestionListEditProps = {
     questions: Question[];

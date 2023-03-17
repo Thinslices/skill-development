@@ -1,6 +1,6 @@
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { type NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import {
     Authorize,
@@ -8,9 +8,9 @@ import {
     Header,
     StudyTable,
     Wrapper,
-} from "../../../components";
-import { useUserStudies } from "../../../hooks";
-import { api } from "../../../utils/api";
+} from '../../../components';
+import { useUserStudies } from '../../../hooks';
+import { api } from '../../../utils/api';
 
 const UserStudies: NextPage = () => {
     const router = useRouter();

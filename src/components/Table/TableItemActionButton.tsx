@@ -1,5 +1,5 @@
-import type { ButtonStyle } from "..";
-import { Button } from "..";
+import type { ButtonStyle } from '..';
+import { Button } from '..';
 
 type TableItemActionButtonProps = {
     label: string;
@@ -11,7 +11,7 @@ export const TableItemActionButton = (props: TableItemActionButtonProps) => {
     const { label, onClick } = props;
 
     return (
-        <Button onClick={onClick} style={props.style ?? "text"}>
+        <Button onClick={onClick} style={props.style ?? 'text'}>
             {label}
         </Button>
     );

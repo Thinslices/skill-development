@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { useRouter } from "next/router";
-import type { FormEventHandler } from "react";
-import { useCallback, useRef } from "react";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import type { FormEventHandler } from 'react';
+import { useCallback, useRef } from 'react';
 
 export const Search: React.FC = () => {
     const router = useRouter();
@@ -12,7 +12,7 @@ export const Search: React.FC = () => {
         event => {
             event.preventDefault();
             void router.push(
-                `/studies/search?s=${inputRef?.current?.value ?? "/studies"}`
+                `/studies/search?s=${inputRef?.current?.value ?? '/studies'}`
             );
         },
         [router]

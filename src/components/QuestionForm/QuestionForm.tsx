@@ -1,7 +1,7 @@
-import type { KeyboardEventHandler, RefObject } from "react";
-import { useCallback } from "react";
-import type { Question } from "../../utils/types";
-import { Button } from "../Button/Button";
+import type { KeyboardEventHandler, RefObject } from 'react';
+import { useCallback } from 'react';
+import type { Question } from '../../utils/types';
+import { Button } from '../Button/Button';
 
 type QuestionFormProps = {
     index: number;
@@ -26,7 +26,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
 
     const handleEnter = useCallback<KeyboardEventHandler<HTMLInputElement>>(
         event => {
-            if (event.key === "Enter" && onAnswerEnterKeyDown) {
+            if (event.key === 'Enter' && onAnswerEnterKeyDown) {
                 onAnswerEnterKeyDown();
             }
         },

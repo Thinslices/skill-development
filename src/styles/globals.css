@@ -2,4 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "typography.css";
+@import 'typography.css';

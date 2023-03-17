@@ -1,6 +1,6 @@
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import { Button, UserAvatar, VerticalEllipsis } from "..";
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { Button, UserAvatar, VerticalEllipsis } from '..';
 
 export const UserMenu: React.FC = () => {
     const router = useRouter();
@@ -18,7 +18,7 @@ export const UserMenu: React.FC = () => {
                             className="px-4"
                             style="text"
                             onClick={() =>
-                                void router.push("/studies/my-studies")
+                                void router.push('/studies/my-studies')
                             }
                         >
                             My Studies

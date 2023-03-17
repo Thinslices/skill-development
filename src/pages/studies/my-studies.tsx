@@ -1,8 +1,8 @@
-import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { type NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 
-import { Authorize, Header, StudyTable, Wrapper } from "../../components";
-import { api } from "../../utils/api";
+import { Authorize, Header, StudyTable, Wrapper } from '../../components';
+import { api } from '../../utils/api';
 
 const useMyStudies = () => {
     const { data: sessionData } = useSession();

@@ -1,20 +1,20 @@
-import type { Study, User } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useMemo } from "react";
-import type { CellProps, Column } from "react-table";
-import type { TableItemAction } from "..";
-import { TableItemActions } from "..";
-import { useLoader, useUserRole } from "../../hooks";
-import { api } from "../../utils/api";
+import type { Study, User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+import type { CellProps, Column } from 'react-table';
+import type { TableItemAction } from '..';
+import { TableItemActions } from '..';
+import { useLoader, useUserRole } from '../../hooks';
+import { api } from '../../utils/api';
 
 export const useStudyColumns = () => {
     const utils = api.useContext();
     const { start, stop } = useLoader();
     const { data: sessionData } = useSession();
     const myId = sessionData?.user.id;
-    const myRole = useUserRole(myId ?? "");
+    const myRole = useUserRole(myId ?? '');
 
     const deleteStudy = api.study.delete.useMutation({
         onSuccess: async () => {
@@ -30,7 +30,7 @@ export const useStudyColumns = () => {
         () => [
             {
                 Header: () => <div>Title</div>,
-                accessor: "title" as keyof Study,
+                accessor: 'title' as keyof Study,
                 Cell: (obj: CellProps<Study>) => {
                     return (
                         <Link
@@ -44,7 +44,7 @@ export const useStudyColumns = () => {
             },
             {
                 Header: () => <div>Author</div>,
-                accessor: "User" as keyof Study,
+                accessor: 'User' as keyof Study,
                 Cell: ({ value }: CellProps<Study>) => {
                     const user = value as User;
 
@@ -60,15 +60,15 @@ export const useStudyColumns = () => {
             },
             {
                 Header: () => <div>Publish Date</div>,
-                id: "createdAt",
-                accessor: obj => obj.createdAt.toLocaleDateString("ro-RO"),
+                id: 'createdAt',
+                accessor: obj => obj.createdAt.toLocaleDateString('ro-RO'),
                 Cell: ({ value }: CellProps<Study>) => (
                     <div className="py-4">{value}</div>
                 ),
             },
             {
                 Header: () => null,
-                id: "actions",
+                id: 'actions',
                 accessor: obj => obj.id,
                 Cell: (obj: CellProps<Study>) => {
                     const router = useRouter();
@@ -77,7 +77,7 @@ export const useStudyColumns = () => {
 
                     const actions: TableItemAction<Study>[] = [
                         {
-                            label: "View",
+                            label: 'View',
                             onClick: item => {
                                 void router.push(`/studies/${item.id}`);
                             },
@@ -86,18 +86,18 @@ export const useStudyColumns = () => {
 
                     if (
                         myId === authorId ||
-                        (myRole === "ADMIN" && authorRole !== "ADMIN")
+                        (myRole === 'ADMIN' && authorRole !== 'ADMIN')
                     ) {
                         actions.push({
-                            label: "Edit",
+                            label: 'Edit',
                             onClick: item => {
                                 void router.push(`/studies/${item.id}/edit`);
                             },
                         });
 
                         actions.push({
-                            label: "Delete",
-                            style: "primary",
+                            label: 'Delete',
+                            style: 'primary',
                             onClick: item => {
                                 start();
                                 try {

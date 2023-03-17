@@ -1,13 +1,13 @@
-import type { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from 'next';
 import {
     getServerSession,
     type NextAuthOptions,
     type DefaultSession,
-} from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "../env/server.mjs";
-import { prisma } from "./db";
+} from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { env } from '../env/server.mjs';
+import { prisma } from './db';
 
 /**
  * Module augmentation for `next-auth` types
@@ -15,13 +15,13 @@ import { prisma } from "./db";
  * and keep type safety
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
-declare module "next-auth" {
+declare module 'next-auth' {
     interface Session extends DefaultSession {
         user: {
             id: string;
             // ...other properties
             // role: UserRole;
-        } & DefaultSession["user"];
+        } & DefaultSession['user'];
     }
 
     // interface User {
@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         signIn(params) {
             // sign in only if email is from thinslices domain
-            return (params.user.email || "").endsWith("@thinslices.com");
+            return (params.user.email || '').endsWith('@thinslices.com');
         },
         session({ session, user }) {
             if (session.user) {
@@ -73,8 +73,8 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  **/
 export const getServerAuthSession = (ctx: {
-    req: GetServerSidePropsContext["req"];
-    res: GetServerSidePropsContext["res"];
+    req: GetServerSidePropsContext['req'];
+    res: GetServerSidePropsContext['res'];
 }) => {
     return getServerSession(ctx.req, ctx.res, authOptions);
 };

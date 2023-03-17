@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { useLogoAnimation } from "./useLogoAnimation";
-import Image from "next/image";
+import { useRef } from 'react';
+import { useLogoAnimation } from './useLogoAnimation';
+import Image from 'next/image';
 
 export const Logo: React.FC = () => {
     const thinslicesRef = useRef<HTMLDivElement>(null);

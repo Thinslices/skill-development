@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import type { Question } from "../../utils/types";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import type { Question } from '../../utils/types';
 
 type QuestionViewProps = Question & {
     expanded?: boolean;

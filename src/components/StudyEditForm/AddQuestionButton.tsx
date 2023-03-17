@@ -1,4 +1,4 @@
-import { Button, Plus } from "..";
+import { Button, Plus } from '..';
 
 type AddQuestionButtonProps = {
     onClick: () => void;

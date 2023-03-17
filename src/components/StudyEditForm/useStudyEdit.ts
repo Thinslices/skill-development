@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
-import type { Question } from "../../utils/types";
-import type { SimpleStudy } from "./types";
+import { useState, useCallback } from 'react';
+import type { Question } from '../../utils/types';
+import type { SimpleStudy } from './types';
 
 export const useStudyEdit = <T extends SimpleStudy>(initialStudy: T) => {
     const [study, setStudy] = useState<T>(initialStudy);
@@ -31,8 +31,8 @@ export const useStudyEdit = <T extends SimpleStudy>(initialStudy: T) => {
         (index: number) => {
             const newQuestions = study.questions.slice();
             newQuestions.splice(index, 0, {
-                question: "",
-                answer: "",
+                question: '',
+                answer: '',
                 index: newQuestions.length,
             });
             setStudy({

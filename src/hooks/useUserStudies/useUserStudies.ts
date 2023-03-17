@@ -1,4 +1,4 @@
-import { api } from "../../utils/api";
+import { api } from '../../utils/api';
 
 export const useUserStudies = (id: string) => {
     const query = api.study.getUserStudies.useQuery(

@@ -1,22 +1,22 @@
-import type { User } from "@prisma/client";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useMemo } from "react";
-import type { CellProps, Column } from "react-table";
-import { api } from "../../utils/api";
-import type { TableItemAction } from "../Table/TableItemActions";
-import { TableItemActions } from "../Table/TableItemActions";
-import { useLoader, useUserRole } from "../../hooks";
+import type { User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useMemo } from 'react';
+import type { CellProps, Column } from 'react-table';
+import { api } from '../../utils/api';
+import type { TableItemAction } from '../Table/TableItemActions';
+import { TableItemActions } from '../Table/TableItemActions';
+import { useLoader, useUserRole } from '../../hooks';
 
 export const useUserColumns = () => {
     const { data: sessionData } = useSession();
     const myId = sessionData?.user.id;
-    const myRole = useUserRole(myId ?? "");
+    const myRole = useUserRole(myId ?? '');
     const columns = useMemo<Column<User>[]>(() => {
         return [
             {
                 Header: () => <div>Name</div>,
-                accessor: "name" as keyof User,
+                accessor: 'name' as keyof User,
                 Cell: (obj: CellProps<User>) => {
                     return (
                         <Link
@@ -47,14 +47,14 @@ export const useUserColumns = () => {
             },
             {
                 Header: () => <div>Role</div>,
-                accessor: "role" as keyof User,
+                accessor: 'role' as keyof User,
                 Cell: (obj: CellProps<User>) => {
                     return <div>{obj.value}</div>;
                 },
             },
             {
                 Header: () => null,
-                id: "actions",
+                id: 'actions',
                 accessor: obj => obj.id,
                 Cell: (obj: CellProps<User>) => {
                     const actions: Array<TableItemAction<User>> = [];
@@ -70,12 +70,12 @@ export const useUserColumns = () => {
                     });
 
                     if (
-                        myRole === "ADMIN" &&
-                        obj.row.original.role !== "ADMIN"
+                        myRole === 'ADMIN' &&
+                        obj.row.original.role !== 'ADMIN'
                     ) {
                         actions.push({
-                            label: "Delete",
-                            style: "primary",
+                            label: 'Delete',
+                            style: 'primary',
                             onClick: item => {
                                 start();
                                 deleteUser.mutate({ id: item.id });

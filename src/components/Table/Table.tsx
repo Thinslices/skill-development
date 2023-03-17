@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-key */
-import type { TableInstance } from "react-table";
+import type { TableInstance } from 'react-table';
 
-export type { TableItemAction } from "./TableItemActions";
-export { TableItemActions } from "./TableItemActions";
+export type { TableItemAction } from './TableItemActions';
+export { TableItemActions } from './TableItemActions';
 
 type TableProps<T extends object> = {
     tableInstance: TableInstance<T>;
@@ -24,11 +24,11 @@ export const Table = <T extends object>({ tableInstance }: TableProps<T>) => {
                             return (
                                 <th
                                     className={`${
-                                        isLast ? "text-right" : "text-left"
+                                        isLast ? 'text-right' : 'text-left'
                                     } h6 pb-4`}
                                     {...column.getHeaderProps()}
                                 >
-                                    {column.render("Header")}
+                                    {column.render('Header')}
                                 </th>
                             );
                         })}
@@ -46,11 +46,11 @@ export const Table = <T extends object>({ tableInstance }: TableProps<T>) => {
                                 return (
                                     <td
                                         className={`${
-                                            isLast ? "text-right" : "text-left"
+                                            isLast ? 'text-right' : 'text-left'
                                         } border-t border-t-borders`}
                                         {...cell.getCellProps()}
                                     >
-                                        {cell.render("Cell")}
+                                        {cell.render('Cell')}
                                     </td>
                                 );
                             })}

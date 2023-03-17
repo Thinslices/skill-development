@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { Layout, StudyTable } from "../../../components";
-import { useUserStudies } from "../../../hooks";
-import { api } from "../../../utils/api";
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { Layout, StudyTable } from '../../../components';
+import { useUserStudies } from '../../../hooks';
+import { api } from '../../../utils/api';
 
 const UserPage: NextPage = () => {
     const router = useRouter();
@@ -23,7 +23,7 @@ const UserPage: NextPage = () => {
                 <div className="flex items-center gap-8">
                     <div className="border-text h-24 w-24 overflow-hidden rounded-full border-2">
                         {data?.image && (
-                            <img src={data.image} alt={data?.name ?? ""} />
+                            <img src={data.image} alt={data?.name ?? ''} />
                         )}
                     </div>
                     <div>

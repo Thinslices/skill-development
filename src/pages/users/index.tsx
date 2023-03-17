@@ -1,10 +1,10 @@
-import type { User } from "@prisma/client";
-import { type NextPage } from "next";
-import { useTable } from "react-table";
+import type { User } from '@prisma/client';
+import { type NextPage } from 'next';
+import { useTable } from 'react-table';
 
-import { Layout, Table } from "../../components";
-import { useUserColumns } from "../../components/UserTable/useUserColumns";
-import { api } from "../../utils/api";
+import { Layout, Table } from '../../components';
+import { useUserColumns } from '../../components/UserTable/useUserColumns';
+import { api } from '../../utils/api';
 
 const UsersPage: NextPage = () => {
     const columns = useUserColumns();

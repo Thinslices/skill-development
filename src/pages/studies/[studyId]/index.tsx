@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import type { NextPage } from "next";
-import type { User, Study, Question } from "@prisma/client";
-import Image from "next/image";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import type { NextPage } from 'next';
+import type { User, Study, Question } from '@prisma/client';
+import Image from 'next/image';
 
-import { Button, Layout, QuestionView } from "../../../components";
-import { api } from "../../../utils/api";
+import { Button, Layout, QuestionView } from '../../../components';
+import { api } from '../../../utils/api';
 
 type StudyWithUser = Study & { User: User } & { questions: Question[] };
 
@@ -54,7 +54,7 @@ const EditStudyButton: React.FC<EditStudyButtonProps> = props => {
 const StudyView: React.FC<StudyViewProps> = props => {
     const { study } = props;
     const [expanded, setExpanded] = useState<boolean>(false);
-    const title = study && `${study.title}${study.published ? "" : " (Draft)"}`;
+    const title = study && `${study.title}${study.published ? '' : ' (Draft)'}`;
 
     return (
         <Layout>
@@ -66,15 +66,15 @@ const StudyView: React.FC<StudyViewProps> = props => {
                 <div className="flex items-center gap-4">
                     <div className="border-text h-16 w-16 overflow-hidden rounded-full border-2">
                         <img
-                            src={study.User.image ?? ""}
-                            alt={study.User.name ?? ""}
+                            src={study.User.image ?? ''}
+                            alt={study.User.name ?? ''}
                         />
                     </div>
                     <div>
                         <div className="h5">{study.User.name}</div>
                         <div className="flex gap-2">
                             <span>
-                                {study.createdAt.toLocaleDateString("ro-RO")}
+                                {study.createdAt.toLocaleDateString('ro-RO')}
                             </span>
                         </div>
                     </div>

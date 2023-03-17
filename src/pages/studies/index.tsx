@@ -1,7 +1,7 @@
-import { type NextPage } from "next";
+import { type NextPage } from 'next';
 
-import { Layout, StudyTable } from "../../components";
-import { api } from "../../utils/api";
+import { Layout, StudyTable } from '../../components';
+import { api } from '../../utils/api';
 
 const Studies: NextPage = () => {
     const { data } = api.study.getAll.useQuery();

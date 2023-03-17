@@ -20,12 +20,12 @@ jobs:
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: "16"
+                  node-version: '16'
 
             - name: Setup Python
               uses: actions/setup-python@v2
               with:
-                  python-version: "3.9"
+                  python-version: '3.9'
 
             - name: Install AWS EB CLI
               run: |

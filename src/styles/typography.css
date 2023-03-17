@@ -1,4 +1,4 @@
-@import "https://use.typekit.net/bzb7yox.css";
+@import 'https://use.typekit.net/bzb7yox.css';
 
 .h1 {
     @apply text-4xl font-bold tracking-tight;

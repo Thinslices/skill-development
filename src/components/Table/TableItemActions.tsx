@@ -1,6 +1,6 @@
-import type { Study, User } from "@prisma/client";
-import { TableItemActionButton } from "./TableItemActionButton";
-import type { ButtonStyle } from "../Button/Button";
+import type { Study, User } from '@prisma/client';
+import { TableItemActionButton } from './TableItemActionButton';
+import type { ButtonStyle } from '../Button/Button';
 
 type TableItemEntity = Study | User;
 

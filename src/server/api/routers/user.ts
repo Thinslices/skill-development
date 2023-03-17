@@ -1,7 +1,7 @@
-import { z } from "zod";
-import { TRPCError } from "@trpc/server";
-import { prisma } from "../../db";
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { z } from 'zod';
+import { TRPCError } from '@trpc/server';
+import { prisma } from '../../db';
+import { createTRPCRouter, protectedProcedure } from '../trpc';
 
 export const userRouter = createTRPCRouter({
     get: protectedProcedure
@@ -23,11 +23,11 @@ export const userRouter = createTRPCRouter({
             const user = await prisma.user.findUnique({ where: input });
 
             if (!user) {
-                throw new TRPCError({ code: "NOT_FOUND" });
+                throw new TRPCError({ code: 'NOT_FOUND' });
             }
 
             if (!ctx.session?.user?.id) {
-                throw new TRPCError({ code: "UNAUTHORIZED" });
+                throw new TRPCError({ code: 'UNAUTHORIZED' });
             }
 
             const subject = await prisma.user.findUnique({
@@ -35,8 +35,8 @@ export const userRouter = createTRPCRouter({
             });
             const object = await prisma.user.findUnique({ where: input });
 
-            if (subject?.role !== "ADMIN" || object?.role === "ADMIN") {
-                throw new TRPCError({ code: "UNAUTHORIZED" });
+            if (subject?.role !== 'ADMIN' || object?.role === 'ADMIN') {
+                throw new TRPCError({ code: 'UNAUTHORIZED' });
             }
 
             return await prisma.$transaction([

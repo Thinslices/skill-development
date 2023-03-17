@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React from "react";
-import { useBreadcrumbs } from "../../hooks";
+import Link from 'next/link';
+import React from 'react';
+import { useBreadcrumbs } from '../../hooks';
 
 export const Breadcrumbs: React.FC = () => {
     const breadcrumbs = useBreadcrumbs();

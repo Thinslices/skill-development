@@ -1,8 +1,8 @@
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { Layout, StudyEditForm } from "../../../components";
-import { useUpdateStudy } from "../../../hooks/useUpdateStudy/useUpdateStudy";
-import { api } from "../../../utils/api";
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { Layout, StudyEditForm } from '../../../components';
+import { useUpdateStudy } from '../../../hooks/useUpdateStudy/useUpdateStudy';
+import { api } from '../../../utils/api';
 
 const EditStudyView: React.FC = () => {
     const router = useRouter();
@@ -10,7 +10,7 @@ const EditStudyView: React.FC = () => {
     const { data } = api.study.get.useQuery(
         { id: studyId as string },
         {
-            enabled: typeof studyId === "string",
+            enabled: typeof studyId === 'string',
         }
     );
 

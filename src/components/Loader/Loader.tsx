@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useLoader } from "../../hooks";
+import { useEffect, useState } from 'react';
+import { useLoader } from '../../hooks';
 
 export const Loader: React.FC = () => {
-    const [rotation, setRotation] = useState<string>("135deg");
+    const [rotation, setRotation] = useState<string>('135deg');
     const { isLoading } = useLoader();
 
     useEffect(() => {
-        const nextRotation = rotation === "135deg" ? "0deg" : "135deg";
+        const nextRotation = rotation === '135deg' ? '0deg' : '135deg';
 
         const timeout = setTimeout(() => {
             setRotation(nextRotation);
@@ -19,14 +19,14 @@ export const Loader: React.FC = () => {
 
     const style = {
         rotate: rotation,
-        transitionTimingFunction: "cubic-bezier(0.7, -1, 0.3, 2)",
-        transitionDuration: "1000ms",
+        transitionTimingFunction: 'cubic-bezier(0.7, -1, 0.3, 2)',
+        transitionDuration: '1000ms',
     };
 
     return (
         <div
             className={`fixed inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                !isLoading ? "pointer-events-none opacity-0" : ""
+                !isLoading ? 'pointer-events-none opacity-0' : ''
             }`}
         >
             <div className="absolute inset-0 bg-white opacity-75"></div>

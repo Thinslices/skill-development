@@ -1,7 +1,7 @@
-import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
-import { Layout, StudyEditForm } from "../../components";
-import { useCreateStudy } from "../../hooks";
+import type { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
+import { Layout, StudyEditForm } from '../../components';
+import { useCreateStudy } from '../../hooks';
 
 const AddStudy: NextPage = () => {
     const { data: sessionData } = useSession();
@@ -9,15 +9,15 @@ const AddStudy: NextPage = () => {
     const saveStudy = useCreateStudy();
 
     const emptyStudy = {
-        title: "",
+        title: '',
         questions: [
             {
-                question: "",
-                answer: "",
+                question: '',
+                answer: '',
                 index: 0,
             },
         ],
-        authorId: sessionData?.user.id ?? "",
+        authorId: sessionData?.user.id ?? '',
     };
 
     return (

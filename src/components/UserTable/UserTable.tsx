@@ -1,7 +1,7 @@
-import type { User } from "@prisma/client";
-import { useTable } from "react-table";
-import { Table } from "..";
-import { useUserColumns } from "./useUserColumns";
+import type { User } from '@prisma/client';
+import { useTable } from 'react-table';
+import { Table } from '..';
+import { useUserColumns } from './useUserColumns';
 
 type UserTableProps = {
     data: User[] | undefined;

@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Logo, MainMenu, Search, Wrapper } from "..";
+import Link from 'next/link';
+import { Logo, MainMenu, Search, Wrapper } from '..';
 
 export const Header: React.FC = () => {
     return (

@@ -1,9 +1,9 @@
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
-import React from "react";
+import { type NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { Authorize, Header, StudyTable, Wrapper } from "../../components";
-import { api } from "../../utils/api";
+import { Authorize, Header, StudyTable, Wrapper } from '../../components';
+import { api } from '../../utils/api';
 
 const Search: NextPage = () => {
     const router = useRouter();

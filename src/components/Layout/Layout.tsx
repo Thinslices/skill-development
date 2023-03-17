@@ -1,4 +1,4 @@
-import { Authorize, Breadcrumbs, Header, Wrapper } from "..";
+import { Authorize, Breadcrumbs, Header, Wrapper } from '..';
 
 export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (
