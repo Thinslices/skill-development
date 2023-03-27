@@ -6,10 +6,16 @@ import { api } from '../../utils/api';
 
 const useMyStudies = () => {
   const { data: sessionData } = useSession();
+  const userId = sessionData?.user?.id ?? '';
 
-  const query = api.study.getUserStudies.useQuery({
-    id: sessionData?.user?.id as string,
-  });
+  const query = api.study.getAllUserStudies.useQuery(
+    {
+      id: userId,
+    },
+    {
+      enabled: !!userId,
+    }
+  );
 
   const studies = (query?.data ?? []).map(study => {
     const isDraft = !study.published;
