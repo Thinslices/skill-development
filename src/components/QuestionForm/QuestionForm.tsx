@@ -2,6 +2,7 @@ import type { KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
 import type { Question } from '../../utils/types';
 import { Button } from '../Button/Button';
+import { Editor } from '../Editor/Editor';
 
 type QuestionFormProps = {
   index: number;
@@ -59,22 +60,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
           onChange(newQuestion);
         }}
       />
-      <textarea
-        placeholder="Answer"
-        className="border border-borders p-2 focus:border-black focus:outline-0"
-        name=""
-        id=""
-        cols={30}
-        rows={10}
-        value={data.answer}
-        onChange={e => {
-          const newQuestion = {
-            ...data,
-            answer: e.target.value,
-          };
-          onChange(newQuestion);
-        }}
-      />
+      <Editor value={data.answer} />
     </div>
   );
 };
