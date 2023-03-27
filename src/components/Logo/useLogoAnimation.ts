@@ -17,6 +17,7 @@ export const useLogoAnimation = (
 ) => {
   const [source, setSource] = useState<HTMLDivElement>();
   const delay = useRef<number>(0);
+  const easeInOuBack = 'cubic-bezier(0.68, -0.6, 0.32, 1.6)';
 
   const changeSource = useCallback(() => {
     const nextSource =
@@ -43,13 +44,20 @@ export const useLogoAnimation = (
       iconRef.current &&
       source
     ) {
-      wrapperRef.current.style.width = `${knowledgeRef.current.offsetWidth}px`;
+      const destination =
+        source === thinslicesRef.current
+          ? knowledgeRef.current
+          : thinslicesRef.current;
+      const maxWidth = Math.max(
+        thinslicesRef.current.offsetWidth,
+        knowledgeRef.current.offsetWidth
+      );
+      wrapperRef.current.style.width = `${maxWidth}px`;
       wrapperRef.current.style.height = `${source.offsetHeight}px`;
-      wrapperRef.current.style.clipPath = 'inset(0px 0px 0px 0px)';
-      wrapperRef.current.style.transition = 'width .3s ease-out';
+      wrapperRef.current.style.clipPath = 'inset(0px -9999px 0px -9999px)';
 
       iconRef.current.style.translate = `${
-        thinslicesRef.current.offsetWidth - source.offsetWidth
+        destination.offsetWidth - maxWidth
       }px 0`;
       iconRef.current.style.transition =
         'all 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)';
@@ -57,15 +65,15 @@ export const useLogoAnimation = (
       if (source === thinslicesRef.current) {
         thinslicesRef.current.style.top = `${-1 * source.offsetHeight}px`;
         knowledgeRef.current.style.top = `0px`;
-        iconRef.current.style.rotate = '135deg';
-        thinslicesRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
-        knowledgeRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
+        iconRef.current.style.rotate = '-135deg';
+        thinslicesRef.current.style.transition = `top 1s ${easeInOuBack}`;
+        knowledgeRef.current.style.transition = `top 1s ${easeInOuBack}`;
       } else {
         knowledgeRef.current.style.top = `${source.offsetHeight}px`;
         thinslicesRef.current.style.top = `0px`;
         iconRef.current.style.rotate = '0deg';
-        thinslicesRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
-        knowledgeRef.current.style.transition = `top 1s cubic-bezier(0.68, -0.6, 0.32, 1.6)`;
+        thinslicesRef.current.style.transition = `top 1s ${easeInOuBack}`;
+        knowledgeRef.current.style.transition = `top 1s ${easeInOuBack}`;
       }
     }
   }, [iconRef, knowledgeRef, source, thinslicesRef, wrapperRef]);

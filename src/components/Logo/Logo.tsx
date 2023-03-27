@@ -18,7 +18,7 @@ export const Logo: React.FC = () => {
             thinslices
           </div>
           <div className="absolute" ref={knowledgeRef}>
-            knowledge
+            skillz
           </div>
         </div>
         <Image
