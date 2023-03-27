@@ -73,6 +73,7 @@ export const studyRouter = createTRPCRouter({
           User: true,
         },
         where: {
+          published: true,
           title: {
             contains: input.query,
             mode: 'insensitive',
@@ -204,9 +205,13 @@ export const studyRouter = createTRPCRouter({
       const operations = upsertOperations.concat(deleteOperations);
       await prisma.$transaction(operations);
 
+      const newStudyData = Object.assign(studyRest, {
+        published: !!studyRest.published,
+      });
+
       await prisma.study.update({
         where: { id: studyRest.id },
-        data: studyRest,
+        data: newStudyData,
       });
 
       return input;
