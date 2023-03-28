@@ -26,7 +26,7 @@ export const useUpdateStudy = () => {
           ...study,
           questions: study.questions.map(question => ({
             ...question,
-            answer: question.answer,
+            answer: question.answer as string,
           })),
         };
 

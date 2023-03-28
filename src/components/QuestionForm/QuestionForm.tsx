@@ -63,7 +63,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         }}
       />
       <Editor
-        value={data.answer}
+        value={data.answer as string}
         onChange={editorState => {
           const newAnswer = {
             ...data,
