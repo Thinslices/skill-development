@@ -12,8 +12,6 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
   const { addQuestion, onQuestionChange, deleteQuestion, questions } = props;
   const canDeleteQuestion = questions.length > 1;
 
-  console.log(questions, 'from QuestionListEdit.tsx');
-
   return (
     <>
       {questions.map((question: Question, index: number) => {
