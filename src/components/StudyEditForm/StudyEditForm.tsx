@@ -24,6 +24,8 @@ export const StudyEditForm = <T extends SimpleStudy>(
     onQuestionChange,
   } = useStudyEdit<T>(props.study);
 
+  console.log(study, 'from StudyEditForm.tsx');
+
   return (
     <>
       <StudyEditTitle title={study.title} setTitle={onTitleChange} />

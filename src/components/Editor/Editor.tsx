@@ -1,11 +1,6 @@
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  $getSelection,
-  EditorState,
-} from 'lexical';
-import { useEffect, useRef } from 'react';
+import type { EditorState } from 'lexical';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
+import { ChangeEvent, useEffect } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
@@ -42,9 +37,10 @@ const onError = (error: Error) => {
 
 type EditorProps = {
   value: string | EditorState;
+  onChange: (editorState: EditorState) => void;
 };
 
-export const Editor = ({ value }: EditorProps) => {
+export const Editor = ({ value, onChange }: EditorProps) => {
   const prepopulatedRichText = () => {
     const root = $getRoot();
     const paragraphNode = $createParagraphNode();
@@ -73,7 +69,6 @@ export const Editor = ({ value }: EditorProps) => {
     ],
     editorState: prepopulatedRichText,
   };
-  const editorStateRef = useRef<EditorState>(value as EditorState);
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
@@ -83,12 +78,10 @@ export const Editor = ({ value }: EditorProps) => {
             contentEditable={
               <ContentEditable className="border border-borders p-2 focus:border-black focus:outline-0" />
             }
-            placeholder={<div>Answer</div>}
+            placeholder={<div className="editor-placeholder">Answer</div>}
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <OnChangePlugin
-            onChange={editorState => (editorStateRef.current = editorState)}
-          />
+          <OnChangePlugin onChange={onChange} />
           <HistoryPlugin />
           <MyCustomAutoFocusPlugin />
         </div>
