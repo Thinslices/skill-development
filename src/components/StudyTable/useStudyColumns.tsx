@@ -57,7 +57,7 @@ export const useStudyColumns = () => {
       {
         Header: () => <div>Publish Date</div>,
         id: 'createdAt',
-        accessor: obj => obj.createdAt.toLocaleDateString('ro-RO'),
+        // accessor: obj => obj.createdAt.toLocaleDateString('ro-RO'),
         Cell: ({ value }: CellProps<Study>) => (
           <div className="py-4">{value}</div>
         ),
