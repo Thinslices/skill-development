@@ -25,8 +25,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     canDeleteQuestion,
   } = props;
 
-  console.log(data.answer, 'from QuestionForm.tsx');
-
   const handleEnter = useCallback<KeyboardEventHandler<HTMLInputElement>>(
     event => {
       if (event.key === 'Enter' && onAnswerEnterKeyDown) {
@@ -63,11 +61,11 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         }}
       />
       <Editor
-        value={data.answer as string}
-        onChange={editorState => {
+        value={data.answer}
+        onChange={answer => {
           const newAnswer = {
             ...data,
-            answer: JSON.stringify(editorState),
+            answer: JSON.stringify(answer),
           };
           onChange(newAnswer);
         }}

@@ -1,14 +1,19 @@
-import type { EditorState } from 'lexical';
+import { $generateHtmlFromNodes } from '@lexical/html';
+import type { EditorState, LexicalEditor } from 'lexical';
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
-import { ChangeEvent, useEffect } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
@@ -18,18 +23,9 @@ import { TableCellNode, TableRowNode, TableNode } from '@lexical/table';
 
 import { TRANSFORMERS } from '@lexical/markdown';
 import theme from './theme';
-
-//extract this
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    editor.focus();
-  }, [editor]);
-
-  return null;
-}
-/////////////
+import AutoLinkPlugin from './AutoLinkPlugin';
+import CodeHighlightPlugin from './CodeHighlightPlugin';
+import ToolbarPlugin from './ToolbarPlugin';
 
 const onError = (error: Error) => {
   console.error(error);
@@ -49,6 +45,12 @@ export const Editor = ({ value, onChange }: EditorProps) => {
     root.append(paragraphNode);
   };
 
+  // const onChangeLexical = (_editorS: EditorState, editor: LexicalEditor) => {
+  //   editor.update(() => {
+  //     const htmlString = $generateHtmlFromNodes(editor, null);
+  //     onChange(htmlString.replace(/<[^>]+>/g, ''));
+  //   });
+  // };
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
@@ -68,11 +70,13 @@ export const Editor = ({ value, onChange }: EditorProps) => {
       LinkNode,
     ],
     editorState: prepopulatedRichText,
+    editable: true,
   };
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-container">
+        <ToolbarPlugin />
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={
@@ -83,7 +87,13 @@ export const Editor = ({ value, onChange }: EditorProps) => {
           />
           <OnChangePlugin onChange={onChange} />
           <HistoryPlugin />
-          <MyCustomAutoFocusPlugin />
+          <HistoryPlugin />
+          <AutoFocusPlugin />
+          <CodeHighlightPlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <AutoLinkPlugin />
+          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </div>
     </LexicalComposer>

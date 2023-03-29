@@ -26,10 +26,10 @@ export const useUpdateStudy = () => {
           ...study,
           questions: study.questions.map(question => ({
             ...question,
-            answer: question.answer as string,
+            answer: question.answer,
           })),
         };
-
+        console.log(studyToUpdate, 'gigi');
         updateStudy.mutate({
           ...studyToUpdate,
           published: publish,

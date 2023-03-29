@@ -53,27 +53,27 @@ h1 {
   pointer-events: none;
 }
 
-.editor-text-bold {
+.editor-textBold {
   font-weight: bold;
 }
 
-.editor-text-italic {
+.editor-textItalic {
   font-style: italic;
 }
 
-.editor-text-underline {
+.editor-textUnderline {
   text-decoration: underline;
 }
 
-.editor-text-strikethrough {
+.editor-textStrikethrough {
   text-decoration: line-through;
 }
 
-.editor-text-underlineStrikethrough {
+.editor-textUnderlineStrikethrough {
   text-decoration: underline line-through;
 }
 
-.editor-text-code {
+.editor-textCode {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
@@ -216,13 +216,15 @@ h1 {
 .editor-list-ol {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
+  margin-left: 26px;
+  list-style-type: decimal;
 }
 
 .editor-list-ul {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
+  margin-left: 26px;
+  list-style-type: disc;
 }
 
 .editor-listitem {
@@ -488,7 +490,7 @@ i.chevron-down {
 .dropdown {
   z-index: 5;
   display: block;
-  position: absolute;
+  position: fixed;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   border-radius: 8px;
