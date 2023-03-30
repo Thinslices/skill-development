@@ -1,26 +1,78 @@
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import { api } from '../../utils/api';
 
 const generatePathParts = (pathStr: string) => {
   const pathWithoutQuery = pathStr.split('?')[0];
   return pathWithoutQuery?.split('/').filter(v => v.length > 0) ?? [];
 };
 
+const isStudyView = (pathParts: string[], index: number) => {
+  const isEditStudyView =
+    pathParts[0] === 'studies' &&
+    pathParts[2] === 'edit' &&
+    pathParts.length === 3;
+  const isGetStudyView = pathParts[0] === 'studies' && pathParts.length === 2;
+
+  return (isEditStudyView || isGetStudyView) && index === 1;
+};
+
+const isUserView = (pathParts: string[], index: number) => {
+  return pathParts[0] === 'users' && pathParts.length === 2 && index === 1;
+};
+
 export const useBreadcrumbs = () => {
   const router = useRouter();
 
   const breadcrumbs = useMemo(() => {
-    const asPathNestedRoutes = generatePathParts(router.asPath);
+    const pathParts = generatePathParts(router.asPath);
+    const detailedPathParts = pathParts.map((pathPart, pathPartId) => {
+      if (isStudyView(pathParts, pathPartId)) {
+        const studyId = pathPart;
 
-    const crumblist = asPathNestedRoutes.map((subpath, idx) => {
-      const href = '/' + asPathNestedRoutes.slice(0, idx + 1).join('/');
+        const { data: study } = api.study.get.useQuery(
+          { id: studyId },
+          { enabled: false }
+        );
+
+        return {
+          textPart: study?.title,
+          hrefPart: studyId,
+        };
+      }
+
+      if (isUserView(pathParts, pathPartId)) {
+        const userId = pathPart;
+
+        const { data: user } = api.user.get.useQuery(
+          { id: userId },
+          { enabled: false }
+        );
+
+        return {
+          textPart: user?.name,
+          hrefPart: userId,
+        };
+      }
+
       return {
-        href,
-        text: subpath,
+        textPart: pathPart,
+        hrefPart: pathPart,
       };
     });
 
-    return [{ href: '/', text: 'Home' }, ...crumblist];
+    const crumbList = detailedPathParts.map(({ textPart }, idx) => {
+      const fromThisCrumbFwd = detailedPathParts.slice(idx + 1);
+      const crumbHref =
+        '/' + fromThisCrumbFwd.map(({ hrefPart }) => hrefPart).join('/');
+
+      return {
+        href: crumbHref,
+        text: textPart,
+      };
+    });
+
+    return [{ href: '/', text: 'Home' }, ...crumbList];
   }, [router.asPath]);
 
   return breadcrumbs;
