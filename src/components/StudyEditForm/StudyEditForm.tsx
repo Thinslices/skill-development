@@ -52,13 +52,13 @@ export const StudyEditForm = <T extends SimpleStudy>(
       <div className="border-t border-t-borders pt-8">
         <Buttons>
           <Button
-            isDisabled={isEmptyStudy}
+            disabled={isEmptyStudy}
             className={isEmptyStudy ? disabledButtonStyle : ''}
             onClick={() => handleSaveStudy(true)}>
             {publishButtonText}
           </Button>
           <Button
-            isDisabled={isEmptyStudy}
+            disabled={isEmptyStudy}
             className={isEmptyStudy ? disabledButtonStyle : ''}
             onClick={() => handleSaveStudy()}
             style="secondary">

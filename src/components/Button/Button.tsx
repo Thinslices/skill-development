@@ -8,11 +8,11 @@ type ButtonProps = {
   href?: string;
   className?: string;
   onClick?: () => void;
-  isDisabled?: boolean;
+  disabled?: boolean;
 };
 
 export const Button: React.FC<ButtonProps> = props => {
-  const { children, href, isDisabled } = props;
+  const { children, href, disabled } = props;
   const style = props.style ?? 'primary';
   const styleClass = classnames(props.className, {
     'bg-red border-red text-white px-4': style === 'primary',
@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = props => {
   }
 
   return (
-    <Tag disabled={isDisabled} className={className} onClick={onClick}>
+    <Tag disabled={disabled} className={className} onClick={onClick}>
       {children}
     </Tag>
   );
