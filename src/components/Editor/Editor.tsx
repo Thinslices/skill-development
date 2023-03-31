@@ -34,7 +34,7 @@ import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
 import type { AnswerType } from '../../utils/types';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const onError = (error: Error) => {
   console.error(error);
@@ -52,16 +52,17 @@ function MyCustomAutoFocusPlugin({
   editorState,
 }: MyCustomAutoFocusPluginProps) {
   const [editor] = useLexicalComposerContext();
+  const initialStateSet = useRef(false);
 
   useEffect(() => {
-    if (editorState) {
-      console.log('aici', editorState);
+    if (editorState && !initialStateSet.current) {
+      initialStateSet.current = true;
       const newEditorState = editor.parseEditorState(editorState);
 
       // Focus the editor when the effect fires!
       editor.setEditorState(newEditorState);
     }
-  }, [editorState, editor]);
+  }, [editor, editorState]);
 
   return null;
 }
