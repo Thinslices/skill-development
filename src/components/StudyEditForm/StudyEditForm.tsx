@@ -29,6 +29,16 @@ export const StudyEditForm = <T extends SimpleStudy>(
     !study.title ||
     study.questions.every(question => !(question.question && question.answer));
 
+  const handleSaveStudy = (publish: boolean = false) => {
+    if (isEmptyStudy) {
+      return;
+    }
+
+    const { questions } = study;
+    const newQuestions = questions.filter(({ question }) => question);
+    saveStudy({ ...study, questions: newQuestions }, publish);
+  };
+
   return (
     <>
       <StudyEditTitle title={study.title} setTitle={onTitleChange} />
@@ -44,23 +54,13 @@ export const StudyEditForm = <T extends SimpleStudy>(
           <Button
             isDisabled={isEmptyStudy}
             className={isEmptyStudy ? disabledButtonStyle : ''}
-            onClick={() => {
-              if (isEmptyStudy) {
-                return;
-              }
-              saveStudy(study, true);
-            }}>
+            onClick={() => handleSaveStudy(true)}>
             {publishButtonText}
           </Button>
           <Button
             isDisabled={isEmptyStudy}
             className={isEmptyStudy ? disabledButtonStyle : ''}
-            onClick={() => {
-              if (isEmptyStudy) {
-                return;
-              }
-              saveStudy(study);
-            }}
+            onClick={() => handleSaveStudy()}
             style="secondary">
             {saveAsDraftButtonText}
           </Button>
