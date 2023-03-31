@@ -104,7 +104,6 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
       AutoLinkNode,
       LinkNode,
     ],
-    editorState,
     editable: true,
   };
 
