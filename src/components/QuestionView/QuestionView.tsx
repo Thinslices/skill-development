@@ -9,10 +9,24 @@ type QuestionViewProps = Question & {
 export const QuestionView: React.FC<QuestionViewProps> = props => {
   const { question, answer } = props;
   const [expanded, setExpanded] = useState<boolean>(!!props.expanded);
+  const [parsedAnswer, setParsedAnswer] = useState<string | undefined>();
 
   useEffect(() => {
     setExpanded(!!props.expanded);
   }, [props.expanded]);
+
+  useEffect(() => {
+    try {
+      const parsed = JSON.parse(answer) as AnswerType;
+      if (parsed && typeof parsed === 'object' && 'htmlString' in parsed) {
+        setParsedAnswer(parsed.htmlString);
+      } else {
+        setParsedAnswer(answer);
+      }
+    } catch {
+      setParsedAnswer(answer);
+    }
+  }, [answer]);
 
   return (
     <>
@@ -41,7 +55,7 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
         {expanded && (
           <div
             dangerouslySetInnerHTML={{
-              __html: (JSON.parse(answer) as AnswerType).htmlString,
+              __html: parsedAnswer ?? '',
             }}
           />
         )}
