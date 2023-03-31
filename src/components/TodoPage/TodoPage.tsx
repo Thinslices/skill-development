@@ -1,11 +1,10 @@
-import type { NextPage } from "next"
-import { Layout } from "../";
+import type { NextPage } from 'next';
+import { Layout } from '../';
 
-export const TodoPage:NextPage = () => {
-
-    return (
-        <Layout>
-            <div className="h1">Todo</div>
-        </Layout>
-    )
-}
+export const TodoPage: NextPage = () => {
+  return (
+    <Layout>
+      <div className="h1">Todo</div>
+    </Layout>
+  );
+};

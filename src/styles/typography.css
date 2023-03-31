@@ -1,25 +1,25 @@
-@import "https://use.typekit.net/bzb7yox.css";
+@import 'https://use.typekit.net/bzb7yox.css';
 
 .h1 {
-    @apply text-4xl font-bold tracking-tight;
+  @apply text-4xl font-bold tracking-tight;
 }
 
 .h2 {
-    @apply text-3xl font-bold tracking-tight;
+  @apply text-3xl font-bold tracking-tight;
 }
 
 .h3 {
-    @apply text-2xl font-bold tracking-tight;
+  @apply text-2xl font-bold tracking-tight;
 }
 
 .h4 {
-    @apply text-xl font-bold;
+  @apply text-xl font-bold;
 }
 
 .h5 {
-    @apply font-bold;
+  @apply font-bold;
 }
 
 .h6 {
-    @apply font-bold uppercase;
+  @apply font-bold uppercase;
 }

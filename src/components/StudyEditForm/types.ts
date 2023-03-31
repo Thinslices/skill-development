@@ -1,4 +1,3 @@
-import type { Study } from "../../utils/types";
+import type { Study } from '../../utils/types';
 
-export type SimpleStudy = Omit<Study, "id">;
-
+export type SimpleStudy = Omit<Study, 'id'>;
