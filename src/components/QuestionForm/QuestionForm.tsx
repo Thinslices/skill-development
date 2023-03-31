@@ -1,6 +1,7 @@
+import type { EditorState } from 'lexical';
 import type { KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
-import type { Question } from '../../utils/types';
+import type { AnswerType, Question } from '../../utils/types';
 import { Button } from '../Button/Button';
 import { Editor } from '../Editor/Editor';
 
@@ -34,6 +35,8 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     [onAnswerEnterKeyDown]
   );
 
+  const formattedAnswer = JSON.parse(data.answer) as AnswerType;
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="align flex items-center gap-3">
@@ -61,12 +64,11 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         }}
       />
       <Editor
-        value={data.answer}
+        editorState={formattedAnswer.editorState ?? ''}
         onChange={answer => {
-          const { htmlString } = answer;
           const newAnswer = {
             ...data,
-            answer: htmlString,
+            answer: JSON.stringify(answer),
           };
           onChange(newAnswer);
         }}

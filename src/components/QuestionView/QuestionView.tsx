@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import type { Question } from '../../utils/types';
+import type { AnswerType, Question } from '../../utils/types';
 
 type QuestionViewProps = Question & {
   expanded?: boolean;
@@ -38,7 +38,13 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
             )}
           </div>
         </div>
-        {expanded && <div dangerouslySetInnerHTML={{ __html: answer }} />}
+        {expanded && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: (JSON.parse(answer) as AnswerType).htmlString,
+            }}
+          />
+        )}
       </div>
     </>
   );

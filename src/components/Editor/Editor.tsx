@@ -32,31 +32,41 @@ import theme from './theme';
 import AutoLinkPlugin from './AutoLinkPlugin';
 import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
+import type { AnswerType } from '../../utils/types';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useEffect } from 'react';
 
 const onError = (error: Error) => {
   console.error(error);
 };
 
-type AnswerType = {
-  text: string;
-  htmlString: string;
-  editorState?: string;
-};
-
 type EditorProps = {
-  value: string | EditorState;
+  editorState: string;
   onChange: (answer: AnswerType) => void;
 };
 
-export const Editor = ({ value, onChange }: EditorProps) => {
-  const prepopulatedRichText = () => {
-    const root = $getRoot();
-    const paragraphNode = $createParagraphNode();
-    const textNode = $createTextNode(value as string);
-    paragraphNode.append(textNode);
-    root.append(paragraphNode);
-  };
+type MyCustomAutoFocusPluginProps = {
+  editorState: string;
+};
+function MyCustomAutoFocusPlugin({
+  editorState,
+}: MyCustomAutoFocusPluginProps) {
+  const [editor] = useLexicalComposerContext();
 
+  useEffect(() => {
+    if (editorState) {
+      console.log('aici', editorState);
+      const newEditorState = editor.parseEditorState(editorState);
+
+      // Focus the editor when the effect fires!
+      editor.setEditorState(newEditorState);
+    }
+  }, [editorState, editor]);
+
+  return null;
+}
+
+export const Editor = ({ editorState, onChange }: EditorProps) => {
   const onChangeLexical = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       const root = $getRoot();
@@ -94,7 +104,7 @@ export const Editor = ({ value, onChange }: EditorProps) => {
       AutoLinkNode,
       LinkNode,
     ],
-    editorState: prepopulatedRichText,
+    editorState,
     editable: true,
   };
 
@@ -110,6 +120,7 @@ export const Editor = ({ value, onChange }: EditorProps) => {
             placeholder={<div className="editor-placeholder">Answer</div>}
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <MyCustomAutoFocusPlugin editorState={editorState} />
           <OnChangePlugin onChange={onChangeLexical} />
           <HistoryPlugin />
           <HistoryPlugin />
