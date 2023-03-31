@@ -29,7 +29,7 @@ export const useUpdateStudy = () => {
             answer: question.answer,
           })),
         };
-        console.log(studyToUpdate, 'gigi');
+        console.log({ studyToUpdate });
         updateStudy.mutate({
           ...studyToUpdate,
           published: publish,

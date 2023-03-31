@@ -16,6 +16,7 @@
     "docker:db:start": "docker start skill-development-db"
   },
   "dependencies": {
+    "@lexical/markdown": "^0.9.1",
     "@lexical/react": "^0.9.1",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",

@@ -1,5 +1,4 @@
-import { $generateHtmlFromNodes } from '@lexical/html';
-import type { EditorState, LexicalEditor } from 'lexical';
+import type { EditorState } from 'lexical';
 import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -33,7 +32,7 @@ const onError = (error: Error) => {
 
 type EditorProps = {
   value: string | EditorState;
-  onChange: (editorState: EditorState) => void;
+  onChange: (editorState: string) => void;
 };
 
 export const Editor = ({ value, onChange }: EditorProps) => {
@@ -45,12 +44,16 @@ export const Editor = ({ value, onChange }: EditorProps) => {
     root.append(paragraphNode);
   };
 
-  // const onChangeLexical = (_editorS: EditorState, editor: LexicalEditor) => {
-  //   editor.update(() => {
-  //     const htmlString = $generateHtmlFromNodes(editor, null);
-  //     onChange(htmlString.replace(/<[^>]+>/g, ''));
-  //   });
-  // };
+  const onChangeLexical = (editorState: EditorState) => {
+    console.log({ editorState });
+    editorState.read(() => {
+      const root = $getRoot();
+      const text = root.getTextContent();
+
+      onChange(text);
+    });
+  };
+
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
@@ -85,7 +88,7 @@ export const Editor = ({ value, onChange }: EditorProps) => {
             placeholder={<div className="editor-placeholder">Answer</div>}
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <OnChangePlugin onChange={onChange} />
+          <OnChangePlugin onChange={onChangeLexical} />
           <HistoryPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
