@@ -96,7 +96,6 @@ export const useStudyColumns = () => {
               label: 'Delete',
               style: 'primary',
               onClick: item => {
-                console.log('click');
                 showDialog({
                   title: 'Are you sure?',
                   message: 'Are you sure you want to delete this item?',
