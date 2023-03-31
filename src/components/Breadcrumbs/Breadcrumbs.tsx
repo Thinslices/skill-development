@@ -9,8 +9,12 @@ export const Breadcrumbs: React.FC = () => {
     <div className="flex gap-2 capitalize">
       {breadcrumbs.map((crumb, index) => {
         return (
-          <React.Fragment key={crumb.href}>
-            <Link href={crumb.href}>{crumb.text}</Link>
+          <React.Fragment key={`crumb-${index + 1}`}>
+            {crumb.href ? (
+              <Link href={crumb.href}>{crumb.text}</Link>
+            ) : (
+              crumb.text
+            )}
             {index < breadcrumbs.length - 1 && <div>&raquo;</div>}
           </React.Fragment>
         );
