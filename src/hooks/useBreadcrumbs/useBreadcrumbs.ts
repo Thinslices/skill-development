@@ -24,43 +24,43 @@ const isUserView = (pathParts: string[], index: number) => {
 export const useBreadcrumbs = () => {
   const router = useRouter();
 
-  const breadcrumbs = useMemo(() => {
-    const pathParts = generatePathParts(router.asPath);
-    const detailedPathParts = pathParts.map((pathPart, pathPartId) => {
-      if (isStudyView(pathParts, pathPartId)) {
-        const studyId = pathPart;
+  const pathParts = generatePathParts(router.asPath);
+  const detailedPathParts = pathParts.map((pathPart, pathPartId) => {
+    if (isStudyView(pathParts, pathPartId)) {
+      const studyId = pathPart;
 
-        const { data: study } = api.study.get.useQuery(
-          { id: studyId },
-          { enabled: false }
-        );
-
-        return {
-          textPart: study?.title,
-          hrefPart: studyId,
-        };
-      }
-
-      if (isUserView(pathParts, pathPartId)) {
-        const userId = pathPart;
-
-        const { data: user } = api.user.get.useQuery(
-          { id: userId },
-          { enabled: false }
-        );
-
-        return {
-          textPart: user?.name,
-          hrefPart: userId,
-        };
-      }
+      const { data: study } = api.study.get.useQuery(
+        { id: studyId },
+        { enabled: false }
+      );
 
       return {
-        textPart: pathPart,
-        hrefPart: pathPart,
+        textPart: study?.title,
+        hrefPart: studyId,
       };
-    });
+    }
 
+    if (isUserView(pathParts, pathPartId)) {
+      const userId = pathPart;
+
+      const { data: user } = api.user.get.useQuery(
+        { id: userId },
+        { enabled: false }
+      );
+
+      return {
+        textPart: user?.name,
+        hrefPart: userId,
+      };
+    }
+
+    return {
+      textPart: pathPart,
+      hrefPart: pathPart,
+    };
+  });
+
+  const breadcrumbs = useMemo(() => {
     const crumbList = detailedPathParts.map(({ textPart }, idx) => {
       const isLastCrumb = idx === detailedPathParts.length - 1;
       if (isLastCrumb) return { href: null, text: textPart };
@@ -76,7 +76,7 @@ export const useBreadcrumbs = () => {
     });
 
     return [{ href: '/', text: 'home' }, ...crumbList];
-  }, [router.asPath]);
+  }, [detailedPathParts]);
 
   return breadcrumbs;
 };
