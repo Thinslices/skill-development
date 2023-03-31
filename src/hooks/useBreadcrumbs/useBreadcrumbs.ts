@@ -63,10 +63,11 @@ export const useBreadcrumbs = () => {
 
     const crumbList = detailedPathParts.map(({ textPart }, idx) => {
       const isLastCrumb = idx === detailedPathParts.length - 1;
+      if (isLastCrumb) return { href: null, text: textPart };
+
       const crumbSubpath = detailedPathParts.slice(0, idx + 1);
-      const crumbHref = isLastCrumb
-        ? undefined
-        : '/' + crumbSubpath.map(({ hrefPart }) => hrefPart).join('/');
+      const crumbHref =
+        '/' + crumbSubpath.map(({ hrefPart }) => hrefPart).join('/');
 
       return {
         href: crumbHref,
