@@ -11,6 +11,7 @@ type StudyEditFormProps<T> = {
   publishButtonText: string;
   saveAsDraftButtonText: string;
 };
+const disabledButtonStyle = 'opacity-50 contrast-75 cursor-not-allowed';
 
 export const StudyEditForm = <T extends SimpleStudy>(
   props: StudyEditFormProps<T>
@@ -26,9 +27,7 @@ export const StudyEditForm = <T extends SimpleStudy>(
 
   const isEmptyStudy =
     !study.title ||
-    study.questions.some(question => !(question.question && question.answer));
-
-  const disabledButtonStyle = 'opacity-50 contrast-75 cursor-not-allowed';
+    study.questions.every(question => !(question.question && question.answer));
 
   return (
     <>
