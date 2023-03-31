@@ -11,6 +11,7 @@ type StudyEditFormProps<T> = {
   publishButtonText: string;
   saveAsDraftButtonText: string;
 };
+const disabledButtonStyle = 'opacity-50 contrast-75 cursor-not-allowed';
 
 export const StudyEditForm = <T extends SimpleStudy>(
   props: StudyEditFormProps<T>
@@ -23,6 +24,20 @@ export const StudyEditForm = <T extends SimpleStudy>(
     deleteQuestion,
     onQuestionChange,
   } = useStudyEdit<T>(props.study);
+
+  const isEmptyStudy =
+    !study.title ||
+    study.questions.every(question => !(question.question && question.answer));
+
+  const handleSaveStudy = (publish: boolean = false) => {
+    if (isEmptyStudy) {
+      return;
+    }
+
+    const { questions } = study;
+    const newQuestions = questions.filter(({ question }) => question);
+    saveStudy({ ...study, questions: newQuestions }, publish);
+  };
 
   return (
     <>
@@ -37,15 +52,15 @@ export const StudyEditForm = <T extends SimpleStudy>(
       <div className="border-t border-t-borders pt-8">
         <Buttons>
           <Button
-            onClick={() => {
-              saveStudy(study, true);
-            }}>
+            disabled={isEmptyStudy}
+            className={isEmptyStudy ? disabledButtonStyle : ''}
+            onClick={() => handleSaveStudy(true)}>
             {publishButtonText}
           </Button>
           <Button
-            onClick={() => {
-              saveStudy(study);
-            }}
+            disabled={isEmptyStudy}
+            className={isEmptyStudy ? disabledButtonStyle : ''}
+            onClick={() => handleSaveStudy()}
             style="secondary">
             {saveAsDraftButtonText}
           </Button>
