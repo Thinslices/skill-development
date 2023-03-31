@@ -1,5 +1,12 @@
-import type { EditorState } from 'lexical';
-import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
+import type { EditorState, LexicalEditor } from 'lexical';
+import {
+  $createParagraphNode,
+  $createTextNode,
+  $getRoot,
+  $getSelection,
+} from 'lexical';
+
+import { $generateHtmlFromNodes } from '@lexical/html';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
@@ -30,9 +37,15 @@ const onError = (error: Error) => {
   console.error(error);
 };
 
+type AnswerType = {
+  text: string;
+  htmlString: string;
+  editorState?: string;
+};
+
 type EditorProps = {
   value: string | EditorState;
-  onChange: (editorState: string) => void;
+  onChange: (answer: AnswerType) => void;
 };
 
 export const Editor = ({ value, onChange }: EditorProps) => {
@@ -44,13 +57,22 @@ export const Editor = ({ value, onChange }: EditorProps) => {
     root.append(paragraphNode);
   };
 
-  const onChangeLexical = (editorState: EditorState) => {
-    console.log({ editorState });
+  const onChangeLexical = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       const root = $getRoot();
       const text = root.getTextContent();
+      const htmlString = $generateHtmlFromNodes(editor);
 
-      onChange(text);
+      // onChange ar trebui sa trimita
+      // text - for backwards compatibility
+      // htmlString - to be displayed in frontend
+      // editorState - to be reinitialized in Edit
+
+      onChange({
+        text,
+        htmlString,
+        editorState: JSON.stringify(editorState.toJSON()),
+      });
     });
   };
 

@@ -38,7 +38,7 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
             )}
           </div>
         </div>
-        {expanded && <div>{answer}</div>}
+        {expanded && <div dangerouslySetInnerHTML={{ __html: answer }} />}
       </div>
     </>
   );
