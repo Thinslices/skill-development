@@ -29,7 +29,6 @@ export const useUpdateStudy = () => {
             answer: question.answer,
           })),
         };
-        console.log({ studyToUpdate });
         updateStudy.mutate({
           ...studyToUpdate,
           published: publish,

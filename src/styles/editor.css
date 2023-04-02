@@ -488,13 +488,12 @@ i.chevron-down {
 }
 
 .dropdown {
-  z-index: 5;
+  z-index: 10;
   display: block;
   position: fixed;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5);
   border-radius: 8px;
-  min-width: 100px;
   min-height: 40px;
   background-color: #fff;
 }
@@ -514,7 +513,13 @@ i.chevron-down {
   background-color: #fff;
   border-radius: 8px;
   border: 0;
-  min-width: 268px;
+  max-width: 250px;
+  min-width: 100px;
+}
+
+.dropdown .item.fontsize-item,
+.dropdown .item.fontsize-item .text {
+  min-width: unset;
 }
 
 .dropdown .item .active {
@@ -540,7 +545,7 @@ i.chevron-down {
   display: flex;
   line-height: 20px;
   flex-grow: 1;
-  width: 200px;
+  min-width: 150px;
 }
 
 .dropdown .item .icon {
@@ -551,91 +556,27 @@ i.chevron-down {
   margin-right: 12px;
   line-height: 16px;
   background-size: contain;
-}
-
-.link-editor {
-  position: absolute;
-  z-index: 100;
-  top: -10000px;
-  left: -10000px;
-  margin-top: -6px;
-  max-width: 300px;
-  width: 100%;
-  opacity: 0;
-  background-color: #fff;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  transition: opacity 0.5s;
-}
-
-.link-editor .link-input {
-  display: block;
-  width: calc(100% - 24px);
-  box-sizing: border-box;
-  margin: 8px 12px;
-  padding: 8px 12px;
-  border-radius: 15px;
-  background-color: #eee;
-  font-size: 15px;
-  color: rgb(5, 5, 5);
-  border: 0;
-  outline: 0;
-  position: relative;
-  font-family: inherit;
-}
-
-.link-editor div.link-edit {
-  background-image: url(../images/icons/pencil-fill.svg);
-  background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
-  width: 35px;
-  vertical-align: -0.25em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  cursor: pointer;
 }
 
-.link-editor .link-input a {
-  color: rgb(33, 111, 219);
-  text-decoration: none;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-right: 30px;
-  text-overflow: ellipsis;
-}
-
-.link-editor .link-input a:hover {
-  text-decoration: underline;
-}
-
-.link-editor .button {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  padding: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 0 2px;
-}
-
-.link-editor .button.hovered {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
+.dropdown .divider {
+  width: auto;
   background-color: #eee;
+  margin: 4px 8px;
+  height: 1px;
 }
 
-.link-editor .button i,
-.actions i {
-  background-size: contain;
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  vertical-align: -0.25em;
+@media screen and (max-width: 1100px) {
+  .dropdown-button-text {
+    display: none !important;
+  }
+  .font-size .dropdown-button-text {
+    display: flex !important;
+  }
+  .code-language .dropdown-button-text {
+    display: flex !important;
+  }
 }
 
 i.undo {

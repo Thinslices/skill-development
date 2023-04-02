@@ -11,7 +11,6 @@ import {
   FORMAT_TEXT_COMMAND,
   FORMAT_ELEMENT_COMMAND,
 } from 'lexical';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { $isParentElementRTL } from '@lexical/selection';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
@@ -27,13 +26,7 @@ const LowPriority = 1;
 import type { ChangeEvent } from 'react';
 import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import {
-  blockTypeToBlockName,
-  Divider,
-  getSelectedNode,
-  supportedBlockTypes,
-} from './helpers';
-import { FloatingLinkEditor } from './FloatingLinkEditor';
+import { blockTypeToBlockName, Divider, supportedBlockTypes } from './helpers';
 import { BlockOptionsDropdownList } from './BlockOptionsDropdownList';
 import { Select } from './Select';
 
@@ -48,7 +41,7 @@ export default function ToolbarPlugin() {
     useState(false);
   const [codeLanguage, setCodeLanguage] = useState('');
   const [, setIsRTL] = useState(false);
-  const [isLink, setIsLink] = useState(false);
+
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
@@ -81,22 +74,12 @@ export default function ToolbarPlugin() {
           }
         }
       }
-      // Update text format
       setIsBold(selection.hasFormat('bold'));
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
       setIsCode(selection.hasFormat('code'));
       setIsRTL($isParentElementRTL(selection));
-
-      // Update links
-      const node = getSelectedNode(selection);
-      const parent = node.getParent();
-      if ($isLinkNode(parent) || $isLinkNode(node)) {
-        setIsLink(true);
-      } else {
-        setIsLink(false);
-      }
     }
   }, [editor]);
 
@@ -148,14 +131,6 @@ export default function ToolbarPlugin() {
     },
     [editor, selectedElementKey]
   );
-
-  const insertLink = useCallback(() => {
-    if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://');
-    } else {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    }
-  }, [editor, isLink]);
 
   return (
     <div className="toolbar" ref={toolbarRef}>
@@ -257,14 +232,6 @@ export default function ToolbarPlugin() {
             aria-label="Insert Code">
             <i className="format code" />
           </button>
-          <button
-            onClick={insertLink}
-            className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
-            aria-label="Insert Link">
-            <i className="format link" />
-          </button>
-          {isLink &&
-            createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider />
           <button
             onClick={() => {

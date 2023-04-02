@@ -1,19 +1,11 @@
+import theme from './theme';
+import { $getRoot } from 'lexical';
 import type { EditorState, LexicalEditor } from 'lexical';
-import {
-  $createParagraphNode,
-  $createTextNode,
-  $getRoot,
-  $getSelection,
-} from 'lexical';
-
 import { $generateHtmlFromNodes } from '@lexical/html';
-
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
@@ -26,15 +18,14 @@ import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { ListNode, ListItemNode } from '@lexical/list';
 import { TableCellNode, TableRowNode, TableNode } from '@lexical/table';
-
 import { TRANSFORMERS } from '@lexical/markdown';
-import theme from './theme';
+
 import AutoLinkPlugin from './AutoLinkPlugin';
 import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
+
 import type { AnswerType } from '../../utils/types';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { useEffect, useRef } from 'react';
+import { MyCustomAutoFocusPlugin } from './MyCustomAutofocusPlugin';
 
 const onError = (error: Error) => {
   console.error(error);
@@ -45,39 +36,12 @@ type EditorProps = {
   onChange: (answer: AnswerType) => void;
 };
 
-type MyCustomAutoFocusPluginProps = {
-  editorState: string;
-};
-function MyCustomAutoFocusPlugin({
-  editorState,
-}: MyCustomAutoFocusPluginProps) {
-  const [editor] = useLexicalComposerContext();
-  const initialStateSet = useRef(false);
-
-  useEffect(() => {
-    if (editorState && !initialStateSet.current) {
-      initialStateSet.current = true;
-      const newEditorState = editor.parseEditorState(editorState);
-
-      // Focus the editor when the effect fires!
-      editor.setEditorState(newEditorState);
-    }
-  }, [editor, editorState]);
-
-  return null;
-}
-
 export const Editor = ({ editorState, onChange }: EditorProps) => {
   const onChangeLexical = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       const root = $getRoot();
       const text = root.getTextContent();
       const htmlString = $generateHtmlFromNodes(editor);
-
-      // onChange ar trebui sa trimita
-      // text - for backwards compatibility
-      // htmlString - to be displayed in frontend
-      // editorState - to be reinitialized in Edit
 
       onChange({
         text,
@@ -122,7 +86,6 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
           />
           <MyCustomAutoFocusPlugin editorState={editorState} />
           <OnChangePlugin onChange={onChangeLexical} />
-          <HistoryPlugin />
           <HistoryPlugin />
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
