@@ -1,4 +1,4 @@
-import type { KeyboardEventHandler, RefObject } from 'react';
+import type { ChangeEvent, KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
 import type { AnswerType, Question } from '../../utils/types';
 import { Button } from '../Button/Button';
@@ -43,6 +43,21 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
       formattedAnswer = {};
     }
   }
+  const handleChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
+    const newQuestion = {
+      ...data,
+      question: e.target.value,
+    };
+    onChange(newQuestion);
+  };
+
+  const handleChangeAnswer = (answer: AnswerType) => {
+    const newAnswer = {
+      ...data,
+      answer: JSON.stringify(answer),
+    };
+    onChange(newAnswer);
+  };
 
   return (
     <div className="flex flex-col space-y-4">
@@ -62,23 +77,11 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         onKeyDown={handleEnter}
         className="h2 border-b border-b-borders py-2 focus:border-b-black focus:outline-0"
         value={data.question}
-        onChange={e => {
-          const newQuestion = {
-            ...data,
-            question: e.target.value,
-          };
-          onChange(newQuestion);
-        }}
+        onChange={handleChangeQuestion}
       />
       <Editor
         editorState={(formattedAnswer as AnswerType).editorState ?? ''}
-        onChange={answer => {
-          const newAnswer = {
-            ...data,
-            answer: JSON.stringify(answer),
-          };
-          onChange(newAnswer);
-        }}
+        onChange={handleChangeAnswer}
       />
     </div>
   );

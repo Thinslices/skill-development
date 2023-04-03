@@ -18,8 +18,13 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
   useEffect(() => {
     try {
       const parsed = JSON.parse(answer) as AnswerType;
-      if (parsed && typeof parsed === 'object' && 'htmlString' in parsed) {
-        setParsedAnswer(parsed.htmlString);
+      if (
+        parsed &&
+        typeof parsed === 'object' &&
+        'htmlString' in parsed &&
+        'text' in parsed
+      ) {
+        setParsedAnswer(parsed.htmlString ?? parsed.text);
       } else {
         setParsedAnswer(answer);
       }

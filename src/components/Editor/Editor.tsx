@@ -40,9 +40,9 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
       const htmlString = $generateHtmlFromNodes(editor);
 
       onChange({
-        text,
-        htmlString,
-        editorState: JSON.stringify(editorState.toJSON()),
+        text, //fallback
+        htmlString, //display in ui
+        editorState: JSON.stringify(editorState.toJSON()), //initialize the editor
       });
     });
   };
