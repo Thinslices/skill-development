@@ -29,7 +29,7 @@ export const StudyEditForm = <T extends SimpleStudy>(
     !study.title ||
     study.questions.every(question => !(question.question && question.answer));
 
-  const handleSaveStudy = (publish: boolean = false) => {
+  const handleSaveStudy = (publish = false) => {
     if (isEmptyStudy) {
       return;
     }
