@@ -1,7 +1,7 @@
 import { type NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 
-import { Authorize, Header, StudyTable, Wrapper } from '../../components';
+import { Layout, StudyTable } from '../../components';
 import { api } from '../../utils/api';
 
 const useMyStudies = () => {
@@ -34,15 +34,10 @@ const MyStudies: NextPage = () => {
   const studies = useMyStudies();
 
   return (
-    <>
-      <Header />
-      <Wrapper className="py-14">
-        <Authorize>
-          <h1 className="h1 mb-12">My studies</h1>
-          <StudyTable data={studies} />
-        </Authorize>
-      </Wrapper>
-    </>
+    <Layout>
+      <h1 className="h1 mb-12">My studies</h1>
+      <StudyTable data={studies} />
+    </Layout>
   );
 };
 

@@ -6,9 +6,10 @@ import type { CellProps, Column } from 'react-table';
 import { api } from '../../utils/api';
 import type { TableItemAction } from '../Table/TableItemActions';
 import { TableItemActions } from '../Table/TableItemActions';
-import { useLoader, useUserRole } from '../../hooks';
+import { useDialog, useLoader, useUserRole } from '../../hooks';
 
 export const useUserColumns = () => {
+  const { show: showDialog } = useDialog();
   const { data: sessionData } = useSession();
   const myId = sessionData?.user.id;
   const myRole = useUserRole(myId ?? '');
@@ -71,8 +72,18 @@ export const useUserColumns = () => {
               label: 'Delete',
               style: 'primary',
               onClick: item => {
-                start();
-                deleteUser.mutate({ id: item.id });
+                showDialog({
+                  title: 'Are you sure?',
+                  message: 'Are you sure you want to delete this item?',
+                  onConfirm: () => {
+                    start();
+                    try {
+                      deleteUser.mutate({ id: item.id });
+                    } catch {
+                      stop();
+                    }
+                  },
+                });
               },
             });
           }

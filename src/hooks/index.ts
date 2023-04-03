@@ -1,6 +1,7 @@
-export { useBreadcrumbs } from './useBreadcrumbs/useBreadcrumbs';
-export { useCreateStudy } from './useCreateStudy/useCreateStudy';
-export { useLoader } from './useLoader/useLoader';
-export { useUpdateStudy } from './useUpdateStudy/useUpdateStudy';
-export { useUserStudies } from './useUserStudies/useUserStudies';
-export { useUserRole } from './useUserRole/useUserRole';
+export * from './useBreadcrumbs/useBreadcrumbs';
+export * from './useCreateStudy/useCreateStudy';
+export * from './useDialog/useDialog';
+export * from './useLoader/useLoader';
+export * from './useUpdateStudy/useUpdateStudy';
+export * from './useUserStudies/useUserStudies';
+export * from './useUserRole/useUserRole';
