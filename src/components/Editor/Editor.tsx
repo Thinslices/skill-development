@@ -4,23 +4,19 @@ import type { EditorState, LexicalEditor } from 'lexical';
 import { $generateHtmlFromNodes } from '@lexical/html';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { ListNode, ListItemNode } from '@lexical/list';
 import { TableCellNode, TableRowNode, TableNode } from '@lexical/table';
-import { TRANSFORMERS } from '@lexical/markdown';
 
-import AutoLinkPlugin from './AutoLinkPlugin';
 import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
 
@@ -90,9 +86,6 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
           <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
-          <LinkPlugin />
-          <AutoLinkPlugin />
-          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
         </div>
       </div>
     </LexicalComposer>
