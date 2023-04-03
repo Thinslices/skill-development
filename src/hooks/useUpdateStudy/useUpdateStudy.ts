@@ -7,9 +7,11 @@ import type { Study } from '../../utils/types';
 export const useUpdateStudy = () => {
   const router = useRouter();
   const { start, stop } = useLoader();
+  const utils = api.useContext();
 
   const updateStudy = api.study.update.useMutation({
     onSuccess: async data => {
+      await utils.study.invalidate();
       await router.push(`/studies/${data.id}`);
     },
     onSettled: () => {

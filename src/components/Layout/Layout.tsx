@@ -1,4 +1,4 @@
-import { Authorize, Breadcrumbs, Header, Wrapper } from '..';
+import { Authorize, Breadcrumbs, Dialog, Header, Wrapper } from '..';
 
 export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
@@ -10,6 +10,7 @@ export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
             <Breadcrumbs />
             {children}
           </div>
+          <Dialog />
         </Authorize>
       </Wrapper>
     </>

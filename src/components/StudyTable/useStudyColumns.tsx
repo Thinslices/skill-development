@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import type { CellProps, Column } from 'react-table';
 import type { TableItemAction } from '..';
 import { TableItemActions } from '..';
-import { useLoader, useUserRole } from '../../hooks';
+import { useDialog, useLoader, useUserRole } from '../../hooks';
 import { api } from '../../utils/api';
 
 export const useStudyColumns = () => {
@@ -15,6 +15,7 @@ export const useStudyColumns = () => {
   const { data: sessionData } = useSession();
   const myId = sessionData?.user.id;
   const myRole = useUserRole(myId ?? '');
+  const { show: showDialog } = useDialog();
 
   const deleteStudy = api.study.delete.useMutation({
     onSuccess: async () => {
@@ -95,12 +96,18 @@ export const useStudyColumns = () => {
               label: 'Delete',
               style: 'primary',
               onClick: item => {
-                start();
-                try {
-                  deleteStudy.mutate({ id: item.id });
-                } catch {
-                  stop();
-                }
+                showDialog({
+                  title: 'Are you sure?',
+                  message: 'Are you sure you want to delete this item?',
+                  onConfirm: () => {
+                    start();
+                    try {
+                      deleteStudy.mutate({ id: item.id });
+                    } catch {
+                      stop();
+                    }
+                  },
+                });
               },
             });
           }
