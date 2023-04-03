@@ -25,7 +25,7 @@ import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
 
 import type { AnswerType } from '../../utils/types';
-import { MyCustomAutoFocusPlugin } from './MyCustomAutofocusPlugin';
+import { MyCustomAutoFocusPlugin } from './MyCustomAutoFocusPlugin';
 
 const onError = (error: Error) => {
   console.error(error);

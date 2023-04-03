@@ -39,25 +39,24 @@ export const BlockOptionsDropdownList = ({
       dropDown.style.top = `${top + 45}px`;
       dropDown.style.left = `${left}px`;
     }
-  }, [dropDownRef, toolbarRef]);
 
-  useEffect(() => {
-    const dropDown = dropDownRef.current;
-    const toolbar = toolbarRef.current;
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
 
-    if (dropDown !== null && toolbar !== null) {
-      const handle = (event: MouseEvent) => {
-        const target = event.target as Node;
+      if (
+        target &&
+        !dropDownRef.current?.contains(target) &&
+        !toolbarRef.current?.contains(target)
+      ) {
+        setShowBlockOptionsDropDown(false);
+      }
+    };
 
-        if (target && !dropDown.contains(target) && !toolbar.contains(target)) {
-          setShowBlockOptionsDropDown(false);
-        }
-      };
+    document.addEventListener('click', handleClick);
 
-      return () => {
-        document.removeEventListener('click', handle);
-      };
-    }
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
   }, [dropDownRef, setShowBlockOptionsDropDown, toolbarRef]);
 
   const formatParagraph = () => {
