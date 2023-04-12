@@ -2,7 +2,7 @@ import type { KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
 import type { Question } from '../../utils/types';
 import { Button } from '../Button/Button';
-import { useSortable } from '@dnd-kit/sortable';
+import { QuestionSortable } from './QuestionSortable';
 
 type QuestionFormProps = {
   index: number;
@@ -25,10 +25,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     canDeleteQuestion,
   } = props;
 
-  const { attributes, listeners, setNodeRef, transition } = useSortable({
-    id: index + 1,
-  });
-
   const handleEnter = useCallback<KeyboardEventHandler<HTMLInputElement>>(
     event => {
       if (event.key === 'Enter' && onAnswerEnterKeyDown) {
@@ -39,7 +35,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
   );
 
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners} style={{ transition }}>
+    <QuestionSortable index={index}>
       <div className="flex flex-col space-y-4">
         <div className="align flex items-center gap-3">
           <div className="h6">Question {index + 1}</div>
@@ -82,6 +78,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
           }}
         />
       </div>
-    </div>
+    </QuestionSortable>
   );
 };
