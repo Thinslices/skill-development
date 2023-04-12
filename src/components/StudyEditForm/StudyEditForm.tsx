@@ -23,6 +23,7 @@ export const StudyEditForm = <T extends SimpleStudy>(
     onTitleChange,
     deleteQuestion,
     onQuestionChange,
+    setQuestionsInOrder,
   } = useStudyEdit<T>(props.study);
 
   const isEmptyStudy =
@@ -47,6 +48,7 @@ export const StudyEditForm = <T extends SimpleStudy>(
         questions={study.questions}
         deleteQuestion={deleteQuestion}
         onQuestionChange={onQuestionChange}
+        setQuestionsInOrder={setQuestionsInOrder}
       />
       <AddQuestionButton onClick={() => addQuestion(study.questions.length)} />
       <div className="border-t border-t-borders pt-8">
