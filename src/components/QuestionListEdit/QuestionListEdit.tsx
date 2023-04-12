@@ -51,15 +51,11 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    console.log('???');
-    console.log({ active, over });
     if (active.id !== over?.id) {
       const oldIndex = questionIds.indexOf(active.id as number);
       const newIndex = questionIds.indexOf(over?.id as number);
 
-      console.log('questions before', questions);
       const newQuestions = arrayMove(questions, oldIndex, newIndex);
-      console.log('questions after', newQuestions);
 
       setQuestionsInOrder(
         newQuestions.map((question, index) => ({ ...question, index }))
