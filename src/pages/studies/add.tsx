@@ -11,6 +11,7 @@ const AddStudy: NextPage = () => {
   const emptyAnswer: AnswerType = {
     text: '',
     htmlString: '',
+    markdown: '',
   };
   const emptyStudy = {
     title: '',

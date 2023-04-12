@@ -17,5 +17,5 @@ export type Study = {
 export type AnswerType = {
   text: string;
   htmlString: string;
-  editorState?: string;
+  markdown: string;
 };

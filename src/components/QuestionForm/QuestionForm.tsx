@@ -34,15 +34,19 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     [onAnswerEnterKeyDown]
   );
 
-  let formattedAnswer = {};
-  if (data.answer) {
-    try {
-      formattedAnswer = JSON.parse(data.answer) as AnswerType;
-    } catch (err) {
-      console.error(`Error parsing answer for question`);
-      formattedAnswer = {};
+  const markdown = (() => {
+    if (!data.answer) {
+      return '';
     }
-  }
+
+    try {
+      const formattedAnswer = JSON.parse(data.answer) as AnswerType;
+      return formattedAnswer.markdown ?? formattedAnswer.text ?? '';
+    } catch (err) {
+      return data.answer ?? '';
+    }
+  })();
+
   const handleChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
     const newQuestion = {
       ...data,
@@ -79,10 +83,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         value={data.question}
         onChange={handleChangeQuestion}
       />
-      <Editor
-        editorState={(formattedAnswer as AnswerType).editorState ?? ''}
-        onChange={handleChangeAnswer}
-      />
+      <Editor markdown={markdown} onChange={handleChangeAnswer} />
     </div>
   );
 };

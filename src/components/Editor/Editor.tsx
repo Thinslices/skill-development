@@ -1,6 +1,11 @@
 import theme from './theme';
 import { $getRoot } from 'lexical';
 import type { EditorState, LexicalEditor } from 'lexical';
+import {
+  $convertFromMarkdownString,
+  $convertToMarkdownString,
+  TRANSFORMERS,
+} from '@lexical/markdown';
 import { $generateHtmlFromNodes } from '@lexical/html';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
@@ -21,28 +26,28 @@ import CodeHighlightPlugin from './CodeHighlightPlugin';
 import ToolbarPlugin from './ToolbarPlugin';
 
 import type { AnswerType } from '../../utils/types';
-import { MyCustomAutoFocusPlugin } from './MyCustomAutoFocusPlugin';
 
 const onError = (error: Error) => {
   console.error(error);
 };
 
 type EditorProps = {
-  editorState: string;
+  markdown: string;
   onChange: (answer: AnswerType) => void;
 };
 
-export const Editor = ({ editorState, onChange }: EditorProps) => {
+export const Editor = ({ markdown, onChange }: EditorProps) => {
   const onChangeLexical = (editorState: EditorState, editor: LexicalEditor) => {
     editorState.read(() => {
       const root = $getRoot();
       const text = root.getTextContent();
       const htmlString = $generateHtmlFromNodes(editor);
+      const markdown = $convertToMarkdownString(TRANSFORMERS);
 
       onChange({
         text, // for backwards compatibility
         htmlString, // display in ui
-        editorState: JSON.stringify(editorState.toJSON()), //to be reinitialized in Edit
+        markdown,
       });
     });
   };
@@ -51,7 +56,7 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
     namespace: 'MyEditor',
     theme,
     onError,
-
+    editorState: () => $convertFromMarkdownString(markdown, TRANSFORMERS),
     nodes: [
       HeadingNode,
       ListNode,
@@ -80,7 +85,6 @@ export const Editor = ({ editorState, onChange }: EditorProps) => {
             placeholder={<div className="editor-placeholder">Answer</div>}
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <MyCustomAutoFocusPlugin editorState={editorState} />
           <OnChangePlugin onChange={onChangeLexical} />
           <HistoryPlugin />
           <AutoFocusPlugin />
