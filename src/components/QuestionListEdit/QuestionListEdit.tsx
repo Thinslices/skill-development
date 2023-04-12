@@ -1,6 +1,7 @@
 import { QuestionForm } from '..';
 import type { Question } from '../../utils/types';
-import type { DragEndEvent } from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
+import { DragOverlay } from '@dnd-kit/core';
 import { useSensor, useSensors } from '@dnd-kit/core';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import {
@@ -9,8 +10,9 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SmartPointerSensor } from '../../utils/sensors';
+import { QuestionDragOverlay } from './QuestionDragOverlay';
 
 type QuestionListEditProps = {
   questions: Question[];
@@ -29,16 +31,22 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
     questions,
   } = props;
   const canDeleteQuestion = questions.length > 1;
+  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
 
   const mouseSensor = useSensor(SmartPointerSensor);
-
   const sensors = useSensors(mouseSensor);
 
   const questionIds = useMemo(
-    //https://stackoverflow.com/a/73936369
+    // dnd-kit doesn't allow for zero ids: https://stackoverflow.com/a/73936369
     () => questions.map(item => item.index + 1),
     [questions]
   );
+
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event;
+
+    setActiveQuestion(questions[(active.id as number) - 1]?.question ?? null);
+  }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -53,13 +61,16 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
       const newQuestions = arrayMove(questions, oldIndex, newIndex);
       console.log('questions after', newQuestions);
 
-      setQuestionsInOrder(newQuestions);
+      setQuestionsInOrder(
+        newQuestions.map((question, index) => ({ ...question, index }))
+      );
     }
   }
 
   return (
     <DndContext
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       sensors={sensors}>
       <SortableContext
@@ -85,6 +96,11 @@ export const QuestionListEdit: React.FC<QuestionListEditProps> = props => {
           );
         })}
       </SortableContext>
+      <DragOverlay>
+        {activeQuestion ? (
+          <QuestionDragOverlay question={activeQuestion} />
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };
