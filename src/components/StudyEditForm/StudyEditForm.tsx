@@ -1,4 +1,9 @@
-import { Button, Buttons, QuestionListEdit } from '../../components';
+import {
+  AnswerListEdit,
+  Button,
+  Buttons,
+  QuestionListEdit,
+} from '../../components';
 
 import { useStudyEdit } from './useStudyEdit';
 import { AddQuestionButton } from './AddQuestionButton';
@@ -49,6 +54,13 @@ export const StudyEditForm = <T extends SimpleStudy>(
         onQuestionChange={onQuestionChange}
       />
       <AddQuestionButton onClick={() => addQuestion(study.questions.length)} />
+      <div className="space-y-3">
+        <div className="h2">Answers:</div>
+        <AnswerListEdit
+          questions={study.questions}
+          onQuestionChange={onQuestionChange}
+        />
+      </div>
       <div className="border-t border-t-borders pt-8">
         <Buttons>
           <Button

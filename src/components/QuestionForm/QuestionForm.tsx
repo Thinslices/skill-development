@@ -1,7 +1,7 @@
 import type { KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
 import type { Question } from '../../utils/types';
-import { Button } from '../Button/Button';
+import Image from 'next/image';
 
 type QuestionFormProps = {
   index: number;
@@ -38,9 +38,11 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
       <div className="align flex items-center gap-3">
         <div className="h6">Question {index + 1}</div>
         {canDeleteQuestion && (
-          <Button style="primary" onClick={deleteQuestion}>
-            Delete
-          </Button>
+          <div
+            onClick={deleteQuestion}
+            className="cursor-pointer opacity-20 hover:opacity-100">
+            <Image src="/delete.svg" alt="delete icon" width={24} height={24} />
+          </div>
         )}
       </div>
 
@@ -55,22 +57,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
           const newQuestion = {
             ...data,
             question: e.target.value,
-          };
-          onChange(newQuestion);
-        }}
-      />
-      <textarea
-        placeholder="Answer"
-        className="border border-borders p-2 focus:border-black focus:outline-0"
-        name=""
-        id=""
-        cols={30}
-        rows={10}
-        value={data.answer}
-        onChange={e => {
-          const newQuestion = {
-            ...data,
-            answer: e.target.value,
           };
           onChange(newQuestion);
         }}
