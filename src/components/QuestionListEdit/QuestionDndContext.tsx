@@ -11,9 +11,10 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { forwardRef, useState, useMemo } from 'react';
+import React, { forwardRef, useState, useMemo } from 'react';
 import { SmartPointerSensor } from '../../utils/sensors';
 import type { Question } from '../../utils/types';
+import { QuestionForm } from '../QuestionForm/QuestionForm';
 
 export const QuestionDndContext: React.FC<
   React.PropsWithChildren<{
@@ -21,7 +22,7 @@ export const QuestionDndContext: React.FC<
     setQuestionsInOrder: (questions: Question[]) => void;
   }>
 > = ({ questions, setQuestionsInOrder, children }) => {
-  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
+  const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
 
   const mouseSensor = useSensor(SmartPointerSensor);
   const sensors = useSensors(mouseSensor);
@@ -35,7 +36,7 @@ export const QuestionDndContext: React.FC<
   function handleDragStart(event: DragStartEvent) {
     const { active } = event;
 
-    setActiveQuestion(questions[(active.id as number) - 1]?.question ?? null);
+    setActiveQuestion(questions[(active.id as number) - 1] ?? null);
   }
 
   function handleDragEnd(event: DragEndEvent) {
@@ -73,11 +74,11 @@ export const QuestionDndContext: React.FC<
   );
 };
 
-const QuestionDragOverlay: React.FC<{ question: string }> = forwardRef(
-  ({ question, ...props }, ref) => {
+const QuestionDragOverlay: React.FC<{ question: Question }> = forwardRef(
+  ({ question }, ref) => {
     return (
-      <div {...props} ref={ref as React.RefObject<HTMLDivElement>}>
-        {question}
+      <div ref={ref as React.RefObject<HTMLDivElement>}>
+        <QuestionForm data={question} />
       </div>
     );
   }
