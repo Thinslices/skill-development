@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 @import 'typography.css';
+@import 'editor.css';

@@ -13,3 +13,9 @@ export type Study = {
   questions: Question[];
   published?: boolean;
 };
+
+export type AnswerType = {
+  text: string;
+  htmlString: string;
+  markdown: string;
+};
