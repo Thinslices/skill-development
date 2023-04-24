@@ -24,8 +24,15 @@ export const useUpdateStudy = () => {
     (study: Study, publish?: boolean) => {
       start();
       try {
-        updateStudy.mutate({
+        const studyToUpdate = {
           ...study,
+          questions: study.questions.map(question => ({
+            ...question,
+            answer: question.answer,
+          })),
+        };
+        updateStudy.mutate({
+          ...studyToUpdate,
           published: publish,
         });
       } catch {

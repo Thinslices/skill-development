@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
-import type { Question } from '../../utils/types';
+import type { AnswerType, Question } from '../../utils/types';
+import { Editor } from '../Editor/Editor';
 
 type AnswerListEditProps = {
   questions: Question[];
@@ -16,26 +17,34 @@ export const AnswerListEdit: React.FC<AnswerListEditProps> = props => {
           return null;
         }
 
+        const markdown = (() => {
+          if (!question.answer) {
+            return '';
+          }
+
+          try {
+            const formattedAnswer = JSON.parse(
+              question.answer as unknown as string
+            ) as AnswerType;
+            return formattedAnswer.markdown ?? formattedAnswer.text ?? '';
+          } catch (err) {
+            return (question.answer as unknown as string) ?? '';
+          }
+        })();
+
         return (
           <Fragment key={index}>
             <div className="space-y-2">
               <div className="h3">{question.question}</div>
               <div>
-                <textarea
-                  placeholder="Answer"
-                  className="block w-full border border-borders p-2 focus:border-black focus:outline-0"
-                  name=""
-                  id=""
-                  cols={30}
-                  rows={10}
-                  value={question.answer}
-                  onChange={e => {
-                    const newQuestion = {
+                <Editor
+                  markdown={markdown}
+                  onChange={answer =>
+                    onQuestionChange(index, {
                       ...question,
-                      answer: e.target.value,
-                    };
-                    onQuestionChange(index, newQuestion);
-                  }}
+                      answer: JSON.stringify(answer),
+                    })
+                  }
                 />
               </div>
             </div>

@@ -2,18 +2,23 @@ import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { Layout, StudyEditForm } from '../../components';
 import { useCreateStudy } from '../../hooks';
+import type { AnswerType } from '../../utils/types';
 
 const AddStudy: NextPage = () => {
   const { data: sessionData } = useSession();
 
   const saveStudy = useCreateStudy();
-
+  const emptyAnswer: AnswerType = {
+    text: '',
+    htmlString: '',
+    markdown: '',
+  };
   const emptyStudy = {
     title: '',
     questions: [
       {
         question: '',
-        answer: '',
+        answer: JSON.stringify(emptyAnswer),
         index: 0,
       },
     ],

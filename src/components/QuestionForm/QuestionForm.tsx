@@ -1,7 +1,7 @@
-import type { KeyboardEventHandler, RefObject } from 'react';
+import type { ChangeEvent, KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
-import type { Question } from '../../utils/types';
 import Image from 'next/image';
+import type { AnswerType, Question } from '../../utils/types';
 
 type QuestionFormProps = {
   index: number;
@@ -33,6 +33,14 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     [onAnswerEnterKeyDown]
   );
 
+  const handleChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
+    const newQuestion = {
+      ...data,
+      question: e.target.value,
+    };
+    onChange(newQuestion);
+  };
+
   return (
     <div className="flex flex-col space-y-4">
       <div className="align flex items-center gap-3">
@@ -53,13 +61,7 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         onKeyDown={handleEnter}
         className="h2 border-b border-b-borders py-2 focus:border-b-black focus:outline-0"
         value={data.question}
-        onChange={e => {
-          const newQuestion = {
-            ...data,
-            question: e.target.value,
-          };
-          onChange(newQuestion);
-        }}
+        onChange={handleChangeQuestion}
       />
     </div>
   );

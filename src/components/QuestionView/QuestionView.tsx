@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import type { Question } from '../../utils/types';
+import type { AnswerType, Question } from '../../utils/types';
 
 type QuestionViewProps = Question & {
   expanded?: boolean;
@@ -13,6 +13,15 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
   useEffect(() => {
     setExpanded(!!props.expanded);
   }, [props.expanded]);
+
+  const parsedAnswer = (() => {
+    try {
+      const parsed = JSON.parse(answer) as AnswerType;
+      return parsed?.htmlString ?? parsed?.text ?? parsed;
+    } catch {
+      return answer;
+    }
+  })();
 
   return (
     <>
@@ -38,7 +47,13 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
             )}
           </div>
         </div>
-        {expanded && <div>{answer}</div>}
+        {expanded && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: parsedAnswer ?? '',
+            }}
+          />
+        )}
       </div>
     </>
   );
