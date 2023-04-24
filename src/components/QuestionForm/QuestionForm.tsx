@@ -43,7 +43,10 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="align flex items-center gap-3">
+      <div className="align relative flex items-center gap-3">
+        <div className="absolute right-full mr-3">
+          <DragHandle />
+        </div>
         <div className="h6">Question {index + 1}</div>
         {canDeleteQuestion && (
           <div
@@ -63,6 +66,22 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         value={data.question}
         onChange={handleChangeQuestion}
       />
+    </div>
+  );
+};
+
+const DragHandle = () => {
+  return (
+    <div className="cursor-grab rounded-md p-2 text-borders shadow-black hover:opacity-100 hover:shadow-md">
+      <div className="pointer-events-none">
+        <Image
+          className="block max-w-none"
+          src="/drag-handle.svg"
+          alt="drag handle"
+          width={24}
+          height={24}
+        />
+      </div>
     </div>
   );
 };
