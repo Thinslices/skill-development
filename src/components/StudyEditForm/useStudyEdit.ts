@@ -56,11 +56,22 @@ export const useStudyEdit = <T extends SimpleStudy>(initialStudy: T) => {
     [setStudy, study]
   );
 
+  const setQuestionsInOrder = useCallback(
+    (questionsInOrder: Question[]) => {
+      setStudy({
+        ...study,
+        questions: questionsInOrder,
+      });
+    },
+    [setStudy, study]
+  );
+
   return {
     study,
     onQuestionChange,
     addQuestion,
     onTitleChange,
     deleteQuestion,
+    setQuestionsInOrder,
   };
 };
