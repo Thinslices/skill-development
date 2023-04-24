@@ -1,7 +1,7 @@
 import type { ChangeEvent, KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
 import Image from 'next/image';
-import type { AnswerType, Question } from '../../utils/types';
+import type { Question } from '../../utils/types';
 
 type QuestionFormProps = {
   index: number;
