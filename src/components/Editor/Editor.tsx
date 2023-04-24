@@ -14,7 +14,6 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
@@ -87,7 +86,6 @@ export const Editor = ({ markdown, onChange }: EditorProps) => {
           />
           <OnChangePlugin onChange={onChangeLexical} />
           <HistoryPlugin />
-          <AutoFocusPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
         </div>

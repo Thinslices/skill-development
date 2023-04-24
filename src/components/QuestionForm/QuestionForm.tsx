@@ -1,8 +1,7 @@
 import type { ChangeEvent, KeyboardEventHandler, RefObject } from 'react';
 import { useCallback } from 'react';
-import type { AnswerType, Question } from '../../utils/types';
-import { Button } from '../Button/Button';
-import { Editor } from '../Editor/Editor';
+import Image from 'next/image';
+import type { Question } from '../../utils/types';
 
 type QuestionFormProps = {
   index: number;
@@ -34,19 +33,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     [onAnswerEnterKeyDown]
   );
 
-  const markdown = (() => {
-    if (!data.answer) {
-      return '';
-    }
-
-    try {
-      const formattedAnswer = JSON.parse(data.answer) as AnswerType;
-      return formattedAnswer.markdown ?? formattedAnswer.text ?? '';
-    } catch (err) {
-      return data.answer ?? '';
-    }
-  })();
-
   const handleChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
     const newQuestion = {
       ...data,
@@ -55,22 +41,16 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     onChange(newQuestion);
   };
 
-  const handleChangeAnswer = (answer: AnswerType) => {
-    const newAnswer = {
-      ...data,
-      answer: JSON.stringify(answer),
-    };
-    onChange(newAnswer);
-  };
-
   return (
     <div className="flex flex-col space-y-4">
       <div className="align flex items-center gap-3">
         <div className="h6">Question {index + 1}</div>
         {canDeleteQuestion && (
-          <Button style="primary" onClick={deleteQuestion}>
-            Delete
-          </Button>
+          <div
+            onClick={deleteQuestion}
+            className="cursor-pointer opacity-20 hover:opacity-100">
+            <Image src="/delete.svg" alt="delete icon" width={24} height={24} />
+          </div>
         )}
       </div>
 
@@ -83,7 +63,6 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
         value={data.question}
         onChange={handleChangeQuestion}
       />
-      <Editor markdown={markdown} onChange={handleChangeAnswer} />
     </div>
   );
 };
