@@ -31,6 +31,7 @@ function isInteractiveElement(element: Element | null) {
     'textarea',
     'select',
     'option',
+    'img',
   ];
   if (
     element?.tagName &&
