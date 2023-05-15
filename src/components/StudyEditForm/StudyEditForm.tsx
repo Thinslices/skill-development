@@ -6,7 +6,6 @@ import {
 } from '../../components';
 
 import { useStudyEdit } from './useStudyEdit';
-import { AddQuestionButton } from './AddQuestionButton';
 import { StudyEditTitle } from './StudyEditTitle';
 import type { SimpleStudy } from './types';
 
@@ -46,7 +45,7 @@ export const StudyEditForm = <T extends SimpleStudy>(
   };
 
   return (
-    <>
+    <div className="space-y-16">
       <StudyEditTitle title={study.title} setTitle={onTitleChange} />
       <QuestionListEdit
         addQuestion={addQuestion}
@@ -55,14 +54,10 @@ export const StudyEditForm = <T extends SimpleStudy>(
         onQuestionChange={onQuestionChange}
         setQuestionsInOrder={setQuestionsInOrder}
       />
-      <AddQuestionButton onClick={() => addQuestion(study.questions.length)} />
-      <div className="space-y-3">
-        <div className="h2">Answers:</div>
-        <AnswerListEdit
-          questions={study.questions}
-          onQuestionChange={onQuestionChange}
-        />
-      </div>
+      <AnswerListEdit
+        questions={study.questions}
+        onQuestionChange={onQuestionChange}
+      />
       <div className="border-t border-t-borders pt-8">
         <Buttons>
           <Button
@@ -80,6 +75,6 @@ export const StudyEditForm = <T extends SimpleStudy>(
           </Button>
         </Buttons>
       </div>
-    </>
+    </div>
   );
 };

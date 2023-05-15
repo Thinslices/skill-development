@@ -1,4 +1,9 @@
-import type { ChangeEvent, KeyboardEventHandler, RefObject } from 'react';
+import type {
+  ChangeEvent,
+  KeyboardEventHandler,
+  PropsWithChildren,
+  RefObject,
+} from 'react';
 import { useCallback } from 'react';
 import Image from 'next/image';
 import type { Question } from '../../utils/types';
@@ -36,34 +41,15 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
     [onAnswerEnterKeyDown]
   );
 
-  const QuestionSortableShard: React.FC<React.PropsWithChildren> = ({
-    children,
-  }) =>
-    index !== undefined ? (
-      <QuestionSortable index={index}>{children}</QuestionSortable>
-    ) : (
-      <>{children}</>
-    );
-
-  const onQuestionAskChange = onChange
-    ? (e: ChangeEvent<HTMLInputElement>) => {
-        const newQuestion = {
-          ...data,
-          question: e.target.value,
-        };
-        onChange(newQuestion);
-      }
-    : undefined;
-
   return (
-    <QuestionSortableShard>
-      <div className="flex flex-col space-y-4">
+    <QuestionSortableShard index={index}>
+      <div className="flex flex-col space-y-2">
         {index !== undefined ? (
           <div className="relative flex items-center gap-3">
             <div className="absolute right-full mr-3">
               <DragHandle />
             </div>
-            <div className="h6">Question {index + 1}</div>
+            <div className="text-sm uppercase">Question {index + 1}</div>
             {canDeleteQuestion && (
               <div
                 onClick={deleteQuestion}
@@ -83,9 +69,15 @@ export const QuestionForm: React.FC<QuestionFormProps> = props => {
           placeholder={index ? `Question ${index + 1}` : 'Question'}
           type="text"
           onKeyDown={handleEnter}
-          className="h2 border-b border-b-borders py-2 focus:border-b-black focus:outline-0"
+          className="border-b border-b-borders py-2 text-3xl font-bold focus:border-b-black focus:outline-0"
           value={data.question}
-          onChange={onQuestionAskChange}
+          onChange={event => {
+            onChange &&
+              onChange({
+                ...data,
+                question: event.target.value,
+              });
+          }}
           disabled={isDragOverlay}
         />
       </div>
@@ -107,4 +99,16 @@ const DragHandle = () => {
       </div>
     </div>
   );
+};
+
+type QuestionSortableShardProps = {
+  index?: number;
+} & PropsWithChildren;
+
+const QuestionSortableShard: React.FC<QuestionSortableShardProps> = props => {
+  const { index, children } = props;
+  if (index !== undefined) {
+    return <QuestionSortable index={index}>{children}</QuestionSortable>;
+  }
+  return <>{children}</>;
 };
