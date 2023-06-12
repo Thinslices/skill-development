@@ -94,7 +94,6 @@ export const useStudyColumns = () => {
 
             actions.push({
               label: 'Delete',
-              style: 'primary',
               onClick: item => {
                 showDialog({
                   title: 'Are you sure?',
@@ -116,7 +115,7 @@ export const useStudyColumns = () => {
         },
       },
     ],
-    [myId, myRole, start, stop]
+    [deleteStudy, myId, myRole, showDialog, start, stop]
   );
 
   return columns;

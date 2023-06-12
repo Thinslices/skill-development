@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -13,5 +14,4 @@ module.exports = {
       sans: ['sofia-pro', 'ui-sans-serif', 'system-ui', 'sans-serif'],
     },
   },
-  plugins: [],
 };

@@ -74,12 +74,12 @@ export const Editor = ({ markdown, onChange }: EditorProps) => {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className="editor-container">
+      <div className="editor-container border border-borders">
         <ToolbarPlugin />
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable className="border border-borders p-2 focus:border-black focus:outline-0" />
+              <ContentEditable className="max-w-none space-y-6 border-t border-borders px-6 py-4 text-xl focus:outline-0" />
             }
             placeholder={<div className="editor-placeholder">Answer</div>}
             ErrorBoundary={LexicalErrorBoundary}

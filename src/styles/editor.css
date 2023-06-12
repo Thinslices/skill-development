@@ -123,6 +123,7 @@ h1 {
   background-color: #eee;
   left: 0;
   top: 0;
+  height: 100%;
   border-right: 1px solid #ccc;
   padding: 8px;
   color: #777;
@@ -175,7 +176,6 @@ h1 {
 
 .editor-paragraph {
   margin: 0;
-  margin-bottom: 8px;
   position: relative;
 }
 

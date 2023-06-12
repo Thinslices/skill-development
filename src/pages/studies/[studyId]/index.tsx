@@ -54,6 +54,7 @@ const EditStudyButton: React.FC<EditStudyButtonProps> = props => {
 const StudyView: React.FC<StudyViewProps> = props => {
   const { study } = props;
   const [expanded, setExpanded] = useState<boolean>(false);
+  const [uniqueId, setUniqueId] = useState<number>(0);
   const title = study && `${study.title}${study.published ? '' : ' (Draft)'}`;
 
   return (
@@ -80,6 +81,7 @@ const StudyView: React.FC<StudyViewProps> = props => {
               className="flex cursor-pointer items-center gap-2"
               onClick={() => {
                 setExpanded(true);
+                setUniqueId(id => id + 1);
               }}>
               <div>Expand all</div>
               <Image src="/arrows.svg" width={17} height={18} alt="arrow" />
@@ -88,6 +90,7 @@ const StudyView: React.FC<StudyViewProps> = props => {
               className="flex cursor-pointer items-center gap-2"
               onClick={() => {
                 setExpanded(false);
+                setUniqueId(id => id + 1);
               }}>
               <div>Collapse all</div>
               <Image
@@ -103,7 +106,13 @@ const StudyView: React.FC<StudyViewProps> = props => {
       </div>
       <div>
         {study.questions.map((data, index) => {
-          return <QuestionView key={index} {...data} expanded={expanded} />;
+          return (
+            <QuestionView
+              key={`${uniqueId}-${index}`}
+              {...data}
+              expanded={expanded}
+            />
+          );
         })}
       </div>
     </Layout>

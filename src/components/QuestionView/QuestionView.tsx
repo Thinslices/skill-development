@@ -25,7 +25,7 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
 
   return (
     <>
-      <div className="border-t border-t-borders py-4">
+      <div className="space-y-2 border-t border-t-borders py-6">
         <div
           className="flex cursor-pointer items-center justify-between"
           onClick={() => {
@@ -49,6 +49,7 @@ export const QuestionView: React.FC<QuestionViewProps> = props => {
         </div>
         {expanded && (
           <div
+            className="max-w-none space-y-6 text-xl"
             dangerouslySetInnerHTML={{
               __html: parsedAnswer ?? '',
             }}
