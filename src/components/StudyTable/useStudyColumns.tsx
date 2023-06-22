@@ -17,7 +17,7 @@ export const useStudyColumns = () => {
   const myRole = useUserRole(myId ?? '');
   const { show: showDialog } = useDialog();
 
-  const deleteStudy = api.study.delete.useMutation({
+  const { mutate: deleteStudy } = api.study.delete.useMutation({
     onSuccess: async () => {
       await utils.study.invalidate();
       stop();
@@ -101,7 +101,7 @@ export const useStudyColumns = () => {
                   onConfirm: () => {
                     start();
                     try {
-                      deleteStudy.mutate({ id: item.id });
+                      deleteStudy({ id: item.id });
                     } catch {
                       stop();
                     }
